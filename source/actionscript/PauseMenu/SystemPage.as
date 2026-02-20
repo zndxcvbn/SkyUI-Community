@@ -44,6 +44,12 @@ class SystemPage extends MovieClip
    var bRemapMode;
    var bSavingSettings;
    var bSettingsChanged;
+   var CreationListPanel;
+   var CreationTextPanel;
+   var CreationsButtonHolder;
+   var CreationsList;
+   var CreationsText;
+   var CreationsTitleText;
    var bShowKinectTunerButton;
    var bUpdated;
    var iCurrentState;
@@ -63,12 +69,14 @@ class SystemPage extends MovieClip
    static var PC_QUIT_LIST_STATE = 8;
    static var PC_QUIT_CONFIRM_STATE = 9;
    static var DELETE_SAVE_CONFIRM_STATE = 10;
-   static var HELP_LIST_STATE = 11;
-   static var HELP_TEXT_STATE = 12;
-   static var TRANSITIONING = 13;
-   static var CHARACTER_LOAD_STATE = 14;
-   static var CHARACTER_SELECTION_STATE = 15;
-   static var MOD_MANAGER_BUTTON_INDEX = 3;
+   static var CREATIONS_LIST_STATE = 11;
+   static var CREATIONS_TEXT_STATE = 12;
+   static var HELP_LIST_STATE = 13;
+   static var HELP_TEXT_STATE = 14;
+   static var TRANSITIONING = 15;
+   static var CHARACTER_LOAD_STATE = 16;
+   static var CHARACTER_SELECTION_STATE = 17;
+   static var MOD_MANAGER_BUTTON_INDEX = 4;
    static var CONTROLLER_ORBIS = 3;
    function SystemPage()
    {
@@ -82,6 +90,10 @@ class SystemPage extends MovieClip
       this.HelpText = this.HelpTextPanel.HelpTextHolder.HelpText;
       this.HelpButtonHolder = this.HelpTextPanel.HelpTextHolder.ButtonArtHolder;
       this.HelpTitleText = this.HelpTextPanel.HelpTextHolder.TitleText;
+      this.CreationsList = this.CreationListPanel.cList_mc;
+      this.CreationsText = this.CreationTextPanel.CreationTextHolder.CreationText;
+      this.CreationsButtonHolder = this.CreationTextPanel.CreationTextHolder.ButtonArtHolder;
+      this.CreationsTitleText = this.CreationTextPanel.CreationTextHolder.TitleText;
       this.ConfirmTextField = this.ConfirmPanel.ConfirmText.textField;
       this.TopmostPanel = this.PanelRect;
       this.bUpdated = false;
@@ -103,6 +115,30 @@ class SystemPage extends MovieClip
       this.CategoryList.entryList.push({text:"$QUICKSAVE"});
       this.CategoryList.entryList.push({text:"$SAVE"});
       this.CategoryList.entryList.push({text:"$LOAD"});
+
+      gfx.io.GameDelegate.call("SetVersionText",[this.VersionText]);
+
+      var _loc2_;
+      var _loc3_;
+      var _loc4_;
+      var _loc5_;
+
+      _loc2_ = this.VersionText.text.split(".");
+      this._skyrimVersion = _loc2_[0];
+      this._skyrimVersionMinor = _loc2_[1];
+      this._skyrimVersionBuild = _loc2_[2];
+
+      _loc3_ = parseInt(this._skyrimVersion);
+      _loc4_ = parseInt(this._skyrimVersionMinor);
+      _loc5_ = parseInt(this._skyrimVersionBuild);
+      
+      if(_loc3_ > 1 || _loc3_ == 1 && _loc4_ > 6 || _loc3_ == 1 && _loc4_ == 6 && _loc5_ > 1130)
+      {
+         this.CategoryList.entryList.push({text:"$INSTALLED CONTENT"});
+      } else {
+         this.CategoryList.entryList.push({text:"$INSTALLED CONTENT", disabled: true});
+      }
+
       this.CategoryList.entryList.push({text:"$SETTINGS"});
       this.CategoryList.entryList.push({text:"$MOD CONFIGURATION"});
       this.CategoryList.entryList.push({text:"$CONTROLS"});
@@ -144,6 +180,9 @@ class SystemPage extends MovieClip
       this.HelpList.addEventListener("itemPress",this,"onHelpItemPress");
       this.HelpList.disableInput = true;
       this.HelpTitleText.textAutoSize = "shrink";
+      this.CreationsList.addEventListener("itemPress",this,"onCreationsItemPress");
+      this.CreationsList.disableInput = true;
+      this.CreationsTitleText.textAutoSize = "shrink";
       this.BottomBar_mc = this._parent._parent.BottomBar_mc;
       gfx.io.GameDelegate.addCallBack("BackOutFromLoadGame",this,"BackOutFromLoadGame");
       gfx.io.GameDelegate.addCallBack("SetRemoteDevice",this,"SetRemoteDevice");
@@ -396,6 +435,7 @@ class SystemPage extends MovieClip
          case SystemPage.SAVE_LOAD_STATE:
             this.SaveLoadListHolder.ForceStopLoading();
          case SystemPage.PC_QUIT_LIST_STATE:
+         case SystemPage.CREATIONS_LIST_STATE:
          case SystemPage.HELP_LIST_STATE:
          case SystemPage.SAVE_LOAD_CONFIRM_STATE:
          case SystemPage.QUIT_CONFIRM_STATE:
@@ -404,6 +444,12 @@ class SystemPage extends MovieClip
          case SystemPage.DELETE_SAVE_CONFIRM_STATE:
             gfx.io.GameDelegate.call("PlaySound",["UIMenuCancel"]);
             this.EndState();
+            break;
+         case SystemPage.CREATIONS_TEXT_STATE:
+            gfx.io.GameDelegate.call("PlaySound",["UIMenuCancel"]);
+            this.EndState();
+            this.StartState(SystemPage.CREATIONS_LIST_STATE);
+            this.CreationListPanel.bCloseToMainState = true;
             break;
          case SystemPage.HELP_TEXT_STATE:
             gfx.io.GameDelegate.call("PlaySound",["UIMenuCancel"]);
@@ -497,16 +543,31 @@ class SystemPage extends MovieClip
                gfx.io.GameDelegate.call("LOAD",[this.SaveLoadListHolder.List_mc.entryList,this.SaveLoadListHolder.batchSize]);
                return;
             case 3:
-               gfx.io.GameDelegate.call("ModManager",[]);
+               if(this.CreationsList.entryList.length == 0)
+               {
+                  gfx.io.GameDelegate.call("PopulateCreationClubTopics",[this.CreationsList.entryList]);
+                  this.CreationsList.entryList.sort(this.doABCSort);
+                  this.CreationsList.InvalidateData();
+               }
+               if(this.CreationsList.entryList.length != 0)
+               {
+                  this.StartState(SystemPage.CREATIONS_LIST_STATE);
+                  gfx.io.GameDelegate.call("PlaySound",["UIMenuOK"]);
+                  return;
+               }
+               gfx.io.GameDelegate.call("PlaySound",["UIMenuCancel"]);
                return;
             case 4:
+               gfx.io.GameDelegate.call("ModManager",[]);
+               return;
+            case 5:
                this.StartState(SystemPage.SETTINGS_CATEGORY_STATE);
                gfx.io.GameDelegate.call("PlaySound",["UIMenuOK"]);
                return;
-            case 5:
+            case 6:
                _root.QuestJournalFader.Menu_mc.ConfigPanelOpen();
                return;
-            case 6:
+            case 7:
                if(this.MappingList.entryList.length == 0)
                {
                   this.requestInputMappings();
@@ -514,7 +575,7 @@ class SystemPage extends MovieClip
                this.StartState(SystemPage.INPUT_MAPPING_STATE);
                gfx.io.GameDelegate.call("PlaySound",["UIMenuOK"]);
                return;
-            case 7:
+            case 8:
                if(this.HelpList.entryList.length == 0)
                {
                   gfx.io.GameDelegate.call("PopulateHelpTopics",[this.HelpList.entryList]);
@@ -530,7 +591,7 @@ class SystemPage extends MovieClip
                gfx.io.GameDelegate.call("PlaySound",["UIMenuOK"]);
                return;
                break;
-            case 8:
+            case 9:
                gfx.io.GameDelegate.call("PlaySound",["UIMenuOK"]);
                gfx.io.GameDelegate.call("RequestIsOnPC",[],this,"populateQuitList");
                return;
@@ -894,11 +955,11 @@ class SystemPage extends MovieClip
    {
       if(this._showModMenu)
       {
-         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[4],this.CategoryList.entryList[6],this.CategoryList.entryList[8],true]);
+         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[5],this.CategoryList.entryList[9],true]);
       }
       else
       {
-         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[5],this.CategoryList.entryList[7],true]);
+         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[4],this.CategoryList.entryList[8],true]);
       }
       this.CategoryList.UpdateList();
    }
@@ -949,6 +1010,8 @@ class SystemPage extends MovieClip
             this.BottomBar_mc.buttonPanel.addButton({text:"$Cancel",controls:this._cancelControls});
             this.BottomBar_mc.buttonPanel.updateButtons(true);
             break;
+         case SystemPage.CREATIONS_LIST_STATE:
+         case SystemPage.CREATIONS_TEXT_STATE:
          case SystemPage.HELP_TEXT_STATE:
          case SystemPage.HELP_LIST_STATE:
          case SystemPage.SETTINGS_CATEGORY_STATE:
@@ -976,8 +1039,16 @@ class SystemPage extends MovieClip
          case SystemPage.CHARACTER_SELECTION_STATE:
          case SystemPage.SAVE_LOAD_STATE:
          case SystemPage.INPUT_MAPPING_STATE:
+         case SystemPage.CREATIONS_TEXT_STATE:
          case SystemPage.HELP_TEXT_STATE:
             if(this.iPlatform != SystemPage.CONTROLLER_ORBIS)
+            {
+               this.SystemDivider.gotoAndStop("Right");
+            }
+            break;
+         case SystemPage.CREATIONS_LIST_STATE:
+            this.CreationsList.disableInput = true;
+            if(this.CreationListPanel.bCloseToMainState != false)
             {
                this.SystemDivider.gotoAndStop("Right");
             }
@@ -1031,6 +1102,10 @@ class SystemPage extends MovieClip
             return this.ConfirmPanel;
          case SystemPage.PC_QUIT_LIST_STATE:
             return this.PCQuitPanel;
+         case SystemPage.CREATIONS_LIST_STATE:
+            return this.CreationListPanel;
+         case SystemPage.CREATIONS_TEXT_STATE:
+            return this.CreationTextPanel;
          case SystemPage.HELP_LIST_STATE:
             return this.HelpListPanel;
          case SystemPage.HELP_TEXT_STATE:
@@ -1074,6 +1149,13 @@ class SystemPage extends MovieClip
             gfx.managers.FocusHandler.instance.setFocus(this.PCQuitList,0);
             this.PCQuitList.disableSelection = false;
             break;
+         case SystemPage.CREATIONS_LIST_STATE:
+            this.CreationsList.disableInput = false;
+            gfx.managers.FocusHandler.instance.setFocus(this.CreationsList,0);
+            break;
+         case SystemPage.CREATIONS_TEXT_STATE:
+            gfx.managers.FocusHandler.instance.setFocus(this.CreationsText,0);
+            break;
          case SystemPage.HELP_LIST_STATE:
             this.HelpList.disableInput = false;
             gfx.managers.FocusHandler.instance.setFocus(this.HelpList,0);
@@ -1088,11 +1170,14 @@ class SystemPage extends MovieClip
    {
       this.BottomBar_mc.SetPlatform(a_platform,a_bPS3Switch);
       this.CategoryList.SetPlatform(a_platform,a_bPS3Switch);
+      this.HelpButtonHolder.SetPlatform(a_platform,a_bPS3Switch);
+      this.CreationsButtonHolder.SetPlatform(a_platform,a_bPS3Switch);
       if(a_platform != 0)
       {
          this.SettingsList.selectedIndex = 0;
          this.PCQuitList.selectedIndex = 0;
          this.HelpList.selectedIndex = 0;
+         this.CreationsList.selectedIndex = 0;
          this.MappingList.selectedIndex = 0;
          this._deleteControls = {keyCode:278};
          this._defaultControls = {keyCode:279};
@@ -1141,13 +1226,18 @@ class SystemPage extends MovieClip
    {
       if(this._showModMenu)
       {
-         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[4],this.CategoryList.entryList[6],this.CategoryList.entryList[8],false]);
+         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[5],this.CategoryList.entryList[9],false]);
+         this.CategoryList.entryList[4].disabled = false;
+         this.CategoryList.entryList[6].disabled = false;
          this.CategoryList.entryList[7].disabled = false;
+         this.CategoryList.entryList[8].disabled = false;
       }
       else
       {
-         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[5],this.CategoryList.entryList[7],false]);
+         gfx.io.GameDelegate.call("SetSaveDisabled",[this.CategoryList.entryList[0],this.CategoryList.entryList[1],this.CategoryList.entryList[2],this.CategoryList.entryList[3],this.CategoryList.entryList[4],this.CategoryList.entryList[8],false]);
+         this.CategoryList.entryList[5].disabled = false;
          this.CategoryList.entryList[6].disabled = false;
+         this.CategoryList.entryList[7].disabled = false;
       }
       this.CategoryList.UpdateList();
    }
@@ -1163,6 +1253,22 @@ class SystemPage extends MovieClip
       else
       {
          this.MappingList.InvalidateData();
+      }
+   }
+   function onCreationsItemPress()
+   {
+      gfx.io.GameDelegate.call("RequestCreationClubText",[this.CreationsList.selectedEntry.index,this.CreationsTitleText,this.CreationsText]);
+      this.ApplyCreationsTextButtonArt();
+      this.CreationListPanel.bCloseToMainState = false;
+      this.EndState();
+      this.StartState(SystemPage.CREATIONS_TEXT_STATE);
+   }
+   function ApplyCreationsTextButtonArt()
+   {
+      var _loc2_ = this.CreationsButtonHolder.CreateButtonArt(this.CreationsText.textField);
+      if(_loc2_ != undefined)
+      {
+         this.CreationsText.htmlText = _loc2_;
       }
    }
 }

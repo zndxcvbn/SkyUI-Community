@@ -2,35 +2,6 @@
 # Auto-generated from SWF decompilation
 
 set(quest_journal_SOURCES
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/Button.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/ButtonGroup.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/OptionStepper.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/RadioButton.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/ScrollBar.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/ScrollIndicator.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/TextArea.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/controls/TextInput.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/core/UIComponent.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/data/DataProvider.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/events/EventDispatcher.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/io/GameDelegate.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/managers/FocusHandler.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/managers/InputDelegate.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/ui/InputDetails.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/ui/NavigationCode.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/utils/Constraints.as
-    ${AS_SOURCE_DIR}/CLIK/gfx/utils/Locale.as
-    ${AS_SOURCE_DIR}/Common/Components/Meter.as
-    ${AS_SOURCE_DIR}/Common/SaveLoadPanel.as
-    ${AS_SOURCE_DIR}/Common/Shared/BSScrollingList.as
-    ${AS_SOURCE_DIR}/Common/Shared/ButtonTextArtHolder.as
-    ${AS_SOURCE_DIR}/Common/Shared/CenteredScrollingList.as
-    ${AS_SOURCE_DIR}/Common/Shared/GlobalFunc.as
-    ${AS_SOURCE_DIR}/Common/Shared/ListFilterer.as
-    ${AS_SOURCE_DIR}/Common/skyui/components/ButtonPanel.as
-    ${AS_SOURCE_DIR}/Common/skyui/components/MappedButton.as
-    ${AS_SOURCE_DIR}/Common/skyui/defines/Input.as
-    ${AS_SOURCE_DIR}/Common/skyui/util/GlobalFunctions.as
     ${AS_SOURCE_DIR}/PauseMenu/InputMappingArt.as
     ${AS_SOURCE_DIR}/PauseMenu/InputMappingList.as
     ${AS_SOURCE_DIR}/PauseMenu/JournalBottomBar.as
@@ -46,3 +17,12 @@ set(quest_journal_SOURCES
     ${AS_SOURCE_DIR}/PauseMenu/StatsPage.as
     ${AS_SOURCE_DIR}/PauseMenu/SystemPage.as
 )
+
+set(quest_journal_FRAME_SOURCES
+    ${AS_SOURCE_DIR}/PauseMenu/CreationList.as
+    ${AS_SOURCE_DIR}/PauseMenu/cScrollableText.as
+)
+
+set(quest_journal_PATCH_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/PatchCreations.py")
+set(quest_journal_PATCH_CC_SWF "${CMAKE_CURRENT_SOURCE_DIR}/cmake/PatchCreations.swf")
+

@@ -1,12 +1,14 @@
 # AssembleScripts.cmake - Build-time helper to assemble AS sources for FFDEC
 #
 # Called at build time via cmake -P with these variables:
-#   STAGING_DIR    - Output directory for assembled __Packages tree
-#   SOURCES_FILE   - Path to a file listing absolute source paths (one per line)
-#   AS_SOURCE_DIR  - Root of source/actionscript (to compute relative paths)
+#   STAGING_DIR         - Output directory for assembled __Packages tree
+#   SOURCES_FILE        - Path to a file listing absolute source paths (one per line)
+#   FRAME_SOURCES_FILE  - (optional) Path to a file listing frame script paths (one per line)
+#   AS_SOURCE_DIR       - Root of source/actionscript (to compute relative paths)
 #
-# Source layout:  <AS_SOURCE_DIR>/<Module>/<classpath>.as
-# Output layout:  <STAGING_DIR>/__Packages/<classpath>.as
+# Source layout:        <AS_SOURCE_DIR>/<Module>/<classpath>.as
+# Output layout:        <STAGING_DIR>/__Packages/<classpath>.as
+# Frame script layout:  <STAGING_DIR>/<filename>.as  (staged at root for DoInitAction)
 
 file(REMOVE_RECURSE "${STAGING_DIR}")
 file(MAKE_DIRECTORY "${STAGING_DIR}/__Packages")
@@ -52,3 +54,18 @@ foreach(SRC ${SOURCES})
 		message(WARNING "Source not found: ${SRC}")
 	endif()
 endforeach()
+
+# Stage frame scripts at root of STAGING_DIR (for DoInitAction / Object.registerClass)
+if(DEFINED FRAME_SOURCES_FILE AND NOT FRAME_SOURCES_FILE STREQUAL "")
+	if(EXISTS "${FRAME_SOURCES_FILE}")
+		file(STRINGS "${FRAME_SOURCES_FILE}" FRAME_SOURCES)
+		foreach(SRC ${FRAME_SOURCES})
+			if(EXISTS "${SRC}")
+				get_filename_component(FNAME "${SRC}" NAME)
+				file(COPY_FILE "${SRC}" "${STAGING_DIR}/${FNAME}")
+			else()
+				message(WARNING "Frame source not found: ${SRC}")
+			endif()
+		endforeach()
+	endif()
+endif()

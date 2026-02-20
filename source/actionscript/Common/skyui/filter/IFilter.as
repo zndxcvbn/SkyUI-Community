@@ -1,3 +1,0 @@
-interface skyui.filter.IFilter
-{
-}

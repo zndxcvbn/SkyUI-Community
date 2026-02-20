@@ -33,6 +33,7 @@ Papyrus_Add(
 find_program(FFDEC_CLI NAMES ffdec-cli ffdec-cli.exe
 	PATHS "C:/Program Files (x86)/FFDec" "C:/Program Files/FFDec"
 )
+find_program(PYTHON_EXECUTABLE NAMES python3 python)
 
 set(SWF_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/_SWF")
 
@@ -79,18 +80,45 @@ if(FFDEC_CLI)
 			list(JOIN ${VAR_PREFIX}_SOURCES "\n" SOURCES_CONTENT)
 			file(WRITE "${SOURCES_FILE}" "${SOURCES_CONTENT}")
 
-			add_custom_target("AS_${VAR_PREFIX}"
+			# Handle optional frame scripts (DoInitAction, staged at root of staging dir)
+			set(FRAME_SOURCES_FILE "")
+			if(DEFINED ${VAR_PREFIX}_FRAME_SOURCES)
+				set(FRAME_SOURCES_FILE "${AS_STAGING_BASE}/${VAR_PREFIX}_frame_sources.txt")
+				list(JOIN ${VAR_PREFIX}_FRAME_SOURCES "\n" FRAME_SOURCES_CONTENT)
+				file(WRITE "${FRAME_SOURCES_FILE}" "${FRAME_SOURCES_CONTENT}")
+			endif()
+
+			set(_ASSEMBLE_COMMAND
 				COMMAND "${CMAKE_COMMAND}" -E make_directory "${SWF_OUT_DIR}"
 				COMMAND "${CMAKE_COMMAND}"
 					"-DSTAGING_DIR=${AS_STAGING}"
 					"-DSOURCES_FILE=${SOURCES_FILE}"
+					"-DFRAME_SOURCES_FILE=${FRAME_SOURCES_FILE}"
 					"-DAS_SOURCE_DIR=${AS_SOURCE_DIR}"
 					"-DPROJECT_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}"
 					"-DPROJECT_VERSION_MINOR=${PROJECT_VERSION_MINOR}"
 					-P "${ASSEMBLE_SCRIPT}"
-				COMMAND "${FFDEC_CLI}" -importScript "${SWF_INPUT}" "${SWF_OUT}" "${AS_STAGING}"
-				COMMENT "Importing ActionScript files into ${SWF_REL}"
 			)
+
+			# Handle optional pre-patch step (merge visual sprites from a reference SWF)
+			if(DEFINED ${VAR_PREFIX}_PATCH_SCRIPT AND PYTHON_EXECUTABLE)
+				set(_PATCHED_SWF "${AS_STAGING_BASE}/${VAR_PREFIX}_patched.swf")
+				add_custom_target("AS_${VAR_PREFIX}"
+					${_ASSEMBLE_COMMAND}
+					COMMAND "${PYTHON_EXECUTABLE}" "${${VAR_PREFIX}_PATCH_SCRIPT}"
+						"${SWF_INPUT}" "${${VAR_PREFIX}_PATCH_CC_SWF}"
+						"${_PATCHED_SWF}" "${FFDEC_CLI}"
+					COMMAND "${FFDEC_CLI}" -importScript "${_PATCHED_SWF}" "${SWF_OUT}" "${AS_STAGING}"
+					COMMENT "Patching and importing ActionScript into ${SWF_REL}"
+				)
+			else()
+				add_custom_target("AS_${VAR_PREFIX}"
+					${_ASSEMBLE_COMMAND}
+					COMMAND "${FFDEC_CLI}" -importScript "${SWF_INPUT}" "${SWF_OUT}" "${AS_STAGING}"
+					COMMENT "Importing ActionScript files into ${SWF_REL}"
+				)
+			endif()
+
 			list(APPEND AS_TARGETS "AS_${VAR_PREFIX}")
 		else()
 			# No AS sources for this SWF, just copy it

@@ -5,6 +5,7 @@
 ### Prerequisites
 
 - [CMake 3.24+](https://cmake.org/download/)
+- [Python 3.8+](https://www.python.org/downloads/) (required for SWF patching scripts)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) (or another CMake-supported generator)
 - [JPEXS Free Flash Decompiler](https://github.com/jindrapetrik/jpexs-decompiler) (windows installer)
 - A clean Skyrim Special Edition installation with:
@@ -56,12 +57,6 @@ The build produces `release/SkyUI_SE-<version>.zip` containing:
 
 - `SkyUI_SE.esp` - Plugin file
 - `SkyUI_SE.bsa` - Archive containing compiled Papyrus scripts and all interface files
-
-## Known Issues
-
-### `Common/skyui/components/list/BasicListEntry.as`
-
-This file has been intentionally excluded from all SWF build targets. Including it causes the Mod Configuration Menu to break. It is present in the source tree for reference only and should not be added back to any `.cmake` source list.
 
 ## Contributing
 
