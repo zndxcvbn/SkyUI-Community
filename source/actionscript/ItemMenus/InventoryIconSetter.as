@@ -461,6 +461,9 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             a_entryObject.iconLabel = "misc_strips";
             a_entryObject.iconColor = 12225827;
             break;
+         case skyui.defines.Item.MISC_TROLLSKULL:
+            a_entryObject.iconLabel = "misc_trollskull";
+            break;
          case skyui.defines.Item.MISC_CHILDRENSCLOTHES:
             a_entryObject.iconColor = 15587975;
             a_entryObject.iconLabel = "clothing_body";

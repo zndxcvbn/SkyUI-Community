@@ -39,6 +39,7 @@ class skyui.defines.Item
    static var MISC_CLUTTER = 19;
    static var MISC_LOCKPICK = 20;
    static var MISC_GOLD = 21;
+   static var MISC_TROLLSKULL = 22;
    static var BOOK_SPELLTOME = 0;
    static var BOOK_NOTE = 1;
    static var BOOK_RECIPE = 2;
