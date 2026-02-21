@@ -12,19 +12,22 @@ class skyui.defines.Material
    static var EBONY = 9;
    static var ELVEN = 10;
    static var FALMER = 11;
-   static var GLASS = 12;
-   static var HIDE = 13;
-   static var IMPERIAL = 14;
-   static var IRON = 15;
-   static var JEWELRY = 16;
-   static var LEATHER = 17;
-   static var MADNESS = 18;
-   static var NORDIC = 19;
-   static var ORCISH = 20;
-   static var ORDINATOR = 21;
-   static var STALHRIM = 22;
-   static var STEEL = 23;
-   static var WOOD = 24;
+   static var FORSWORN = 12;
+   static var GLASS = 13;
+   static var HIDE = 14;
+   static var IMPERIAL = 15;
+   static var IRON = 16;
+   static var JEWELRY = 17;
+   static var LEATHER = 18;
+   static var MADNESS = 19;
+   static var NORDIC = 20;
+   static var ORCISH = 21;
+   static var ORDINATOR = 22;
+   static var SILVER = 23;
+   static var STALHRIM = 24;
+   static var STEEL = 25;
+   static var STORMCLOAK = 26;
+   static var WOOD = 27;
    function Material()
    {
    }

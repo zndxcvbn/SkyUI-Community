@@ -167,6 +167,16 @@ class CraftingDataSetter implements skyui.components.list.IListProcessor
          a_entryObject.material = skyui.defines.Material.HIDE;
          a_entryObject.materialDisplay = skyui.util.Translator.translate("$Hide");
       }
+      else if(a_entryObject.keywords.ArmorMaterialStormcloak != undefined || a_entryObject.keywords.ArmorMaterialBearStormcloak != undefined)
+      {
+         a_entryObject.material = skyui.defines.Material.STORMCLOAK;
+         a_entryObject.materialDisplay = skyui.util.Translator.translate("$Stormcloak");
+      }
+      else if(a_entryObject.keywords.ArmorMaterialForsworn != undefined)
+      {
+         a_entryObject.material = skyui.defines.Material.FORSWORN;
+         a_entryObject.materialDisplay = skyui.util.Translator.translate("$Forsworn");
+      }
       else if(a_entryObject.keywords.ArmorMaterialImperialHeavy != undefined || a_entryObject.keywords.ArmorMaterialImperialLight != undefined || a_entryObject.keywords.WeapMaterialImperial != undefined || a_entryObject.keywords.ArmorMaterialImperialStudded != undefined || a_entryObject.keywords.ArmorMaterialStudded != undefined)
       {
          a_entryObject.material = skyui.defines.Material.IMPERIAL;
@@ -191,6 +201,11 @@ class CraftingDataSetter implements skyui.components.list.IListProcessor
       {
          a_entryObject.material = skyui.defines.Material.STEEL;
          a_entryObject.materialDisplay = skyui.util.Translator.translate("$Steel");
+      }
+      else if(a_entryObject.keywords.WeapMaterialSilver != undefined)
+      {
+         a_entryObject.material = skyui.defines.Material.SILVER;
+         a_entryObject.materialDisplay = skyui.util.Translator.translate("$Silver");
       }
       else if(a_entryObject.keywords.ArmorMaterialFalmer != undefined || a_entryObject.keywords.DLC1ArmorMaterialFalmerHardened != undefined || a_entryObject.keywords.DLC1ArmorMaterielFalmerHeavy != undefined || a_entryObject.keywords.DLC1ArmorMaterielFalmerHeavyOriginal != undefined)
       {
