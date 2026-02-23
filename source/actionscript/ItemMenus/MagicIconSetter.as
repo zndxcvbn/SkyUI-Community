@@ -31,6 +31,7 @@ class MagicIconSetter implements skyui.components.list.IListProcessor
          case skyui.defines.Inventory.ICT_SPELL_DEFAULT:
             a_entryObject.iconLabel = "default_power";
       }
+      this.processSpellBaseId(a_entryObject);
       if(this._noIconColors && a_entryObject.iconColor != undefined)
       {
          delete a_entryObject.iconColor;
@@ -81,6 +82,32 @@ class MagicIconSetter implements skyui.components.list.IListProcessor
             a_entryObject.iconColor = 2096127;
          default:
             return;
+      }
+   }
+   function processSpellBaseId(a_entryObject)
+   {
+      switch(a_entryObject.baseId)
+      {
+         case 0x38B5:
+         case 0x3F52:
+         case 0x38B6:
+            a_entryObject.iconLabel = "magic_sun";
+            a_entryObject.iconColor = 16746240;
+            break;
+         case 0x1D74B:
+            a_entryObject.iconLabel = "misc_remains";
+            a_entryObject.iconColor = 6465078;
+            break;
+         case 0x1772D:
+            a_entryObject.iconLabel = "magic_wind";
+            a_entryObject.iconColor = 13487044;
+            break;
+         case 0x72320:
+         case 0x72311:
+         case 0x7233B:
+            a_entryObject.iconLabel = "magic_fire";
+            a_entryObject.iconColor = 2096127;
+            break;
       }
    }
 }

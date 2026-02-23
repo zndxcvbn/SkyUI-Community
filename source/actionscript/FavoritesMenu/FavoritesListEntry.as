@@ -1,6 +1,8 @@
 class FavoritesListEntry extends skyui.components.list.BasicListEntry
 {
    var _alpha;
+   var _iconColor;
+   var _iconLabel;
    var equipIcon;
    var hotkeyIcon;
    var isEnabled;
@@ -17,6 +19,18 @@ class FavoritesListEntry extends skyui.components.list.BasicListEntry
    function initialize(a_index, a_state)
    {
       super.initialize();
+      this.fixIconPos();
+      var _loc3_ = new MovieClipLoader();
+      _loc3_.addListener(this);
+      _loc3_.loadClip("skyui/icons_item_psychosteve.swf",this.itemIcon);
+      this.itemIcon._visible = false;
+   }
+   function fixIconPos()
+   {
+      var _loc1_ = this.itemIcon.transform;
+      var _loc2_ = _loc1_.matrix;
+      _loc2_.translate(-64 * _loc2_.a,-64 * _loc2_.d);
+      _loc1_.matrix = _loc2_;
    }
    function setEntry(a_entryObject, a_state)
    {
@@ -66,8 +80,10 @@ class FavoritesListEntry extends skyui.components.list.BasicListEntry
             this.textField.SetText(this.textField.text.substr(0,_loc9_ - 3) + "...");
          }
       }
-      var _loc12_ = a_entryObject.iconLabel == undefined ? "default_misc" : a_entryObject.iconLabel;
-      this.itemIcon.gotoAndStop(_loc12_);
+      this._iconLabel = a_entryObject.iconLabel == undefined ? "default_misc" : a_entryObject.iconLabel;
+      this._iconColor = a_entryObject.iconColor;
+      this.itemIcon.gotoAndStop(this._iconLabel);
+      this.changeIconColor(this.itemIcon,this._iconColor);
       this.itemIcon._alpha = !_loc10_ ? 50 : 90;
       if(a_entryObject == null)
       {
@@ -89,5 +105,28 @@ class FavoritesListEntry extends skyui.components.list.BasicListEntry
          this.offHandIcon._x = _loc5_;
       }
       this.offHandIcon._visible = _loc8_;
+   }
+   function onLoadInit(a_icon)
+   {
+      a_icon._visible = true;
+      a_icon.gotoAndStop(this._iconLabel == undefined ? "default_misc" : this._iconLabel);
+      this.changeIconColor(a_icon,this._iconColor);
+   }
+   function changeIconColor(a_icon, a_rgb)
+   {
+      var _loc2_;
+      var _loc1_;
+      var _loc3_;
+      for(var _loc6_ in a_icon)
+      {
+         _loc2_ = a_icon[_loc6_];
+         if(_loc2_ instanceof MovieClip)
+         {
+            _loc1_ = new flash.geom.ColorTransform();
+            _loc3_ = new flash.geom.Transform(MovieClip(_loc2_));
+            _loc1_.rgb = a_rgb != undefined ? a_rgb : 16777215;
+            _loc3_.colorTransform = _loc1_;
+         }
+      }
    }
 }

@@ -739,7 +739,7 @@ class ConfigPanel extends MovieClip
       }
       this._buttonPanelL.updateButtons(true);
       this._buttonPanelR.clearButtons();
-      this._buttonPanelR.addButton({text:(!a_bSubList ? "$Exit" : "$Back"),controls:this._cancelControls});
+      this._buttonPanelR.addButton({text:(!a_bSubList ? "$Exit" : "$Backpack"),controls:this._cancelControls});
       this._buttonPanelR.updateButtons(true);
    }
    function updateOptionButtons()
@@ -796,7 +796,7 @@ class ConfigPanel extends MovieClip
       }
       this._buttonPanelL.updateButtons(true);
       this._buttonPanelR.clearButtons();
-      this._buttonPanelR.addButton({text:"$Back",controls:this._cancelControls});
+      this._buttonPanelR.addButton({text:"$Backpack",controls:this._cancelControls});
       this._buttonPanelR.updateButtons(true);
    }
 }

@@ -17,6 +17,7 @@ class skyui.defines.Item
    static var POTION_DRINK = 13;
    static var POTION_FOOD = 14;
    static var POTION_POISON = 15;
+   static var POTION_AYLEIDCRYSTAL = 16;
    static var MISC_GEM = 0;
    static var MISC_DRAGONCLAW = 1;
    static var MISC_ARTIFACT = 2;
@@ -40,9 +41,29 @@ class skyui.defines.Item
    static var MISC_LOCKPICK = 20;
    static var MISC_GOLD = 21;
    static var MISC_TROLLSKULL = 22;
+   static var MISC_NETCHLEATHER = 23;
+   static var MISC_AYLEIDCRYSTAL = 24;
+   static var MISC_HORSETACK = 25;
+   static var MISC_BROKENWEAPON = 26;
+   static var MISC_DWARVENSCRAP = 27;
+   static var MISC_INSTRUMENT = 28;
+   static var MISC_BUGJAR = 29;
+   static var MISC_SCROLLSPIDER = 30;
+   static var MISC_ORE = 31;
+   static var MISC_MAP = 32;
+   static var MISC_POTION = 33;
+   static var MISC_POISON = 34;
+   static var MISC_SCROLL = 35;
+   static var MISC_BOOK = 36;
+   static var MISC_RING = 37;
+   static var MISC_INGREDIENT = 38;
+   static var MISC_PETGEAR = 39;
    static var BOOK_SPELLTOME = 0;
    static var BOOK_NOTE = 1;
    static var BOOK_RECIPE = 2;
+   static var BOOK_MAP = 3;
+   static var BOOK_ELDERSCROLL = 4;
+   static var SCROLL_SPIDER = 0;
    static var BOOKFLAG_SPELL = 1;
    static var BOOKFLAG_SKILL = 4;
    static var BOOKFLAG_READ = 8;
@@ -61,6 +82,7 @@ class skyui.defines.Item
    static var SOULGEM_GREATER = 4;
    static var SOULGEM_GRAND = 5;
    static var SOULGEM_AZURA = 6;
+   static var SOULGEM_SOULTOMATO = 7;
    function Item()
    {
    }

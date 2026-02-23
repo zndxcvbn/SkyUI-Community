@@ -20,7 +20,7 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
       switch(a_entryObject.formType)
       {
          case skyui.defines.Form.TYPE_SCROLLITEM:
-            a_entryObject.iconLabel = "default_scroll";
+            this.processScrollIcon(a_entryObject);
             this.processResist(a_entryObject);
             break;
          case skyui.defines.Form.TYPE_ARMOR:
@@ -37,6 +37,7 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             break;
          case skyui.defines.Form.TYPE_MISC:
             this.processMiscIcon(a_entryObject);
+            this.processMiscBaseIdIcon(a_entryObject);
             break;
          case skyui.defines.Form.TYPE_WEAPON:
             this.processWeaponIcon(a_entryObject);
@@ -82,6 +83,16 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
    {
       a_entryObject.iconLabel = "default_armor";
       a_entryObject.iconColor = 15587975;
+      if(a_entryObject.subType == skyui.defines.Armor.EQUIP_CLOAK)
+      {
+         a_entryObject.iconLabel = "clothing_cloak";
+         return;
+      }
+      if(a_entryObject.subType == skyui.defines.Armor.EQUIP_BACKPACK)
+      {
+         a_entryObject.iconLabel = "clothing_backpack";
+         return;
+      }
       switch(a_entryObject.weightClass)
       {
          case skyui.defines.Armor.WEIGHT_LIGHT:
@@ -224,6 +235,17 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             return;
       }
    }
+   function processScrollIcon(a_entryObject)
+   {
+      a_entryObject.iconLabel = "default_scroll";
+      switch(a_entryObject.subType)
+      {
+         case skyui.defines.Item.SCROLL_SPIDER:
+            a_entryObject.iconLabel = "scroll_spider";
+         default:
+            return;
+      }
+   }
    function processBookIcon(a_entryObject)
    {
       a_entryObject.iconLabel = "default_book";
@@ -235,6 +257,13 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             break;
          case skyui.defines.Item.BOOK_SPELLTOME:
             a_entryObject.iconLabel = "book_tome";
+            break;
+         case skyui.defines.Item.BOOK_MAP:
+            a_entryObject.iconLabel = "book_map";
+            break;
+         case skyui.defines.Item.BOOK_ELDERSCROLL:
+            a_entryObject.iconLabel = "misc_elderscroll";
+            a_entryObject.iconColor = 7693901;
          default:
             return;
       }
@@ -277,6 +306,9 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             break;
          case skyui.defines.Weapon.TYPE_PICKAXE:
             a_entryObject.iconLabel = "weapon_pickaxe";
+            break;
+         case skyui.defines.Weapon.TYPE_FISHINGROD:
+            a_entryObject.iconLabel = "weapon_fishingrod";
             break;
          case skyui.defines.Weapon.TYPE_WOODAXE:
             a_entryObject.iconLabel = "weapon_woodaxe";
@@ -341,6 +373,10 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             a_entryObject.iconLabel = "potion_shock";
             a_entryObject.iconColor = 15379200;
             break;
+         case skyui.defines.Item.POTION_AYLEIDCRYSTAL:
+            a_entryObject.iconLabel = "soulgem_ayleidcrystalfull";
+            a_entryObject.iconColor = 6014153;
+            break;
          case skyui.defines.Item.POTION_FROSTRESIST:
             a_entryObject.iconLabel = "potion_frost";
             a_entryObject.iconColor = 2096127;
@@ -374,9 +410,29 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             a_entryObject.iconColor = 7694847;
             this.processGrandSoulGemIcon(a_entryObject);
             break;
+         case skyui.defines.Item.SOULGEM_SOULTOMATO:
+            a_entryObject.iconColor = 13716024;
+            this.processSoulTomatoIcon(a_entryObject);
+            break;
          case skyui.defines.Item.SOULGEM_AZURA:
             a_entryObject.iconColor = 7694847;
             a_entryObject.iconLabel = "soulgem_azura";
+         default:
+            return;
+      }
+   }
+   function processSoulTomatoIcon(a_entryObject)
+   {
+      switch(a_entryObject.status)
+      {
+         case skyui.defines.Item.SOULGEMSTATUS_EMPTY:
+            a_entryObject.iconLabel = "soulgem_tomatoempty";
+            break;
+         case skyui.defines.Item.SOULGEMSTATUS_PARTIAL:
+            a_entryObject.iconLabel = "soulgem_tomatopartial";
+            break;
+         case skyui.defines.Item.SOULGEMSTATUS_FULL:
+            a_entryObject.iconLabel = "soulgem_tomatofull";
          default:
             return;
       }
@@ -415,6 +471,10 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
    }
    function processMiscIcon(a_entryObject)
    {
+      if(a_entryObject.iconLabel != undefined)
+      {
+         return;
+      }
       a_entryObject.iconLabel = "default_misc";
       switch(a_entryObject.subType)
       {
@@ -441,7 +501,7 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             break;
          case skyui.defines.Item.MISC_FIREWOOD:
             a_entryObject.iconLabel = "misc_wood";
-            a_entryObject.iconColor = 11050636;
+            a_entryObject.iconColor = 12553824;
             break;
          case skyui.defines.Item.MISC_DRAGONCLAW:
             a_entryObject.iconLabel = "misc_dragonclaw";
@@ -457,6 +517,10 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
             a_entryObject.iconLabel = "misc_leather";
             a_entryObject.iconColor = 12225827;
             break;
+         case skyui.defines.Item.MISC_NETCHLEATHER:
+            a_entryObject.iconLabel = "misc_strips";
+            a_entryObject.iconColor = 7886222;
+            break;
          case skyui.defines.Item.MISC_LEATHERSTRIPS:
             a_entryObject.iconLabel = "misc_strips";
             a_entryObject.iconColor = 12225827;
@@ -467,8 +531,79 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
          case skyui.defines.Item.MISC_CHILDRENSCLOTHES:
             a_entryObject.iconColor = 15587975;
             a_entryObject.iconLabel = "clothing_body";
+            break;
+         case skyui.defines.Item.MISC_ORE:
+            a_entryObject.iconLabel = "misc_ore";
+            a_entryObject.iconColor = 8553090;
+            break;
+         case skyui.defines.Item.MISC_HOUSEPART:
+            a_entryObject.iconLabel = "misc_housepart";
+            a_entryObject.iconColor = 16777215;
+            break;
+         case skyui.defines.Item.MISC_BROKENWEAPON:
+            a_entryObject.iconLabel = "default_weapon";
+            a_entryObject.iconColor = 16777215;
+            break;
+         case skyui.defines.Item.MISC_AYLEIDCRYSTAL:
+            a_entryObject.iconLabel = "soulgem_ayleidcrystalfull";
+            a_entryObject.iconColor = 6014153;
+            break;
+         case skyui.defines.Item.MISC_HORSETACK:
+            a_entryObject.iconLabel = "misc_horsetack";
+            break;
+         case skyui.defines.Item.MISC_DWARVENSCRAP:
+            a_entryObject.iconLabel = "misc_dwarvenscrap";
+            a_entryObject.iconColor = 7364402;
+            break;
+         case skyui.defines.Item.MISC_SCROLLSPIDER:
+            a_entryObject.iconLabel = "scroll_spider";
+            break;
+         case skyui.defines.Item.MISC_INSTRUMENT:
+            a_entryObject.iconLabel = "misc_instrument";
+            a_entryObject.iconColor = 16777215;
+            break;
+         case skyui.defines.Item.MISC_BUGJAR:
+            a_entryObject.iconLabel = "misc_jar";
+            a_entryObject.iconColor = 16777215;
+            break;
+         case skyui.defines.Item.MISC_MAP:
+            a_entryObject.iconLabel = "book_map";
+            break;
+         case skyui.defines.Item.MISC_POTION:
+            a_entryObject.iconLabel = "default_potion";
+            break;
+         case skyui.defines.Item.MISC_POISON:
+            a_entryObject.iconLabel = "potion_poison";
+            break;
+         case skyui.defines.Item.MISC_SCROLL:
+            a_entryObject.iconLabel = "default_scroll";
+            break;
+         case skyui.defines.Item.MISC_BOOK:
+            a_entryObject.iconLabel = "default_book";
+            break;
+         case skyui.defines.Item.MISC_RING:
+            a_entryObject.iconLabel = "armor_ring";
+            break;
+         case skyui.defines.Item.MISC_INGREDIENT:
+            a_entryObject.iconLabel = "default_ingredient";
+            break;
+         case skyui.defines.Item.MISC_PETGEAR:
+            a_entryObject.iconLabel = "clothing_backpack";
          default:
             return;
+      }
+   }
+   function processMiscBaseIdIcon(a_entryObject)
+   {
+      switch(a_entryObject.formId >>> 24)
+      {
+         case 0xFE:
+            switch(a_entryObject.eslId)
+            {
+               case skyui.defines.Form.ESLID_CCVSV002PETAMULET:
+                  a_entryObject.iconLabel = "armor_amulet";
+                  break;
+            }
       }
    }
 }
