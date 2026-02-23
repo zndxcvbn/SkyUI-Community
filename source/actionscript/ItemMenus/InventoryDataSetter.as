@@ -27,7 +27,7 @@ class InventoryDataSetter extends ItemcardDataExtender
             a_entryObject.infoArmor = a_itemInfo.armor <= 0 ? null : Math.round(a_itemInfo.armor * 100) / 100;
             this.processArmorClass(a_entryObject);
             this.processArmorPartMask(a_entryObject);
-            this.processMaterialKeywords(a_entryObject);
+            this.processMaterialKeywords(a_entryObject); 
             this.processArmorOther(a_entryObject);
             this.processArmorBaseId(a_entryObject);
             break;
@@ -120,17 +120,8 @@ class InventoryDataSetter extends ItemcardDataExtender
       {
          return undefined;
       }
-      if(a_entryObject.keywords.VendorItemJewelry != undefined || a_entryObject.keywords.VendorItemClothing != undefined || a_entryObject.keywords.ArmorClothing != undefined)
-      {
-         a_entryObject.material = null;
-         a_entryObject.materialDisplay = null;
-      }
-      else if(a_entryObject.keywords.ccBGSSSE001_FishingPoleKW != undefined)
-      {
-         a_entryObject.material = null;
-         a_entryObject.materialDisplay = null;
-      }
-      else if(a_entryObject.keywords.ArmorMaterialDaedric != undefined || a_entryObject.keywords.WeapMaterialDaedric != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialGolden != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialGolden != undefined)
+
+      if(a_entryObject.keywords.ArmorMaterialDaedric != undefined || a_entryObject.keywords.WeapMaterialDaedric != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialGolden != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialGolden != undefined)
       {
          a_entryObject.material = skyui.defines.Material.DAEDRIC;
          a_entryObject.materialDisplay = skyui.util.Translator.translate("$Daedric");

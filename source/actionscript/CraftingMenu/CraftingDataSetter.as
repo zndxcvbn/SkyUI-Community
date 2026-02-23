@@ -128,17 +128,8 @@ class CraftingDataSetter implements skyui.components.list.IListProcessor
       {
          return undefined;
       }
-      if(a_entryObject.keywords.VendorItemJewelry != undefined || a_entryObject.keywords.VendorItemClothing != undefined || a_entryObject.keywords.ArmorClothing != undefined)
-      {
-         a_entryObject.material = null;
-         a_entryObject.materialDisplay = null;
-      }
-      else if(a_entryObject.keywords.ccBGSSSE001_FishingPoleKW != undefined)
-      {
-         a_entryObject.material = null;
-         a_entryObject.materialDisplay = null;
-      }
-      else if(a_entryObject.keywords.ArmorMaterialDaedric != undefined || a_entryObject.keywords.WeapMaterialDaedric != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialGolden != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialGolden != undefined)
+
+      if(a_entryObject.keywords.ArmorMaterialDaedric != undefined || a_entryObject.keywords.WeapMaterialDaedric != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialDark != undefined || a_entryObject.keywords.ccBGSSSE025_ArmorMaterialGolden != undefined || a_entryObject.keywords.ccBGSSSE025_WeapMaterialGolden != undefined)
       {
          a_entryObject.material = skyui.defines.Material.DAEDRIC;
          a_entryObject.materialDisplay = skyui.util.Translator.translate("$Daedric");
