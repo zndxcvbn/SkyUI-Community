@@ -1,4 +1,3 @@
 /build/
-/release/
-/skyui-master/
-/tools/papyrus-compiler
+/dist/
+/temp_extracted_all/
