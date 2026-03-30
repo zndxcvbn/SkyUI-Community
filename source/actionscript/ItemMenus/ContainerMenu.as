@@ -13,14 +13,13 @@ class ContainerMenu extends ItemMenu
    var _switchControls;
    var _tabBarIconArt;
    var bFadedIn;
-   var bottomBar;
+   var BottomBar_mc;
    var checkBook;
    var confirmSelectedEntry;
    var getEquipButtonData;
    var inventoryLists;
    var itemCard;
    var itemCardFadeHolder;
-   var navPanel;
    var shouldProcessItemsListInput;
    static var SKYUI_RELEASE_IDX = 2018;
    static var SKYUI_VERSION_MAJOR = 5;
@@ -32,11 +31,27 @@ class ContainerMenu extends ItemMenu
    var _bEquipMode = false;
    var bNPCMode = false;
    var bEnableTabs = true;
+
+   var ExitBtn:      Object;
+   var SearchBtn:    Object;
+   var SwitchBtn:    Object;
+   var TakeBtn:      Object;
+   var StoreBtn:     Object;
+   var GiveBtn:      Object;
+   var TakeAllBtn:   Object;
+   var EquipModeBtn: Object;
+   var FavBtn:       Object;
+   var SortBtn:      Object;
+   var OrderBtn:     Object;
+   var AcceptBtn:    Object;
+   var CancelBtn:    Object;
+
    function ContainerMenu()
    {
       super();
       this._categoryListIconArt = ["inv_all","inv_weapons","inv_armor","inv_potions","inv_scrolls","inv_food","inv_ingredients","inv_books","inv_keys","inv_misc"];
       this._tabBarIconArt = ["take","give"];
+      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -75,7 +90,7 @@ class ContainerMenu extends ItemMenu
          if(this._platform == 0 && details.skseKeycode == this._equipModeKey && this.inventoryLists.itemList.selectedIndex != -1)
          {
             this._bEquipMode = details.value != "keyUp";
-            this.updateBottomBar(true);
+            this.UpdateBottomBar(true);
          }
       }
       return true;
@@ -83,7 +98,7 @@ class ContainerMenu extends ItemMenu
    function UpdateItemCardInfo(a_updateObj)
    {
       super.UpdateItemCardInfo(a_updateObj);
-      this.updateBottomBar(true);
+      this.UpdateBottomBar(true);
       if(a_updateObj.pickpocketChance != undefined)
       {
          this.itemCardFadeHolder.StealTextInstance._visible = true;
@@ -160,7 +175,7 @@ class ContainerMenu extends ItemMenu
    {
       if(event.index != -1)
       {
-         this.updateBottomBar(true);
+         this.UpdateBottomBar(true);
       }
       super.onItemHighlightChange(event);
    }
@@ -171,8 +186,8 @@ class ContainerMenu extends ItemMenu
    function onHideItemsList(event)
    {
       super.onHideItemsList(event);
-      this.bottomBar.updatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
-      this.updateBottomBar(false);
+      this.BottomBar_mc.UpdatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
+      this.UpdateBottomBar(false);
    }
    function onMouseRotationFastClick(a_mouseButton)
    {
@@ -196,70 +211,6 @@ class ContainerMenu extends ItemMenu
          return undefined;
       }
       gfx.io.GameDelegate.call("DisabledItemSelect",[]);
-   }
-   function updateBottomBar(a_bSelected)
-   {
-      this.navPanel.clearButtons();
-      if(a_bSelected && this.inventoryLists.itemList.selectedIndex != -1 && this.inventoryLists.currentState == InventoryLists.SHOW_PANEL)
-      {
-         if(this.isViewingContainer())
-         {
-            if(this._platform != 0)
-            {
-               this.navPanel.addButton({text:"$Take",controls:skyui.defines.Input.Activate});
-               this.navPanel.addButton(this.getEquipButtonData(this.itemCard.itemInfo.type,true));
-            }
-            else if(this._bEquipMode)
-            {
-               this.navPanel.addButton(this.getEquipButtonData(this.itemCard.itemInfo.type));
-            }
-            else
-            {
-               this.navPanel.addButton({text:"$Take",controls:skyui.defines.Input.Activate});
-            }
-            if(!this.bNPCMode)
-            {
-               this.navPanel.addButton({text:"$Take All",controls:skyui.defines.Input.XButton});
-            }
-         }
-         else
-         {
-            if(this._platform != 0)
-            {
-               this.navPanel.addButton({text:(!this.bNPCMode ? "$Store" : "$Give"),controls:skyui.defines.Input.Activate});
-               this.navPanel.addButton(this.getEquipButtonData(this.itemCard.itemInfo.type,true));
-            }
-            else if(this._bEquipMode)
-            {
-               this.navPanel.addButton(this.getEquipButtonData(this.itemCard.itemInfo.type));
-            }
-            else
-            {
-               this.navPanel.addButton({text:(!this.bNPCMode ? "$Store" : "$Give"),controls:skyui.defines.Input.Activate});
-            }
-            this.navPanel.addButton({text:(!this.itemCard.itemInfo.favorite ? "$Favorite" : "$Unfavorite"),controls:skyui.defines.Input.YButton});
-         }
-         if(!this._bEquipMode)
-         {
-            this.navPanel.addButton({text:"$Equip Mode",controls:this._equipModeControls});
-         }
-      }
-      else
-      {
-         this.navPanel.addButton({text:"$Exit",controls:this._cancelControls});
-         this.navPanel.addButton({text:"$Search",controls:this._searchControls});
-         if(this._platform != 0)
-         {
-            this.navPanel.addButton({text:"$Column",controls:this._sortColumnControls});
-            this.navPanel.addButton({text:"$Order",controls:this._sortOrderControls});
-         }
-         this.navPanel.addButton({text:"$Switch Tab",controls:this._switchControls});
-         if(this.isViewingContainer() && !this.bNPCMode)
-         {
-            this.navPanel.addButton({text:"$Take All",controls:skyui.defines.Input.XButton});
-         }
-      }
-      this.navPanel.updateButtons(true);
    }
    function startItemTransfer()
    {
@@ -310,5 +261,105 @@ class ContainerMenu extends ItemMenu
       }
       this._bEquipMode = false;
       return true;
+   }
+
+   function UpdateBottomBar(a_bSelected)
+   {
+      this.BottomBar_mc.HideButtons();
+
+      if(a_bSelected && this.inventoryLists.itemList.selectedIndex != -1 && this.inventoryLists.currentState == InventoryLists.SHOW_PANEL)
+      {
+         var itemInfo = this.itemCard.itemInfo;
+
+         if(this.isViewingContainer())
+         {
+            if(this._platform != 0)
+            {
+               this.BottomBar_mc.CreateButton(0, this.TakeBtn);
+               this.BottomBar_mc.CreateButton(1, this.getEquipButtonData(itemInfo.type, true));
+               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, this.TakeAllBtn);
+            }
+            else
+            {
+               if(this._bEquipMode)
+               {
+                  this.BottomBar_mc.CreateButton(0, this.getEquipButtonData(itemInfo.type, false));
+               }
+               else
+               {
+                  this.BottomBar_mc.CreateButton(0, this.TakeBtn);
+                  this.BottomBar_mc.CreateButton(1, this.EquipModeBtn);
+               }
+               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, this.TakeAllBtn);
+            }
+         }
+         else
+         {
+            var actionBtn = !this.bNPCMode ? this.StoreBtn : this.GiveBtn;
+            
+            if(this._platform != 0)
+            {
+               this.BottomBar_mc.CreateButton(0, actionBtn);
+               this.BottomBar_mc.CreateButton(1, this.getEquipButtonData(itemInfo.type, true));
+               
+               this.FavBtn.text = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
+               this.BottomBar_mc.CreateButton(2, this.FavBtn);
+            }
+            else
+            {
+               if(this._bEquipMode)
+               {
+                  this.BottomBar_mc.CreateButton(0, this.getEquipButtonData(itemInfo.type, false));
+               }
+               else
+               {
+                  this.BottomBar_mc.CreateButton(0, actionBtn);
+                  this.BottomBar_mc.CreateButton(1, this.EquipModeBtn);
+               }
+               this.FavBtn.text = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
+               this.BottomBar_mc.CreateButton(2, this.FavBtn);
+            }
+         }
+      }
+      else
+      {
+         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
+         this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
+         this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+
+         if(this._platform != 0)
+         {
+            this.BottomBar_mc.CreateButton(3, this.SortBtn);
+            this.BottomBar_mc.CreateButton(4, this.OrderBtn);
+         }
+         
+         if(this.isViewingContainer() && !this.bNPCMode)
+         {
+            var slot = (this._platform != 0) ? 4 : 3;
+            this.BottomBar_mc.CreateButton(slot, this.TakeAllBtn);
+         }
+      }
+
+      this.BottomBar_mc.PositionButtons();
+   }
+   function InitBottomBarBtns()
+   {
+      this.ExitBtn      = {text: "$Exit",       PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn    = {text: "$Search",     PCArt: "Space",   XBoxArt: "",         PS3Art: ""};
+      this.SwitchBtn    = {text: "$Switch Tab", PCArt: "L-Alt",   XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
+        
+      this.TakeBtn      = {text: "$Take",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.StoreBtn     = {text: "$Store",      PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.GiveBtn      = {text: "$Give",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.TakeAllBtn   = {text: "$Take All",   PCArt: "R",       XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      
+      this.EquipModeBtn = {text: "$Equip Mode", PCArt: "L-Shift", XBoxArt: "",         PS3Art: ""};
+      this.FavBtn       = {text: "$Favorite",   PCArt: "F",       XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+        
+      this.SortBtn      = {text: "$Sort",       PCArt: "",        XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      this.OrderBtn     = {text: "$Order",      PCArt: "",        XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+        
+      this.AcceptBtn    = {text: "$Select",     PCArt: "Enter",   XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn    = {text: "$Cancel",     PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
 }
