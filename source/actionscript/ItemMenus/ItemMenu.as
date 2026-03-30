@@ -11,7 +11,7 @@ class ItemMenu extends MovieClip
    var _sortOrderControls;
    var _switchControls;
    var _switchTabKey;
-   var bottomBar;
+   var BottomBar_mc;
    var exitMenuRect;
    var inventoryLists;
    var itemCard;
@@ -19,7 +19,6 @@ class ItemMenu extends MovieClip
    var layout;
    var listState;
    var mouseRotationRect;
-   var navPanel;
    var onInvalidate;
    var onItemPress;
    var onUnsuspend;
@@ -35,7 +34,7 @@ class ItemMenu extends MovieClip
    {
       super();
       this.itemCard = this.itemCardFadeHolder.ItemCard_mc;
-      this.navPanel = this.bottomBar.buttonPanel;
+      this.BottomBar_mc = this.BottomBar_mc;
       Mouse.addListener(this);
       skyui.util.ConfigManager.registerLoadCallback(this,"onConfigLoad");
       this.bFadedIn = true;
@@ -66,7 +65,7 @@ class ItemMenu extends MovieClip
       this.itemCard.addEventListener("subMenuAction",this,"onItemCardSubMenuAction");
       this.positionFixedElements();
       this.itemCard._visible = false;
-      this.navPanel.hideButtons();
+      this.BottomBar_mc.HideButtons();
       this.exitMenuRect.onMouseDown = function()
       {
          if(this._parent.bFadedIn == true && Mouse.getTopMostEntity() == this)
@@ -133,7 +132,7 @@ class ItemMenu extends MovieClip
       this._searchControls = skyui.defines.Input.Space;
       this.inventoryLists.setPlatform(a_platform,a_bPS3Switch);
       this.itemCard.SetPlatform(a_platform,a_bPS3Switch);
-      this.bottomBar.setPlatform(a_platform,a_bPS3Switch);
+      this.BottomBar_mc.SetPlatform(a_platform,a_bPS3Switch);
    }
    function GetInventoryItemList()
    {
@@ -158,12 +157,12 @@ class ItemMenu extends MovieClip
    }
    function UpdatePlayerInfo(aUpdateObj)
    {
-      this.bottomBar.UpdatePlayerInfo(aUpdateObj,this.itemCard.itemInfo);
+      this.BottomBar_mc.UpdatePlayerInfo(aUpdateObj,this.itemCard.itemInfo);
    }
    function UpdateItemCardInfo(aUpdateObj)
    {
       this.itemCard.itemInfo = aUpdateObj;
-      this.bottomBar.updatePerItemInfo(aUpdateObj);
+      this.BottomBar_mc.UpdatePerItemInfo(aUpdateObj);
    }
    function ToggleMenuFade()
    {
@@ -371,7 +370,7 @@ class ItemMenu extends MovieClip
       var tab = this.inventoryLists.panelContainer.tabBar;
       var paddingItemList = 0;
       var minHeightItemList = 100;
-      var heightItemList = this.bottomBar._y - listPoint.y - paddingItemList;
+      var heightItemList = this.BottomBar_mc._y - listPoint.y - paddingItemList;
 
       if (heightItemList < minHeightItemList)
       {
@@ -395,9 +394,9 @@ class ItemMenu extends MovieClip
       var rightOffset = Stage.visibleRect.x - Stage.safeRect.x + Stage.visibleRect.width;
       var marginBottomBar = 17;
 
-      this.bottomBar.Lock("B");
-      this.bottomBar._y += Stage.safeRect.y - this.bottomBar._height + marginBottomBar;
-      this.bottomBar.positionElements(leftOffset, rightOffset);
+      this.BottomBar_mc.Lock("B");
+      this.BottomBar_mc._y += Stage.safeRect.y - this.BottomBar_mc._height + marginBottomBar;
+      this.BottomBar_mc.PositionElements(leftOffset, rightOffset);
       
       MovieClip(this.exitMenuRect).Lock("TL");
       this.exitMenuRect._x -= Stage.safeRect.x;

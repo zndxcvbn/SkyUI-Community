@@ -322,7 +322,7 @@ class InventoryLists extends MovieClip
          this.tabBar.setLabelText(this._leftTabText,this._rightTabText);
       }
       this.tabBar.Lock("B");
-      this.tabBar._y = this._parent.bottomBar._y - this.tabBar._height - Stage.safeRect.y - Stage.visibleRect.y + 17;
+      this.tabBar._y = this._parent.BottomBar_mc._y - this.tabBar._height - Stage.safeRect.y - Stage.visibleRect.y + 17;
    }
    function onColumnSelectButtonPress(event)
    {

@@ -12,13 +12,11 @@ class InventoryMenu extends ItemMenu
    var _switchControls;
    var _switchTabKey;
    var bFadedIn;
-   var bottomBar;
+   var BottomBar_mc;
    var checkBook;
    var confirmSelectedEntry;
-   var getEquipButtonData;
    var inventoryLists;
    var itemCard;
-   var navPanel;
    var saveIndices;
    var shouldProcessItemsListInput;
    static var SKYUI_RELEASE_IDX = 2018;
@@ -170,7 +168,7 @@ class InventoryMenu extends ItemMenu
    function onHideItemsList(event)
    {
       super.onHideItemsList(event);
-      this.bottomBar.updatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
+      this.BottomBar_mc.UpdatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
       this.updateBottomBar(false);
    }
    function onItemSelect(event)
