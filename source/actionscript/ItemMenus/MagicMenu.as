@@ -10,7 +10,7 @@ class MagicMenu extends ItemMenu
    var _switchControls;
    var _switchTabKey;
    var bFadedIn;
-   var bottomBar;
+   var BottomBar_mc;
    var confirmSelectedEntry;
    var inventoryLists;
    var itemCard;
@@ -24,17 +24,41 @@ class MagicMenu extends ItemMenu
    var _hideButtonFlag = 0;
    var _bMenuClosing = false;
    var _bSwitchMenus = false;
+   
+   var ExitBtn:   Object;
+   var SearchBtn: Object;
+   var SwitchBtn: Object;
+   var EquipBtn:  Object;
+   var FavBtn:    Object;
+   var UnlockBtn: Object;
+   var SortBtn:   Object;
+   var AcceptBtn: Object;
+   var CancelBtn: Object;
+
    function MagicMenu()
    {
       super();
       this._categoryListIconArt = ["cat_favorites","mag_all","mag_alteration","mag_illusion","mag_destruction","mag_conjuration","mag_restoration","mag_shouts","mag_powers","mag_activeeffects"];
+      
+      this.ExitBtn   = {text: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SwitchBtn = {text: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
+      
+      this.EquipBtn  = {text: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.UnlockBtn = {text: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.FavBtn    = {text: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+      
+      this.SortBtn   = {text: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      
+      this.AcceptBtn = {text: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {text: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
    function InitExtensions()
    {
       super.InitExtensions();
       gfx.io.GameDelegate.addCallBack("DragonSoulSpent",this,"DragonSoulSpent");
       gfx.io.GameDelegate.addCallBack("AttemptEquip",this,"AttemptEquip");
-      this.bottomBar.updatePerItemInfo({type:skyui.defines.Inventory.ICT_SPELL_DEFAULT});
+      this.BottomBar_mc.UpdatePerItemInfo({type:skyui.defines.Inventory.ICT_SPELL_DEFAULT});
       var _loc3_ = this.inventoryLists.categoryList;
       _loc3_.iconArt = this._categoryListIconArt;
    }
@@ -83,7 +107,7 @@ class MagicMenu extends ItemMenu
    function DragonSoulSpent()
    {
       this.itemCard.itemInfo.soulSpent = true;
-      this.updateBottomBar();
+      this.UpdateBottomBar();
    }
    function AttemptEquip(a_slot)
    {
@@ -129,7 +153,7 @@ class MagicMenu extends ItemMenu
       super.onShowItemsList(event);
       if(event.index != -1)
       {
-         this.updateBottomBar(true);
+         this.UpdateBottomBar(true);
       }
    }
    function onItemHighlightChange(event)
@@ -137,14 +161,14 @@ class MagicMenu extends ItemMenu
       super.onItemHighlightChange(event);
       if(event.index != -1)
       {
-         this.updateBottomBar(true);
+         this.UpdateBottomBar(true);
       }
    }
    function onHideItemsList(event)
    {
       super.onHideItemsList(event);
-      this.bottomBar.updatePerItemInfo({type:skyui.defines.Inventory.ICT_SPELL_DEFAULT});
-      this.updateBottomBar(false);
+      this.BottomBar_mc.UpdatePerItemInfo({type:skyui.defines.Inventory.ICT_SPELL_DEFAULT});
+      this.UpdateBottomBar(false);
    }
    function openInventoryMenu(a_bFade)
    {
@@ -161,37 +185,40 @@ class MagicMenu extends ItemMenu
          skse.OpenMenu("InventoryMenu");
       }
    }
-   function updateBottomBar(a_bSelected)
+   function UpdateBottomBar(a_bSelected)
    {
-      this.navPanel.clearButtons();
+      this.BottomBar_mc.HideButtons();
+
       if(a_bSelected && (this.inventoryLists.itemList.selectedEntry.filterFlag & skyui.defines.Inventory.FILTERFLAG_MAGIC_ACTIVEEFFECTS) == 0)
       {
-         this.navPanel.addButton({text:"$Equip",controls:skyui.defines.Input.Equip});
-         if(this.inventoryLists.itemList.selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag != 0)
+         var selectedEntry = this.inventoryLists.itemList.selectedEntry;
+         var itemInfo = this.itemCard.itemInfo;
+         
+         var isFavorited = (selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag) != 0;
+         this.FavBtn.text = isFavorited ? "$Unfavorite" : "$Favorite";
+
+         this.BottomBar_mc.CreateButton(0, this.EquipBtn);
+
+         if(itemInfo.showUnlocked)
          {
-            this.navPanel.addButton({text:"$Unfavorite",controls:skyui.defines.Input.YButton});
+            this.BottomBar_mc.CreateButton(1, this.UnlockBtn);
          }
-         else
-         {
-            this.navPanel.addButton({text:"$Favorite",controls:skyui.defines.Input.YButton});
-         }
-         if(this.itemCard.itemInfo.showUnlocked)
-         {
-            this.navPanel.addButton({text:"$Unlock",controls:skyui.defines.Input.XButton});
-         }
+
+         this.BottomBar_mc.CreateButton(2, this.FavBtn);
       }
       else
       {
-         this.navPanel.addButton({text:"$Exit",controls:this._cancelControls});
-         this.navPanel.addButton({text:"$Search",controls:this._searchControls});
+         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
+         this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
+         this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+
          if(this._platform != 0)
          {
-            this.navPanel.addButton({text:"$Column",controls:this._sortColumnControls});
-            this.navPanel.addButton({text:"$Order",controls:this._sortOrderControls});
+            this.BottomBar_mc.CreateButton(3, this.SortBtn);
          }
-         this.navPanel.addButton({text:"$Inventory",controls:this._switchControls});
       }
-      this.navPanel.updateButtons(true);
+
+      this.BottomBar_mc.PositionButtons();
    }
    function startMenuFade()
    {
