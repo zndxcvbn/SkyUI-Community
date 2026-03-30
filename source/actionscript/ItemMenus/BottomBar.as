@@ -454,4 +454,14 @@ class BottomBar extends MovieClip
          _loc2_ = _loc2_ + 1;
       }
    }
+
+   /* @extension */
+   function CreateButton(aiIndex, aArtObj, astrText)
+   {
+      this.SetButtonText(astrText, aiIndex);
+
+      if (aArtObj != undefined) {
+         this.SetButtonArt(aArtObj, aiIndex);
+      }
+   }
 }
