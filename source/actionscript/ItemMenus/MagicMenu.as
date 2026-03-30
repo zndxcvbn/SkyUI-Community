@@ -32,6 +32,7 @@ class MagicMenu extends ItemMenu
    var FavBtn:    Object;
    var UnlockBtn: Object;
    var SortBtn:   Object;
+   var OrderBtn:  Object;
    var AcceptBtn: Object;
    var CancelBtn: Object;
 
@@ -198,7 +199,10 @@ class MagicMenu extends ItemMenu
          this.BottomBar_mc.CreateButton(2, this.SearchBtn);
 
          if(this._platform != 0)
+         {
             this.BottomBar_mc.CreateButton(3, this.SortBtn);
+            this.BottomBar_mc.CreateButton(4, this.OrderBtn);
+         }
       }
 
       this.BottomBar_mc.PositionButtons();
@@ -214,6 +218,7 @@ class MagicMenu extends ItemMenu
       this.FavBtn    = {text: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
       
       this.SortBtn   = {text: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      this.OrderBtn  = {text: "$Order",     PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
       
       this.AcceptBtn = {text: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
       this.CancelBtn = {text: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
