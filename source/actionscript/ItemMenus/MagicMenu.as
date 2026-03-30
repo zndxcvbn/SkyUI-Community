@@ -210,7 +210,7 @@ class MagicMenu extends ItemMenu
    function InitBottomBarBtns()
    {
       this.ExitBtn   = {text: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
       this.SwitchBtn = {text: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
       
       this.EquipBtn  = {text: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};

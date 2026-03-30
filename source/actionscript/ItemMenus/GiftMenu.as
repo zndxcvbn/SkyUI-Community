@@ -122,6 +122,7 @@ class GiftMenu extends ItemMenu
       this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
       this.GiveBtn   = {text: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
       this.TakeBtn   = {text: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+      
       this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
       this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
    }

@@ -286,13 +286,14 @@ class InventoryMenu extends ItemMenu
    function InitBottomBarBtns()
    {
       this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
       this.SwitchBtn = {text: "$Magic",  PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
       this.DropBtn   = {text: "$Drop",   PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
       this.FavBtn    = {text: "$Favorite", PCArt: "F",   XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
       this.ChargeBtn = {text: "$Charge", PCArt: "T",     XBoxArt: "360_RB",   PS3Art: "PS3_RB"};
+
       this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.OrderBtn  = {text: "$Sort",   PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
       
       this.AcceptBtn = {text: "$Select", PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
       this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
