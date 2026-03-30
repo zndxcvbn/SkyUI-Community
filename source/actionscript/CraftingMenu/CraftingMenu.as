@@ -25,7 +25,6 @@ class CraftingMenu extends MovieClip
    var _subtypeName;
    var bCanExpandPanel;
    var bHideAdditionalDescription;
-   var navPanel;
    static var SKYUI_RELEASE_IDX = 2018;
    static var SKYUI_VERSION_MAJOR = 5;
    static var SKYUI_VERSION_MINOR = 2;
@@ -42,6 +41,16 @@ class CraftingMenu extends MovieClip
    var _platform = 0;
    var currentMenuType = "";
    var dbgIntvl = 0;
+
+   var ExitBtn:   Object;
+   var SearchBtn: Object;
+   var SortBtn:   Object;
+   var OrderBtn:  Object;
+   var AcceptBtn: Object;
+   var CancelBtn: Object;
+   var CraftBtn:  Object;
+   var AuxBtn:    Object;
+
    function CraftingMenu()
    {
       super();
@@ -52,7 +61,7 @@ class CraftingMenu extends MovieClip
       this.ItemInfo = this.ItemInfoHolder.ItemInfo;
       Mouse.addListener(this);
       skyui.util.ConfigManager.registerLoadCallback(this,"onConfigLoad");
-      this.navPanel = this.BottomBarInfo.buttonPanel;
+      this.InitBottomBarBtns();
    }
    function get bCanCraft()
    {
@@ -128,30 +137,38 @@ class CraftingMenu extends MovieClip
    }
    function UpdateButtonText()
    {
-      this.navPanel.clearButtons();
+      this.BottomBarInfo.HideButtons();
+
       if(this.getItemShown())
       {
-         this.navPanel.addButton({text:this.ButtonText[CraftingMenu.SELECT_BUTTON],controls:skyui.defines.Input.Activate});
+         this.AcceptBtn.text = this.ButtonText[CraftingMenu.SELECT_BUTTON];
+         this.BottomBarInfo.CreateButton(0, this.AcceptBtn);
+
+         if(this.bCanCraft && this.ButtonText[CraftingMenu.CRAFT_BUTTON] != "")
+         {
+            this.CraftBtn.text = this.ButtonText[CraftingMenu.CRAFT_BUTTON];
+            this.BottomBarInfo.CreateButton(1, this.CraftBtn);
+         }
+
+         if(this.bCanCraft && this.ButtonText[CraftingMenu.AUX_BUTTON] != "")
+         {
+            this.AuxBtn.text = this.ButtonText[CraftingMenu.AUX_BUTTON];
+            this.BottomBarInfo.CreateButton(2, this.AuxBtn);
+         }
       }
       else
       {
-         this.navPanel.addButton({text:"$Exit",controls:this._cancelControls});
-         this.navPanel.addButton({text:"$Search",controls:this._searchControls});
+         this.BottomBarInfo.CreateButton(0, this.ExitBtn);
+         this.BottomBarInfo.CreateButton(1, this.SearchBtn);
+
          if(this._platform != 0)
          {
-            this.navPanel.addButton({text:"$Column",controls:this._sortColumnControls});
-            this.navPanel.addButton({text:"$Order",controls:this._sortOrderControls});
+            this.BottomBarInfo.CreateButton(2, this.SortBtn);
+            this.BottomBarInfo.CreateButton(3, this.OrderBtn);
          }
       }
-      if(this.bCanCraft && this.ButtonText[CraftingMenu.CRAFT_BUTTON] != "")
-      {
-         this.navPanel.addButton({text:this.ButtonText[CraftingMenu.CRAFT_BUTTON],controls:skyui.defines.Input.XButton});
-      }
-      if(this.bCanCraft && this.ButtonText[CraftingMenu.AUX_BUTTON] != "")
-      {
-         this.navPanel.addButton({text:this.ButtonText[CraftingMenu.AUX_BUTTON],controls:skyui.defines.Input.YButton});
-      }
-      this.navPanel.updateButtons(true);
+
+      this.BottomBarInfo.PositionButtons();
    }
    function UpdateItemList(abFullRebuild)
    {
@@ -223,7 +240,7 @@ class CraftingMenu extends MovieClip
       }
       this._searchControls = skyui.defines.Input.Space;
       this.ItemInfo.SetPlatform(a_platform,a_bPS3Switch);
-      this.BottomBarInfo.setPlatform(a_platform,a_bPS3Switch);
+      this.BottomBarInfo.SetPlatform(a_platform,a_bPS3Switch);
       this.CategoryList.setPlatform(a_platform,a_bPS3Switch);
    }
    function UpdateIngredients(aLineTitle, aIngredients, abShowPlayerCount)
@@ -538,5 +555,18 @@ class CraftingMenu extends MovieClip
       {
          this.onItemsListInputCatcherClick();
       }
+   }
+   function InitBottomBarBtns()
+   {
+      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      
+      this.AcceptBtn = {text: "$Select", PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      
+      this.CraftBtn  = {text: "",        PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.AuxBtn    = {text: "",        PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
    }
 }
