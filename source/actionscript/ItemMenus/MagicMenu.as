@@ -39,19 +39,7 @@ class MagicMenu extends ItemMenu
    {
       super();
       this._categoryListIconArt = ["cat_favorites","mag_all","mag_alteration","mag_illusion","mag_destruction","mag_conjuration","mag_restoration","mag_shouts","mag_powers","mag_activeeffects"];
-      
-      this.ExitBtn   = {text: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-      this.SwitchBtn = {text: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
-      
-      this.EquipBtn  = {text: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.UnlockBtn = {text: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.FavBtn    = {text: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
-      
-      this.SortBtn   = {text: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      
-      this.AcceptBtn = {text: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {text: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -198,13 +186,10 @@ class MagicMenu extends ItemMenu
          this.FavBtn.text = isFavorited ? "$Unfavorite" : "$Favorite";
 
          this.BottomBar_mc.CreateButton(0, this.EquipBtn);
+         this.BottomBar_mc.CreateButton(1, this.FavBtn);
 
          if(itemInfo.showUnlocked)
-         {
-            this.BottomBar_mc.CreateButton(1, this.UnlockBtn);
-         }
-
-         this.BottomBar_mc.CreateButton(2, this.FavBtn);
+            this.BottomBar_mc.CreateButton(2, this.UnlockBtn);
       }
       else
       {
@@ -213,12 +198,25 @@ class MagicMenu extends ItemMenu
          this.BottomBar_mc.CreateButton(2, this.SearchBtn);
 
          if(this._platform != 0)
-         {
             this.BottomBar_mc.CreateButton(3, this.SortBtn);
-         }
       }
 
       this.BottomBar_mc.PositionButtons();
+   }
+   function InitBottomBarBtns()
+   {
+      this.ExitBtn   = {text: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SwitchBtn = {text: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
+      
+      this.EquipBtn  = {text: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.UnlockBtn = {text: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.FavBtn    = {text: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+      
+      this.SortBtn   = {text: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      
+      this.AcceptBtn = {text: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {text: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
    function startMenuFade()
    {

@@ -45,17 +45,7 @@ class InventoryMenu extends ItemMenu
       gfx.io.GameDelegate.addCallBack("DropItem",this,"DropItem");
       gfx.io.GameDelegate.addCallBack("AttemptChargeItem",this,"AttemptChargeItem");
       gfx.io.GameDelegate.addCallBack("ItemRotating",this,"ItemRotating");
-
-      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-      this.SwitchBtn = {text: "$Magic",  PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
-      this.DropBtn   = {text: "$Drop",   PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.FavBtn    = {text: "$Favorite", PCArt: "F",   XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
-      this.ChargeBtn = {text: "$Charge", PCArt: "T",     XBoxArt: "360_RB",   PS3Art: "PS3_RB"};
-      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      
-      this.AcceptBtn = {text: "$Select", PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -275,21 +265,31 @@ class InventoryMenu extends ItemMenu
          this.BottomBar_mc.CreateButton(2, this.FavBtn);
 
          if (itemInfo.charge != undefined && itemInfo.charge < 100)
-         {
             this.BottomBar_mc.CreateButton(3, this.ChargeBtn);
-         }
       } 
       else 
       {
          this.BottomBar_mc.CreateButton(0, this.ExitBtn);
          this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
          this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+
          if (this._platform != 0)
-         {
             this.BottomBar_mc.CreateButton(3, this.SortBtn);
-         }
       }
 
       this.BottomBar_mc.PositionButtons();
+   }
+   function InitBottomBarBtns()
+   {
+      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SwitchBtn = {text: "$Magic",  PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
+      this.DropBtn   = {text: "$Drop",   PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.FavBtn    = {text: "$Favorite", PCArt: "F",   XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+      this.ChargeBtn = {text: "$Charge", PCArt: "T",     XBoxArt: "360_RB",   PS3Art: "PS3_RB"};
+      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      
+      this.AcceptBtn = {text: "$Select", PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
 }
