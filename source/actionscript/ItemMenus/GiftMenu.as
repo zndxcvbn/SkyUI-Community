@@ -6,18 +6,26 @@ class GiftMenu extends ItemMenu
    var _searchControls;
    var _sortColumnControls;
    var _sortOrderControls;
-   var bottomBar;
+   var BottomBar_mc;
    var inventoryLists;
-   var navPanel;
    static var SKYUI_RELEASE_IDX = 2018;
    static var SKYUI_VERSION_MAJOR = 5;
    static var SKYUI_VERSION_MINOR = 2;
    static var SKYUI_VERSION_STRING = GiftMenu.SKYUI_VERSION_MAJOR + "." + GiftMenu.SKYUI_VERSION_MINOR + " SE";
    var _bGivingGifts = true;
+
+   var ExitBtn:   Object;
+   var SearchBtn: Object;
+   var GiveBtn:   Object;
+   var TakeBtn:   Object;
+   var SortBtn:   Object;
+   var OrderBtn:  Object;
+
    function GiftMenu()
    {
       super();
       this._categoryListIconArt = ["inv_all","inv_weapons","inv_armor","inv_potions","inv_scrolls","inv_food","inv_ingredients","inv_books","inv_keys","inv_misc"];
+      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -48,12 +56,12 @@ class GiftMenu extends ItemMenu
       this._bGivingGifts = a_bGivingGifts;
       if(!a_bUseFavorPoints)
       {
-         this.bottomBar.hidePlayerInfo();
+         this.BottomBar_mc.HidePlayerInfo();
       }
    }
    function UpdatePlayerInfo(a_favorPoints)
    {
-      this.bottomBar.setGiftInfo(a_favorPoints);
+      this.BottomBar_mc.SetGiftInfo(a_favorPoints);
    }
    function onShowItemsList(event)
    {
@@ -66,15 +74,15 @@ class GiftMenu extends ItemMenu
    function onHideItemsList(event)
    {
       super.onHideItemsList(event);
-      this.bottomBar.updatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
-      this.updateBottomBar(false);
+      this.BottomBar_mc.UpdatePerItemInfo({type:skyui.defines.Inventory.ICT_NONE});
+      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {
       super.onItemHighlightChange(event);
       if(event.index != -1)
       {
-         this.updateBottomBar(true);
+         this.UpdateBottomBar(true);
       }
    }
    function onItemCardSubMenuAction(event)
@@ -85,23 +93,36 @@ class GiftMenu extends ItemMenu
          gfx.io.GameDelegate.call("QuantitySliderOpen",[event.opening]);
       }
    }
-   function updateBottomBar(a_bSelected)
+   function UpdateBottomBar(a_bSelected)
    {
-      this.navPanel.clearButtons();
+      this.BottomBar_mc.HideButtons();
+
       if(a_bSelected)
       {
-         this.navPanel.addButton({text:(!this._bGivingGifts ? "$Take" : "$Give"),controls:skyui.defines.Input.Activate});
+         var actionBtn = !this._bGivingGifts ? this.TakeBtn : this.GiveBtn;
+         this.BottomBar_mc.CreateButton(0, actionBtn);
       }
       else
       {
-         this.navPanel.addButton({text:"$Exit",controls:this._cancelControls});
-         this.navPanel.addButton({text:"$Search",controls:this._searchControls});
-         if(this._platform != 0)
+         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
+         this.BottomBar_mc.CreateButton(1, this.SearchBtn);
+
+         if (this._platform != 0)
          {
-            this.navPanel.addButton({text:"$Column",controls:this._sortColumnControls});
-            this.navPanel.addButton({text:"$Order",controls:this._sortOrderControls});
+            this.BottomBar_mc.CreateButton(2, this.SortBtn);
+            this.BottomBar_mc.CreateButton(3, this.OrderBtn);
          }
       }
-      this.navPanel.updateButtons(true);
+
+      this.BottomBar_mc.PositionButtons();
+   }
+   function InitBottomBarBtns()
+   {
+      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};
+      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
+      this.GiveBtn   = {text: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+      this.TakeBtn   = {text: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
+      this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
    }
 }
