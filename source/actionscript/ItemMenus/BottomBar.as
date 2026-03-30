@@ -14,7 +14,7 @@ class BottomBar extends MovieClip
       super();
       trace("BottomBar::BottomBar");
       this.PlayerInfoCard_mc = this.PlayerInfoCard_mc;
-      this.iLastItemType = InventoryDefines.ICT_NONE;
+      this.iLastItemType = skyui.defines.Inventory.ICT_NONE;
       this.HealthMeter = new Components.Meter(this.PlayerInfoCard_mc.HealthRect.MeterInstance.Meter_mc);
       this.MagickaMeter = new Components.Meter(this.PlayerInfoCard_mc.MagickaRect.MeterInstance.Meter_mc);
       this.StaminaMeter = new Components.Meter(this.PlayerInfoCard_mc.StaminaRect.MeterInstance.Meter_mc);
@@ -69,7 +69,7 @@ class BottomBar extends MovieClip
       {
          switch(_loc3_)
          {
-            case InventoryDefines.ICT_ARMOR:
+            case skyui.defines.Inventory.ICT_ARMOR:
                this.PlayerInfoCard_mc.gotoAndStop("Armor");
                _loc4_ = Math.floor(this.PlayerInfoObj.armor).toString();
                if(aItemUpdateObj.armorChange != undefined)
@@ -106,7 +106,7 @@ class BottomBar extends MovieClip
                this.PlayerInfoCard_mc.WarmthRatingValue.html = true;
                this.PlayerInfoCard_mc.WarmthRatingValue.SetText(_loc4_,true);
                break;
-            case InventoryDefines.ICT_WEAPON:
+            case skyui.defines.Inventory.ICT_WEAPON:
                this.PlayerInfoCard_mc.gotoAndStop("Weapon");
                _loc4_ = Math.floor(this.PlayerInfoObj.damage).toString();
                if(aItemUpdateObj.damageChange != undefined)
@@ -125,8 +125,8 @@ class BottomBar extends MovieClip
                this.PlayerInfoCard_mc.DamageValue.html = true;
                this.PlayerInfoCard_mc.DamageValue.SetText(_loc4_,true);
                break;
-            case InventoryDefines.ICT_POTION:
-            case InventoryDefines.ICT_FOOD:
+            case skyui.defines.Inventory.ICT_POTION:
+            case skyui.defines.Inventory.ICT_FOOD:
                _loc10_ = 0;
                _loc9_ = 1;
                _loc11_ = 2;
@@ -145,19 +145,19 @@ class BottomBar extends MovieClip
                   this.PlayerInfoCard_mc.gotoAndStop("HealthPotion");
                }
                break;
-            case InventoryDefines.ICT_BOOK:
-            case InventoryDefines.ICT_INGREDIENT:
-            case InventoryDefines.ICT_MISC:
-            case InventoryDefines.ICT_KEY:
+            case skyui.defines.Inventory.ICT_BOOK:
+            case skyui.defines.Inventory.ICT_INGREDIENT:
+            case skyui.defines.Inventory.ICT_MISC:
+            case skyui.defines.Inventory.ICT_KEY:
             default:
                this.PlayerInfoCard_mc.gotoAndStop("Default");
                break;
-            case InventoryDefines.ICT_SPELL_DEFAULT:
-            case InventoryDefines.ICT_ACTIVE_EFFECT:
+            case skyui.defines.Inventory.ICT_SPELL_DEFAULT:
+            case skyui.defines.Inventory.ICT_ACTIVE_EFFECT:
                this.PlayerInfoCard_mc.gotoAndStop("Magic");
                _loc5_ = false;
                break;
-            case InventoryDefines.ICT_SPELL:
+            case skyui.defines.Inventory.ICT_SPELL:
                this.PlayerInfoCard_mc.gotoAndStop("MagicSkill");
                if(aItemUpdateObj.magicSchoolName != undefined)
                {
@@ -165,7 +165,7 @@ class BottomBar extends MovieClip
                }
                _loc5_ = false;
                break;
-            case InventoryDefines.ICT_SHOUT:
+            case skyui.defines.Inventory.ICT_SHOUT:
                this.PlayerInfoCard_mc.gotoAndStop("Shout");
                this.PlayerInfoCard_mc.DragonSoulTextInstance.SetText(this.PlayerInfoObj.dragonSoulText);
                _loc5_ = false;
@@ -180,13 +180,13 @@ class BottomBar extends MovieClip
             this.PlayerInfoCard_mc.CarryWeightLabel._x = this.PlayerInfoCard_mc.CarryWeightValue._x + this.PlayerInfoCard_mc.CarryWeightValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.CarryWeightLabel._width;
             switch(_loc3_)
             {
-               case InventoryDefines.ICT_ARMOR:
+               case skyui.defines.Inventory.ICT_ARMOR:
                   this.PlayerInfoCard_mc.ArmorRatingValue._x = this.PlayerInfoCard_mc.CarryWeightLabel._x + this.PlayerInfoCard_mc.CarryWeightLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.ArmorRatingValue._width - 5;
                   this.PlayerInfoCard_mc.ArmorRatingLabel._x = this.PlayerInfoCard_mc.ArmorRatingValue._x + this.PlayerInfoCard_mc.ArmorRatingValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.ArmorRatingLabel._width;
                   this.PlayerInfoCard_mc.WarmthRatingValue._x = this.PlayerInfoCard_mc.ArmorRatingLabel._x + this.PlayerInfoCard_mc.ArmorRatingLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.WarmthRatingValue._width - 5;
                   this.PlayerInfoCard_mc.WarmthRatingLabel._x = this.PlayerInfoCard_mc.WarmthRatingValue._x + this.PlayerInfoCard_mc.WarmthRatingValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.WarmthRatingLabel._width;
                   break;
-               case InventoryDefines.ICT_WEAPON:
+               case skyui.defines.Inventory.ICT_WEAPON:
                   this.PlayerInfoCard_mc.DamageValue._x = this.PlayerInfoCard_mc.CarryWeightLabel._x + this.PlayerInfoCard_mc.CarryWeightLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.DamageValue._width - 5;
                   this.PlayerInfoCard_mc.DamageLabel._x = this.PlayerInfoCard_mc.DamageValue._x + this.PlayerInfoCard_mc.DamageValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.DamageLabel._width;
             }
@@ -272,7 +272,7 @@ class BottomBar extends MovieClip
       {
          switch(aItemUpdateObj.type)
          {
-            case InventoryDefines.ICT_ARMOR:
+            case skyui.defines.Inventory.ICT_ARMOR:
                this.PlayerInfoCard_mc.gotoAndStop("Barter_Armor");
                _loc3_ = Math.floor(aPlayerInfoObj.armor).toString();
                if(aItemUpdateObj.armorChange != undefined)
@@ -309,7 +309,7 @@ class BottomBar extends MovieClip
                this.PlayerInfoCard_mc.WarmthRatingValue.html = true;
                this.PlayerInfoCard_mc.WarmthRatingValue.SetText(_loc3_,true);
                break;
-            case InventoryDefines.ICT_WEAPON:
+            case skyui.defines.Inventory.ICT_WEAPON:
                this.PlayerInfoCard_mc.gotoAndStop("Barter_Weapon");
                _loc3_ = Math.floor(aPlayerInfoObj.damage).toString();
                if(aItemUpdateObj.damageChange != undefined)
@@ -334,13 +334,13 @@ class BottomBar extends MovieClip
       }
       switch(aItemUpdateObj.type)
       {
-         case InventoryDefines.ICT_ARMOR:
+         case skyui.defines.Inventory.ICT_ARMOR:
             this.PlayerInfoCard_mc.ArmorRatingValue._x = this.PlayerInfoCard_mc.PlayerGoldLabel._x + this.PlayerInfoCard_mc.PlayerGoldLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.ArmorRatingValue._width - 200;
             this.PlayerInfoCard_mc.ArmorRatingLabel._x = this.PlayerInfoCard_mc.ArmorRatingValue._x + this.PlayerInfoCard_mc.ArmorRatingValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.ArmorRatingLabel._width;
             this.PlayerInfoCard_mc.WarmthRatingValue._x = this.PlayerInfoCard_mc.ArmorRatingLabel._x + this.PlayerInfoCard_mc.ArmorRatingLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.WarmthRatingValue._width - 15;
             this.PlayerInfoCard_mc.WarmthRatingLabel._x = this.PlayerInfoCard_mc.WarmthRatingValue._x + this.PlayerInfoCard_mc.WarmthRatingValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.WarmthRatingLabel._width;
             break;
-         case InventoryDefines.ICT_WEAPON:
+         case skyui.defines.Inventory.ICT_WEAPON:
             this.PlayerInfoCard_mc.DamageValue._x = this.PlayerInfoCard_mc.PlayerGoldLabel._x + this.PlayerInfoCard_mc.PlayerGoldLabel.getLineMetrics(0).x - this.PlayerInfoCard_mc.DamageValue._width - 200;
             this.PlayerInfoCard_mc.DamageLabel._x = this.PlayerInfoCard_mc.DamageValue._x + this.PlayerInfoCard_mc.DamageValue.getLineMetrics(0).x - this.PlayerInfoCard_mc.DamageLabel._width;
          default:
