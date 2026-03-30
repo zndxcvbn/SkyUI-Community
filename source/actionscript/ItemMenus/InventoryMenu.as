@@ -200,10 +200,12 @@ class InventoryMenu extends ItemMenu
       {
          if(event.opening == true)
          {
-            this.navPanel.clearButtons();
-            this.navPanel.addButton({text:"$Select",controls:this._acceptControls});
-            this.navPanel.addButton({text:"$Cancel",controls:this._cancelControls});
-            this.navPanel.updateButtons(true);
+            this.BottomBar_mc.HideButtons();
+
+            this.BottomBar_mc.CreateButton(0, {PCArt: "Enter", XBoxArt: "360_A", PS3Art: "PS3_A"}, "$Select");
+            this.BottomBar_mc.CreateButton(1, {PCArt: "Tab", XBoxArt: "360_B", PS3Art: "PS3_B"}, "$Cancel");
+
+            this.BottomBar_mc.PositionButtons();
          }
          else
          {
@@ -236,35 +238,37 @@ class InventoryMenu extends ItemMenu
    }
    function updateBottomBar(a_bSelected)
    {
-      this.navPanel.clearButtons();
+      this.BottomBar_mc.HideButtons();
+
       if(a_bSelected)
       {
-         this.navPanel.addButton(this.getEquipButtonData(this.itemCard.itemInfo.type));
-         this.navPanel.addButton({text:"$Drop",controls:skyui.defines.Input.XButton});
-         if(this.inventoryLists.itemList.selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag != 0)
+         var selectedEntry = this.inventoryLists.itemList.selectedEntry;
+         var itemInfo = this.itemCard.itemInfo;
+
+         var equipData = this.getEquipButtonData(itemInfo.type, false);
+         var isFavorited = (selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag) != 0;
+         
+         this.BottomBar_mc.CreateButton(0, equipData.art, equipData.text);
+         this.BottomBar_mc.CreateButton(1, {PCArt: "R", XBoxArt: "360_X", PS3Art: "PS3_X"}, "$Drop");
+         this.BottomBar_mc.CreateButton(2, {PCArt: "F", XBoxArt: "360_Y", PS3Art: "PS3_Y"}, isFavorited ? "$Unfavorite" : "$Favorite");
+
+         if (itemInfo.charge != undefined && itemInfo.charge < 100)
          {
-            this.navPanel.addButton({text:"$Unfavorite",controls:skyui.defines.Input.YButton});
-         }
-         else
-         {
-            this.navPanel.addButton({text:"$Favorite",controls:skyui.defines.Input.YButton});
-         }
-         if(this.itemCard.itemInfo.charge != undefined && this.itemCard.itemInfo.charge < 100)
-         {
-            this.navPanel.addButton({text:"$Charge",controls:skyui.defines.Input.ChargeItem});
+            this.BottomBar_mc.CreateButton(3, {PCArt: "T", XBoxArt: "360_RB", PS3Art: "PS3_RB"}, "$Charge");
          }
       }
       else
       {
-         this.navPanel.addButton({text:"$Exit",controls:this._cancelControls});
-         this.navPanel.addButton({text:"$Search",controls:this._searchControls});
-         if(this._platform != 0)
+         this.BottomBar_mc.CreateButton(0, {PCArt: "Tab", XBoxArt: "360_B", PS3Art: "PS3_B"}, "$Exit");
+         this.BottomBar_mc.CreateButton(1, {PCArt: "Space", XBoxArt: "360_LS", PS3Art: "PS3_LS"}, "$Search");
+         if (this._platform != 0)
          {
-            this.navPanel.addButton({text:"$Column",controls:this._sortColumnControls});
-            this.navPanel.addButton({text:"$Order",controls:this._sortOrderControls});
+            this.BottomBar_mc.CreateButton(2, {PCArt: "", XBoxArt: "360_RS", PS3Art: "PS3_RS"}, "$Sort");
          }
-         this.navPanel.addButton({text:"$Magic",controls:this._switchControls});
+         this.BottomBar_mc.CreateButton(3, {PCArt: "L-Alt", XBoxArt: "360_LS", PS3Art: "PS3_LS"}, "$Magic");
+
       }
-      this.navPanel.updateButtons(true);
+
+      this.BottomBar_mc.PositionButtons();
    }
 }

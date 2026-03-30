@@ -504,33 +504,40 @@ class ItemMenu extends MovieClip
    }
    function getEquipButtonData(a_itemType, a_bAlwaysEquip)
    {
-      var _loc1_ = {};
-      var _loc3_ = skyui.defines.Input.Activate;
-      var _loc2_ = skyui.defines.Input.Equip;
+      var res = {text: "$Use", art: undefined};
+
+      var artActivate = {PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
+      var artEquip = {PCArt: "R", XBoxArt: "360_X", PS3Art: "PS3_X"};
+
       switch(a_itemType)
       {
          case skyui.defines.Inventory.ICT_ARMOR:
-            _loc1_.text = "$Equip";
-            _loc1_.controls = !a_bAlwaysEquip ? _loc3_ : _loc2_;
+            res.text = "$Equip";
+            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
             break;
+
          case skyui.defines.Inventory.ICT_BOOK:
-            _loc1_.text = "$Read";
-            _loc1_.controls = !a_bAlwaysEquip ? _loc3_ : _loc2_;
+            res.text = "$Read";
+            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
             break;
+
          case skyui.defines.Inventory.ICT_FOOD:
          case skyui.defines.Inventory.ICT_INGREDIENT:
-            _loc1_.text = "$Eat";
-            _loc1_.controls = !a_bAlwaysEquip ? _loc3_ : _loc2_;
+            res.text = "$Eat";
+            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
             break;
+
          case skyui.defines.Inventory.ICT_WEAPON:
-            _loc1_.text = "$Equip";
-            _loc1_.controls = _loc2_;
+            res.text = "$Equip";
+            res.art = artEquip;
             break;
+
          default:
-            _loc1_.text = "$Use";
-            _loc1_.controls = !a_bAlwaysEquip ? _loc3_ : _loc2_;
+            res.text = "$Use";
+            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
       }
-      return _loc1_;
+
+      return res;
    }
    function updateBottomBar(a_bSelected)
    {
