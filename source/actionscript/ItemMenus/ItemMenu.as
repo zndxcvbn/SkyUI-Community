@@ -504,40 +504,29 @@ class ItemMenu extends MovieClip
    }
    function getEquipButtonData(a_itemType, a_bAlwaysEquip)
    {
-      var res = {text: "$Use", art: undefined};
+      var btn = {text: "$Use", PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
 
-      var artActivate = {PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
       var artEquip = {PCArt: "R", XBoxArt: "360_X", PS3Art: "PS3_X"};
 
       switch(a_itemType)
       {
          case skyui.defines.Inventory.ICT_ARMOR:
-            res.text = "$Equip";
-            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
+            btn.text = "$Equip";
+            if (a_bAlwaysEquip) { btn.PCArt = "R"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X"; }
             break;
-
+         case skyui.defines.Inventory.ICT_WEAPON:
+            btn.text = "$Equip";
+            btn.PCArt = "R"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X";
+            break;
          case skyui.defines.Inventory.ICT_BOOK:
-            res.text = "$Read";
-            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
+            btn.text = "$Read";
             break;
-
          case skyui.defines.Inventory.ICT_FOOD:
          case skyui.defines.Inventory.ICT_INGREDIENT:
-            res.text = "$Eat";
-            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
+            btn.text = "$Eat";
             break;
-
-         case skyui.defines.Inventory.ICT_WEAPON:
-            res.text = "$Equip";
-            res.art = artEquip;
-            break;
-
-         default:
-            res.text = "$Use";
-            res.art = !a_bAlwaysEquip ? artActivate : artEquip;
       }
-
-      return res;
+      return btn;
    }
    function updateBottomBar(a_bSelected)
    {

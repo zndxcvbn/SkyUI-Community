@@ -456,12 +456,12 @@ class BottomBar extends MovieClip
    }
 
    /* @extension */
-   function CreateButton(aiIndex, aArtObj, astrText)
+   function CreateButton(aiIndex, aButtonObj)
    {
-      this.SetButtonText(astrText, aiIndex);
+      this.SetButtonText(aButtonObj.text, aiIndex);
 
-      if (aArtObj != undefined) {
-         this.SetButtonArt(aArtObj, aiIndex);
+      if (aButtonObj != undefined) {
+         this.SetButtonArt(aButtonObj, aiIndex);
       }
    }
 }
