@@ -135,37 +135,17 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
             
             if(this.CurrentPlatform == Shared.ButtonChange.PLATFORM_PROSPERO)
             {
-               if(_loc2_ == "PS3_A") _loc2_ = "PS5_A";
-               else if(_loc2_ == "PS3_B") _loc2_ = "PS5_B";
-               else if(_loc2_ == "PS3_X") _loc2_ = "PS5_X";
-               else if(_loc2_ == "PS3_Y") _loc2_ = "PS5_Y";
-               else if(_loc2_ == "PS3_LT") _loc2_ = "PS5_LT";
-               else if(_loc2_ == "PS3_RT") _loc2_ = "PS5_RT";
-               else if(_loc2_ == "PS3_LB") _loc2_ = "PS5_LB";
-               else if(_loc2_ == "PS3_RB") _loc2_ = "PS5_RB";
-               else if(_loc2_ == "PS3_LTRT") _loc2_ = "PS5_LTRT";
-               else if(_loc2_ == "PS3_LS") _loc2_ = "PS5_LS";
-               else if(_loc2_ == "PS3_RS") _loc2_ = "PS5_RS";
-               else if(_loc2_ == "PS3_L3") _loc2_ = "PS5_L3";
-               else if(_loc2_ == "PS3_R3") _loc2_ = "PS5_R3";
-               else if(_loc2_ == "PS3_Back") _loc2_ = "PS5_Back";
-               else if(_loc2_ == "PS3_Start") _loc2_ = "PS5_Start";
+               var convertToPS5 = function(buttonName)
+               {
+                  if(buttonName != undefined && buttonName.indexOf("PS3_") == 0)
+                  {
+                     return "PS5_" + buttonName.substr(4);
+                  }
+                  return buttonName;
+               };
                
-               if(_loc3_ == "PS3_A") _loc3_ = "PS5_A";
-               else if(_loc3_ == "PS3_B") _loc3_ = "PS5_B";
-               else if(_loc3_ == "PS3_X") _loc3_ = "PS5_X";
-               else if(_loc3_ == "PS3_Y") _loc3_ = "PS5_Y";
-               else if(_loc3_ == "PS3_LT") _loc3_ = "PS5_LT";
-               else if(_loc3_ == "PS3_RT") _loc3_ = "PS5_RT";
-               else if(_loc3_ == "PS3_LB") _loc3_ = "PS5_LB";
-               else if(_loc3_ == "PS3_RB") _loc3_ = "PS5_RB";
-               else if(_loc3_ == "PS3_LTRT") _loc3_ = "PS5_LTRT";
-               else if(_loc3_ == "PS3_LS") _loc3_ = "PS5_LS";
-               else if(_loc3_ == "PS3_RS") _loc3_ = "PS5_RS";
-               else if(_loc3_ == "PS3_L3") _loc3_ = "PS5_L3";
-               else if(_loc3_ == "PS3_R3") _loc3_ = "PS5_R3";
-               else if(_loc3_ == "PS3_Back") _loc3_ = "PS5_Back";
-               else if(_loc3_ == "PS3_Start") _loc3_ = "PS5_Start";
+               _loc2_ = convertToPS5(_loc2_);
+               _loc3_ = convertToPS5(_loc3_);
             }
             
             gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
