@@ -10509,7 +10509,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="319" translateY="329"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
-        <item type="FrameLabelTag" forceWriteAsLong="false" name="Shift" namedAnchor="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="L-Shift" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
