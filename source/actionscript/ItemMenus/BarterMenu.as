@@ -101,6 +101,7 @@ class BarterMenu extends ItemMenu
    function onShowItemsList(event)
    {
       this.inventoryLists.showItemsList();
+      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {

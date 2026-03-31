@@ -144,6 +144,7 @@ class MagicMenu extends ItemMenu
       {
          this.UpdateBottomBar(true);
       }
+      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {

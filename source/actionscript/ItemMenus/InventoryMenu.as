@@ -169,6 +169,7 @@ class InventoryMenu extends ItemMenu
       {
          this.UpdateBottomBar(true);
       }
+      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {
@@ -293,7 +294,7 @@ class InventoryMenu extends ItemMenu
       this.ChargeBtn = {text: "$Charge", PCArt: "T",     XBoxArt: "360_RB",   PS3Art: "PS3_RB"};
 
       this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {text: "$Sort",   PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
       
       this.AcceptBtn = {text: "$Select", PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
       this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};

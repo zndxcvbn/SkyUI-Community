@@ -182,6 +182,7 @@ class ContainerMenu extends ItemMenu
    function onShowItemsList(event)
    {
       this.inventoryLists.showItemsList();
+      this.UpdateBottomBar(false);
    }
    function onHideItemsList(event)
    {

@@ -528,7 +528,7 @@ class ItemMenu extends MovieClip
       }
       return btn;
    }
-   function updateBottomBar(a_bSelected)
+   function UpdateBottomBar(a_bSelected)
    {
    }
 }
