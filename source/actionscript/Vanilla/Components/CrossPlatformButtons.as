@@ -58,207 +58,143 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
       {
          this.ButtonArtSecondary.removeMovieClip();
       }
+      if(undefined != this.ButtonArt_mc)
+      {
+         this.ButtonArt_mc.removeMovieClip();
+      }
+      if(undefined != this.ButtonArtSecondary_mc)
+      {
+         this.ButtonArtSecondary_mc.removeMovieClip();
+      }
+      
       var _loc2_;
       var _loc3_;
       var _loc5_;
       var _loc4_;
+      
+      var attachIcon = function(targetObj, instanceName, targetValue, fallbackValue) {
+         var newClip = targetObj.attachMovie("ButtonArt", instanceName, targetObj.getNextHighestDepth());
+         if (newClip != undefined) {
+            newClip.gotoAndStop(targetValue);
+            if (fallbackValue != undefined && newClip._currentframe == 1 && targetValue != 1 && targetValue != "Keyboard") {
+               newClip.gotoAndStop(fallbackValue);
+            }
+         } else {
+            newClip = targetObj.attachMovie(targetValue, instanceName, targetObj.getNextHighestDepth());
+            if (newClip == undefined && fallbackValue != undefined) {
+               newClip = targetObj.attachMovie(fallbackValue, instanceName, targetObj.getNextHighestDepth());
+            }
+         }
+         return newClip;
+      };
+
       switch(this.CurrentPlatform)
       {
          case Shared.ButtonChange.PLATFORM_PC:
-            if(this.PCButton != "None")
+            if(this.PCButton != "None" && this.PCButton != undefined)
             {
-               this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
-               this.ButtonArt_mc.gotoAndStop(this.PCButton);
+               this.ButtonArt_mc = attachIcon(this, "ButtonArt", this.PCButton);
             }
-            if(this.PCButtonSecondary != null)
+            if(this.PCButtonSecondary != null && this.PCButtonSecondary != undefined)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
-               this.ButtonArtSecondary_mc.gotoAndStop(this.PCButtonSecondary);
+               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", this.PCButtonSecondary);
             }
             break;
+            
          case Shared.ButtonChange.PLATFORM_PC_GAMEPAD:
          case Shared.ButtonChange.PLATFORM_360:
          case Shared.ButtonChange.PLATFORM_SCARLETT:
-            this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
-            this.ButtonArt_mc.gotoAndStop(this.XBoxButton);
-            if(this.XBoxButtonSecondary != null)
+            if(this.XBoxButton != "None" && this.XBoxButton != undefined)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
-               this.ButtonArtSecondary_mc.gotoAndStop(this.XBoxButtonSecondary);
+               this.ButtonArt_mc = attachIcon(this, "ButtonArt", this.XBoxButton);
+            }
+            if(this.XBoxButtonSecondary != null && this.XBoxButtonSecondary != undefined)
+            {
+               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", this.XBoxButtonSecondary);
             }
             break;
+            
          case Shared.ButtonChange.PLATFORM_PS3:
          case Shared.ButtonChange.PLATFORM_PROSPERO:
          default:
             _loc2_ = this.PS3Button;
             _loc3_ = this.PS3ButtonSecondary;
             gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
+            
             if(this.PS3Swapped)
             {
-               if(_loc2_ == "PS3_A")
-               {
-                  _loc2_ = "PS3_B";
-               }
-               else if(_loc2_ == "PS3_B")
-               {
-                  _loc2_ = "PS3_A";
-               }
-               if(_loc3_ == "PS3_A")
-               {
-                  _loc3_ = "PS3_B";
-               }
-               else if(_loc3_ == "PS3_B")
-               {
-                  _loc3_ = "PS3_A";
-               }
+               if(_loc2_ == "PS3_A") _loc2_ = "PS3_B";
+               else if(_loc2_ == "PS3_B") _loc2_ = "PS3_A";
+               
+               if(_loc3_ == "PS3_A") _loc3_ = "PS3_B";
+               else if(_loc3_ == "PS3_B") _loc3_ = "PS3_A";
             }
+            
             _loc5_ = _loc2_;
             _loc4_ = _loc3_;
+            
             if(this.CurrentPlatform == Shared.ButtonChange.PLATFORM_PROSPERO)
             {
-               if(_loc2_ == "PS3_A")
-               {
-                  _loc2_ = "PS5_A";
-               }
-               else if(_loc2_ == "PS3_B")
-               {
-                  _loc2_ = "PS5_B";
-               }
-               else if(_loc2_ == "PS3_X")
-               {
-                  _loc2_ = "PS5_X";
-               }
-               else if(_loc2_ == "PS3_Y")
-               {
-                  _loc2_ = "PS5_Y";
-               }
-               else if(_loc2_ == "PS3_LT")
-               {
-                  _loc2_ = "PS5_LT";
-               }
-               else if(_loc2_ == "PS3_RT")
-               {
-                  _loc2_ = "PS5_RT";
-               }
-               else if(_loc2_ == "PS3_LB")
-               {
-                  _loc2_ = "PS5_LB";
-               }
-               else if(_loc2_ == "PS3_RB")
-               {
-                  _loc2_ = "PS5_RB";
-               }
-               else if(_loc2_ == "PS3_LTRT")
-               {
-                  _loc2_ = "PS5_LTRT";
-               }
-               else if(_loc2_ == "PS3_LS")
-               {
-                  _loc2_ = "PS5_LS";
-               }
-               else if(_loc2_ == "PS3_RS")
-               {
-                  _loc2_ = "PS5_RS";
-               }
-               else if(_loc2_ == "PS3_L3")
-               {
-                  _loc2_ = "PS5_L3";
-               }
-               else if(_loc2_ == "PS3_R3")
-               {
-                  _loc2_ = "PS5_R3";
-               }
-               else if(_loc2_ == "PS3_Back")
-               {
-                  _loc2_ = "PS5_Back";
-               }
-               else if(_loc2_ == "PS3_Start")
-               {
-                  _loc2_ = "PS5_Start";
-               }
-               if(_loc3_ == "PS3_A")
-               {
-                  _loc3_ = "PS5_A";
-               }
-               else if(_loc3_ == "PS3_B")
-               {
-                  _loc3_ = "PS5_B";
-               }
-               else if(_loc3_ == "PS3_X")
-               {
-                  _loc3_ = "PS5_X";
-               }
-               else if(_loc3_ == "PS3_Y")
-               {
-                  _loc3_ = "PS5_Y";
-               }
-               else if(_loc3_ == "PS3_LT")
-               {
-                  _loc3_ = "PS5_LT";
-               }
-               else if(_loc3_ == "PS3_RT")
-               {
-                  _loc3_ = "PS5_RT";
-               }
-               else if(_loc3_ == "PS3_LB")
-               {
-                  _loc3_ = "PS5_LB";
-               }
-               else if(_loc3_ == "PS3_RB")
-               {
-                  _loc3_ = "PS5_RB";
-               }
-               else if(_loc3_ == "PS3_LTRT")
-               {
-                  _loc3_ = "PS5_LTRT";
-               }
-               else if(_loc3_ == "PS3_LS")
-               {
-                  _loc3_ = "PS5_LS";
-               }
-               else if(_loc3_ == "PS3_RS")
-               {
-                  _loc3_ = "PS5_RS";
-               }
-               else if(_loc3_ == "PS3_L3")
-               {
-                  _loc3_ = "PS5_L3";
-               }
-               else if(_loc3_ == "PS3_R3")
-               {
-                  _loc3_ = "PS5_R3";
-               }
-               else if(_loc3_ == "PS3_Back")
-               {
-                  _loc3_ = "PS5_Back";
-               }
-               else if(_loc3_ == "PS3_Start")
-               {
-                  _loc3_ = "PS5_Start";
-               }
+               if(_loc2_ == "PS3_A") _loc2_ = "PS5_A";
+               else if(_loc2_ == "PS3_B") _loc2_ = "PS5_B";
+               else if(_loc2_ == "PS3_X") _loc2_ = "PS5_X";
+               else if(_loc2_ == "PS3_Y") _loc2_ = "PS5_Y";
+               else if(_loc2_ == "PS3_LT") _loc2_ = "PS5_LT";
+               else if(_loc2_ == "PS3_RT") _loc2_ = "PS5_RT";
+               else if(_loc2_ == "PS3_LB") _loc2_ = "PS5_LB";
+               else if(_loc2_ == "PS3_RB") _loc2_ = "PS5_RB";
+               else if(_loc2_ == "PS3_LTRT") _loc2_ = "PS5_LTRT";
+               else if(_loc2_ == "PS3_LS") _loc2_ = "PS5_LS";
+               else if(_loc2_ == "PS3_RS") _loc2_ = "PS5_RS";
+               else if(_loc2_ == "PS3_L3") _loc2_ = "PS5_L3";
+               else if(_loc2_ == "PS3_R3") _loc2_ = "PS5_R3";
+               else if(_loc2_ == "PS3_Back") _loc2_ = "PS5_Back";
+               else if(_loc2_ == "PS3_Start") _loc2_ = "PS5_Start";
+               
+               if(_loc3_ == "PS3_A") _loc3_ = "PS5_A";
+               else if(_loc3_ == "PS3_B") _loc3_ = "PS5_B";
+               else if(_loc3_ == "PS3_X") _loc3_ = "PS5_X";
+               else if(_loc3_ == "PS3_Y") _loc3_ = "PS5_Y";
+               else if(_loc3_ == "PS3_LT") _loc3_ = "PS5_LT";
+               else if(_loc3_ == "PS3_RT") _loc3_ = "PS5_RT";
+               else if(_loc3_ == "PS3_LB") _loc3_ = "PS5_LB";
+               else if(_loc3_ == "PS3_RB") _loc3_ = "PS5_RB";
+               else if(_loc3_ == "PS3_LTRT") _loc3_ = "PS5_LTRT";
+               else if(_loc3_ == "PS3_LS") _loc3_ = "PS5_LS";
+               else if(_loc3_ == "PS3_RS") _loc3_ = "PS5_RS";
+               else if(_loc3_ == "PS3_L3") _loc3_ = "PS5_L3";
+               else if(_loc3_ == "PS3_R3") _loc3_ = "PS5_R3";
+               else if(_loc3_ == "PS3_Back") _loc3_ = "PS5_Back";
+               else if(_loc3_ == "PS3_Start") _loc3_ = "PS5_Start";
             }
+            
             gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
-            this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
-            this.ButtonArt_mc.gotoAndStop(_loc2_);
-            if(this.ButtonArt_mc._currentframe == 1 && _loc2_ != 1 && _loc2_ != "Keyboard")
+            
+            if(_loc2_ != "None" && _loc2_ != undefined)
             {
-               this.ButtonArt_mc.gotoAndStop(_loc5_);
+               this.ButtonArt_mc = attachIcon(this, "ButtonArt", _loc2_, _loc5_);
             }
-            if(_loc3_ != null)
+            
+            if(_loc3_ != null && _loc3_ != undefined)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
-               this.ButtonArtSecondary_mc.gotoAndStop(_loc3_);
-               if(this.ButtonArtSecondary_mc._currentframe == 1 && _loc3_ != 1 && _loc3_ != "Keyboard")
-               {
-                  this.ButtonArtSecondary_mc.gotoAndStop(_loc4_);
-               }
+               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", _loc3_, _loc4_);
             }
+            break;
       }
-      this.ButtonArt_mc._x -= this.ButtonArt_mc._width;
-      this.ButtonArt_mc._y = (this._height - this.ButtonArt_mc._height) / 2;
-      this.ButtonArtSecondary_mc._y = this.ButtonArt_mc._y;
+      
+      if(this.ButtonArt_mc != undefined)
+      {
+         this.ButtonArt_mc._x -= this.ButtonArt_mc._width;
+         this.ButtonArt_mc._y = (this._height - this.ButtonArt_mc._height) / 2;
+      }
+      
+      if(this.ButtonArtSecondary_mc != undefined)
+      {
+         this.ButtonArtSecondary_mc._y = this.ButtonArt_mc._y;
+      }
+      
       this.Reposition();
-      this.border._visible = false;
+      if(this.border != undefined) this.border._visible = false;
    }
    function GetArt()
    {
