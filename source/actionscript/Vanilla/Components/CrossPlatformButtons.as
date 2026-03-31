@@ -47,7 +47,9 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
       }
       this.RefreshArt();
    }
-   /* @override Use ButtonArt.swf instead embedded DefineSprite btns in each .swf */
+   /* @override Use ButtonArt.swf instead embedded DefineSprite btns in each .swf 
+      Fallback: Vanilla behavior (attachMovie DefineSprite btns from its own .swf)
+   */
    function RefreshArt()
    {
       if(undefined != this.ButtonArt)
