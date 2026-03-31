@@ -47,6 +47,7 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
       }
       this.RefreshArt();
    }
+   /* @override Use ButtonArt.swf instead embedded DefineSprite btns in each .swf */
    function RefreshArt()
    {
       if(undefined != this.ButtonArt)
@@ -66,20 +67,24 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
          case Shared.ButtonChange.PLATFORM_PC:
             if(this.PCButton != "None")
             {
-               this.ButtonArt_mc = this.attachMovie(this.PCButton,"ButtonArt",this.getNextHighestDepth());
+               this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
+               this.ButtonArt_mc.gotoAndStop(this.PCButton);
             }
             if(this.PCButtonSecondary != null)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie(this.PCButtonSecondary,"ButtonArtSecondary",this.getNextHighestDepth());
+               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
+               this.ButtonArtSecondary_mc.gotoAndStop(this.PCButtonSecondary);
             }
             break;
          case Shared.ButtonChange.PLATFORM_PC_GAMEPAD:
          case Shared.ButtonChange.PLATFORM_360:
          case Shared.ButtonChange.PLATFORM_SCARLETT:
-            this.ButtonArt_mc = this.attachMovie(this.XBoxButton,"ButtonArt",this.getNextHighestDepth());
+            this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
+            this.ButtonArt_mc.gotoAndStop(this.XBoxButton);
             if(this.XBoxButtonSecondary != null)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie(this.XBoxButtonSecondary,"ButtonArtSecondary",this.getNextHighestDepth());
+               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
+               this.ButtonArtSecondary_mc.gotoAndStop(this.XBoxButtonSecondary);
             }
             break;
          case Shared.ButtonChange.PLATFORM_PS3:
@@ -233,17 +238,19 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
                }
             }
             gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
-            this.ButtonArt_mc = this.attachMovie(_loc2_,"ButtonArt",this.getNextHighestDepth());
-            if(this.ButtonArt_mc == undefined)
+            this.ButtonArt_mc = this.attachMovie("ButtonArt","ButtonArt",this.getNextHighestDepth());
+            this.ButtonArt_mc.gotoAndStop(_loc2_);
+            if(this.ButtonArt_mc._currentframe == 1 && _loc2_ != 1 && _loc2_ != "Keyboard")
             {
-               this.ButtonArt_mc = this.attachMovie(_loc5_,"ButtonArt",this.getNextHighestDepth());
+               this.ButtonArt_mc.gotoAndStop(_loc5_);
             }
             if(_loc3_ != null)
             {
-               this.ButtonArtSecondary_mc = this.attachMovie(_loc3_,"ButtonArtSecondary",this.getNextHighestDepth());
-               if(this.ButtonArtSecondary_mc == undefined)
+               this.ButtonArtSecondary_mc = this.attachMovie("ButtonArt","ButtonArtSecondary",this.getNextHighestDepth());
+               this.ButtonArtSecondary_mc.gotoAndStop(_loc3_);
+               if(this.ButtonArtSecondary_mc._currentframe == 1 && _loc3_ != 1 && _loc3_ != "Keyboard")
                {
-                  this.ButtonArtSecondary_mc = this.attachMovie(_loc4_,"ButtonArtSecondary",this.getNextHighestDepth());
+                  this.ButtonArtSecondary_mc.gotoAndStop(_loc4_);
                }
             }
       }
