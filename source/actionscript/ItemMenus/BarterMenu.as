@@ -194,17 +194,17 @@ class BarterMenu extends ItemMenu
    }
    function InitBottomBarBtns()
    {
-      this.ExitBtn   = {text: "$Exit",       PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search",     PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-      this.SwitchBtn = {text: "$Switch Tab", PCArt: "L-Alt", XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
+      this.ExitBtn   = {Label: "$Exit",       PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {Label: "$Search",     PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+      this.SwitchBtn = {Label: "$Switch Tab", PCArt: "L-Alt", XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
       
-      this.BuyBtn    = {text: "$Buy",        PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.SellBtn   = {text: "$Sell",       PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.BuyBtn    = {Label: "$Buy",        PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.SellBtn   = {Label: "$Sell",       PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
       
-      this.SortBtn   = {text: "$Sort",       PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {text: "$Order",      PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SortBtn   = {Label: "$Sort",       PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      this.OrderBtn  = {Label: "$Order",      PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
       
-      this.AcceptBtn = {text: "$Select",     PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {text: "$Cancel",     PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.AcceptBtn = {Label: "$Select",     PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {Label: "$Cancel",     PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
 }

@@ -119,12 +119,12 @@ class GiftMenu extends ItemMenu
    }
    function InitBottomBarBtns()
    {
-      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
-      this.GiveBtn   = {text: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
-      this.TakeBtn   = {text: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+      this.ExitBtn   = {Label: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};
+      this.SearchBtn = {Label: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
+      this.GiveBtn   = {Label: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+      this.TakeBtn   = {Label: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
       
-      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
-      this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
+      this.SortBtn   = {Label: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
+      this.OrderBtn  = {Label: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
    }
 }

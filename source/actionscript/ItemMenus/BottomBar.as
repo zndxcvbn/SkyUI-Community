@@ -458,7 +458,7 @@ class BottomBar extends MovieClip
    /* @extension */
    function CreateButton(aiIndex, aButtonObj)
    {
-      this.SetButtonText(aButtonObj.text, aiIndex);
+      this.SetButtonText(aButtonObj.Label, aiIndex);
 
       if (aButtonObj != undefined) {
          this.SetButtonArt(aButtonObj, aiIndex);

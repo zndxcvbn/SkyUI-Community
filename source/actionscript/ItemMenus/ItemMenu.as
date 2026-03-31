@@ -504,7 +504,7 @@ class ItemMenu extends MovieClip
    }
    function getEquipButtonData(a_itemType, a_bAlwaysEquip)
    {
-      var btn = {text: "$Use", PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
+      var btn = {Label: "$Use", PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
 
       var artEquip = {PCArt: "R", XBoxArt: "360_X", PS3Art: "PS3_X"};
 

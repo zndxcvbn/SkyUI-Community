@@ -210,19 +210,19 @@ class MagicMenu extends ItemMenu
    }
    function InitBottomBarBtns()
    {
-      this.ExitBtn   = {text: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-      this.SwitchBtn = {text: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
+      this.ExitBtn   = {Label: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.SearchBtn = {Label: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+      this.SwitchBtn = {Label: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
       
-      this.EquipBtn  = {text: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.UnlockBtn = {text: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.FavBtn    = {text: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+      this.EquipBtn  = {Label: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.UnlockBtn = {Label: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+      this.FavBtn    = {Label: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
       
-      this.SortBtn   = {text: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {text: "$Order",     PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+      this.SortBtn   = {Label: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+      this.OrderBtn  = {Label: "$Order",     PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
       
-      this.AcceptBtn = {text: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {text: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+      this.AcceptBtn = {Label: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+      this.CancelBtn = {Label: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
    function startMenuFade()
    {
