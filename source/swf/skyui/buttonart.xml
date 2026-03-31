@@ -10112,6 +10112,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="219" translateY="131"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="1" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="0" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="0" translateY="0"/>
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="154" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="true" nbits="10" redAddTerm="0" redMultTerm="256"/>
@@ -10131,6 +10132,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="301" translateY="156"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="2" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="6" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.90849304" scaleY="0.90849304" translateX="117" translateY="112"/>
         </item>
@@ -10144,6 +10146,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="273" translateY="153"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="8" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.2272797" scaleY="1.2272797" translateX="130" translateY="92"/>
         </item>
@@ -10157,6 +10160,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="274" translateY="150"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="4" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="10" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.0769196" scaleY="1.0769196" translateX="156" translateY="112"/>
         </item>
@@ -10170,6 +10174,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="271" translateY="156"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="5" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="12" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.1684265" scaleY="1.1684265" translateX="145" translateY="113"/>
         </item>
@@ -10183,6 +10188,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="274" translateY="153"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="6" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="14" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.423111" scaleY="1.423111" translateX="151" translateY="111"/>
         </item>
@@ -10196,6 +10202,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="275" translateY="153"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="7" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="16" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.3478241" scaleY="1.3478241" translateX="146" translateY="113"/>
         </item>
@@ -10209,6 +10216,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="273" translateY="156"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="8" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="18" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.7580719" scaleY="1.7580719" translateX="161" translateY="112"/>
         </item>
@@ -10222,6 +10230,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="275" translateY="150"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="9" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="20" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.0888824" scaleY="1.0888824" translateX="174" translateY="112"/>
         </item>
@@ -10235,6 +10244,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="275" translateY="153"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="0" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="22" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="22" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="23" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10244,6 +10254,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.8656769" scaleY="0.99620056" translateX="272" translateY="150"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Hyphen" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="24" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="21" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="8.928574" scaleY="0.0592041" translateX="145" translateY="196"/>
         </item>
@@ -10257,6 +10268,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="20" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="4.285721" scaleY="0.12683105" translateX="300" translateY="329"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Plus" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="25" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.4117584" scaleY="1.4117584" translateX="145" translateY="113"/>
         </item>
@@ -10270,6 +10282,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="260" translateY="295"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Backspace" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10283,6 +10296,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="180" translateY="105"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Tab" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="29" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="202" translateY="117"/>
@@ -10291,6 +10305,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="186" translateY="105"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Q" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -10306,6 +10321,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="W" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="31" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="178" translateY="144"/>
         </item>
@@ -10313,6 +10329,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="162" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="E" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="32" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="233" translateY="144"/>
         </item>
@@ -10320,6 +10337,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="217" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="R" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="33" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="218" translateY="144"/>
         </item>
@@ -10327,6 +10345,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="202" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="T" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="34" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="222" translateY="144"/>
         </item>
@@ -10334,6 +10353,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="206" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Y" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="35" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="212" translateY="144"/>
         </item>
@@ -10341,6 +10361,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="196" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="U" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="36" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="220" translateY="140"/>
         </item>
@@ -10348,6 +10369,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="204" translateY="128"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="I" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="24" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="19" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="2.4285736" scaleY="1.2487793" translateX="261" translateY="144"/>
         </item>
@@ -10355,6 +10377,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="19" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="2.4285736" scaleY="1.2487793" translateX="245" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="O" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="23" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="211" translateY="136"/>
         </item>
@@ -10362,6 +10385,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="195" translateY="124"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="P" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="37" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="225" translateY="144"/>
         </item>
@@ -10369,6 +10393,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="209" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Bracketleft" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="38" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.1199951" scaleY="1.1199951" translateX="167" translateY="112"/>
         </item>
@@ -10383,11 +10408,13 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="296" translateY="128"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Bracketright" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="40" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="40" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="41" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="41" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Enter" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10401,6 +10428,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="162" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="L-Ctrl" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="43" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="150" translateY="118"/>
@@ -10409,6 +10437,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="134" translateY="106"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="A" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -10424,6 +10453,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="S" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="45" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="225" translateY="136"/>
         </item>
@@ -10431,6 +10461,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="209" translateY="124"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="D" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="46" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="217" translateY="144"/>
         </item>
@@ -10438,6 +10469,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="201" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="47" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="232" translateY="144"/>
         </item>
@@ -10445,6 +10477,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="216" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="G" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="48" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="213" translateY="136"/>
         </item>
@@ -10452,6 +10485,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="197" translateY="124"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="H" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="49" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="219" translateY="144"/>
         </item>
@@ -10459,6 +10493,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="203" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="J" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="50" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="239" translateY="141"/>
         </item>
@@ -10466,6 +10501,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="223" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="K" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="51" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="218" translateY="144"/>
         </item>
@@ -10473,6 +10509,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="202" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="L" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="52" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="233" translateY="144"/>
         </item>
@@ -10480,6 +10517,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="217" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Semicolon" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="53" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.8317719" scaleY="1.8317719" translateX="180" translateY="112"/>
         </item>
@@ -10494,6 +10532,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="307" translateY="182"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Quotesingle" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="55" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="19" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="2.1739197" scaleY="2.1739197" translateX="150" translateY="113"/>
         </item>
@@ -10507,6 +10546,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="19" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="2.0714264" scaleY="0.37561035" translateX="319" translateY="303"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Tilda" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="56" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.4117584" scaleY="1.4117584" translateX="150" translateY="112"/>
         </item>
@@ -10520,6 +10560,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="319" translateY="329"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Shift" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10533,6 +10574,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="186" translateY="103"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Backslash" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="0" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="0" translateY="0"/>
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="154" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="true" nbits="10" redAddTerm="0" redMultTerm="256"/>
@@ -10552,6 +10594,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9270477" scaleY="0.9270477" translateX="267" translateY="126"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Z" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="60" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10561,6 +10604,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="201" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="X" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="61" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="214" translateY="144"/>
         </item>
@@ -10568,6 +10612,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="198" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="C" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="62" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="210" translateY="136"/>
         </item>
@@ -10575,6 +10620,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="194" translateY="124"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="V" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="63" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="215" translateY="144"/>
         </item>
@@ -10582,6 +10628,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="199" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="B" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="64" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="226" translateY="144"/>
         </item>
@@ -10589,6 +10636,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="210" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="N" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="65" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="219" translateY="144"/>
         </item>
@@ -10596,6 +10644,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="203" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="M" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="66" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="191" translateY="144"/>
         </item>
@@ -10603,6 +10652,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="175" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Comma" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="67" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.4117584" scaleY="1.4117584" translateX="150" translateY="113"/>
         </item>
@@ -10617,6 +10667,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="308" translateY="320"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Period" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="69" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.4166718" scaleY="1.4166718" translateX="150" translateY="113"/>
         </item>
@@ -10630,6 +10681,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="313" translateY="378"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Slash" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="71" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="18" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="1.2327118" scaleY="1.2327118" translateX="164" translateY="112"/>
         </item>
@@ -10643,6 +10695,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9055786" scaleY="0.921051" translateX="254" translateY="128"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="R-Shift" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10656,6 +10709,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="104" translateY="103"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadMult" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="74" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="182" translateY="144"/>
@@ -10664,6 +10718,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="166" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="L-Alt" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="75" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="187" translateY="118"/>
         </item>
@@ -10671,6 +10726,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="171" translateY="106"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Space" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="76" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="144" translateY="123"/>
@@ -10679,6 +10735,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="128" translateY="111"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Caps" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="77" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="204" translateY="127"/>
         </item>
@@ -10686,6 +10743,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="188" translateY="115"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F1" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -10701,6 +10759,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F2" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="79" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="165" translateY="141"/>
         </item>
@@ -10708,9 +10767,11 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="149" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="80" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="80" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F4" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="81" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="165" translateY="144"/>
         </item>
@@ -10718,15 +10779,19 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="149" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F5" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="82" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="82" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F6" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="83" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="83" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F7" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="84" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="84" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F8" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="85" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="165" translateY="141"/>
         </item>
@@ -10734,9 +10799,11 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="149" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F9" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="86" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="86" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F10" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="87" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="112" translateY="141"/>
         </item>
@@ -10744,6 +10811,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="96" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumLock" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="88" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10758,6 +10826,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="133" translateY="106"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="ScrollLock" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="90" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="227" translateY="118"/>
         </item>
@@ -10765,6 +10834,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="211" translateY="106"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad7" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="91" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="174" translateY="144"/>
@@ -10773,6 +10843,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="158" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad8" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="92" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="174" translateY="141"/>
         </item>
@@ -10780,9 +10851,11 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="158" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad9" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="93" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="93" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadMinus" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="94" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="202" translateY="144"/>
         </item>
@@ -10790,6 +10863,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="186" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad4" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="95" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="174" translateY="144"/>
         </item>
@@ -10797,12 +10871,15 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="158" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad5" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="96" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="96" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad6" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="97" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="97" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadPlus" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="98" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="160" translateY="144"/>
         </item>
@@ -10810,6 +10887,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="144" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad1" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="99" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="194" translateY="144"/>
         </item>
@@ -10817,6 +10895,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="178" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad2" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="100" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="174" translateY="141"/>
         </item>
@@ -10824,12 +10903,15 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="158" translateY="129"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="101" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="101" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPad0" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="102" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="102" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadPeriod" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="103" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="209" translateY="144"/>
         </item>
@@ -10840,6 +10922,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F11" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -10855,6 +10938,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="F12" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="105" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="112" translateY="141"/>
         </item>
@@ -10929,6 +11013,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadEnter" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="88" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -10943,6 +11028,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="128" translateY="131"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="R-Ctrl" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="107" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="144" translateY="118"/>
@@ -10974,6 +11060,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="NumPadSlash" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="108" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="174" translateY="143"/>
         </item>
@@ -10983,6 +11070,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="R-Alt" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="109" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="173" translateY="117"/>
         </item>
@@ -10990,6 +11078,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="157" translateY="105"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Printscreen" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="110" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="128" translateY="140"/>
         </item>
@@ -11008,6 +11097,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Pause" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="111" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="144" translateY="144"/>
@@ -11017,6 +11107,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Home" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="112" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="155" translateY="143"/>
         </item>
@@ -11024,6 +11115,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="139" translateY="131"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Up" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11039,6 +11131,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PageUp" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11054,6 +11147,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Left" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11070,6 +11164,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Right" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="0" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="false" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="true" hasScale="true" nRotateBits="17" nScaleBits="4" nTranslateBits="10" rotateSkew0="0.9292908" rotateSkew1="-0.9326172" scaleX="9.1552734E-5" scaleY="9.1552734E-5" translateX="410" translateY="226"/>
         </item>
@@ -11078,6 +11173,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="End" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11092,6 +11188,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="185" translateY="105"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Down" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11107,6 +11204,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PageDown" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11121,6 +11219,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="98" translateY="119"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Insert" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="117" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="236" translateY="144"/>
         </item>
@@ -11128,6 +11227,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="220" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Delete" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="118" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="220" translateY="118"/>
         </item>
@@ -11181,7 +11281,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
-        <item type="FrameLabelTag" forceWriteAsLong="true" name="Mouse" namedAnchor="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="true" name="Mouse1" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="119" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="0" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="0" translateY="0"/>
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="154" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="true" nbits="10" redAddTerm="0" redMultTerm="256"/>
@@ -11195,6 +11295,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse2" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="121" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="122" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="116" translateY="158"/>
@@ -11203,6 +11304,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="100" translateY="146"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="123" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="132" translateY="158"/>
@@ -11211,6 +11313,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="116" translateY="146"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse4" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="124" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="132" translateY="161"/>
         </item>
@@ -11218,15 +11321,19 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="116" translateY="149"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse5" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="125" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="125" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse6" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="126" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="126" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse7" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="127" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="127" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Mouse8" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="128" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="132" translateY="158"/>
         </item>
@@ -11234,6 +11341,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="116" translateY="146"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="MouseWheelUp" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="27" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11248,12 +11356,13 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="105" translateY="118"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="MouseWheelDown" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="130" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="130" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
-        <item type="FrameLabelTag" forceWriteAsLong="true" name="Gamepad" namedAnchor="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="true" name="Up" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="0" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="0" translateY="0"/>
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="154" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="true" nbits="10" redAddTerm="0" redMultTerm="256"/>
@@ -11267,6 +11376,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Down" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="0" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="false" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="-0.9292908" scaleY="-0.9326172" translateX="324" translateY="400"/>
         </item>
@@ -11274,6 +11384,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="10" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="-0.9292908" scaleY="-0.9326172" translateX="308" translateY="388"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Left" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="0" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="false" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="true" hasScale="true" nRotateBits="17" nScaleBits="4" nTranslateBits="10" rotateSkew0="-0.9292908" rotateSkew1="0.9326172" scaleX="9.1552734E-5" scaleY="9.1552734E-5" translateX="147" translateY="318"/>
         </item>
@@ -11281,6 +11392,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="true" hasScale="true" nRotateBits="17" nScaleBits="4" nTranslateBits="10" rotateSkew0="-0.9292908" rotateSkew1="0.9326172" scaleX="9.1552734E-5" scaleY="9.1552734E-5" translateX="131" translateY="306"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Right" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="0" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="false" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="true" hasScale="true" nRotateBits="17" nScaleBits="4" nTranslateBits="10" rotateSkew0="0.9292908" rotateSkew1="-0.9326172" scaleX="9.1552734E-5" scaleY="9.1552734E-5" translateX="410" translateY="226"/>
         </item>
@@ -11288,6 +11400,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="true" hasScale="true" nRotateBits="17" nScaleBits="4" nTranslateBits="10" rotateSkew0="0.9292908" rotateSkew1="-0.9326172" scaleX="9.1552734E-5" scaleY="9.1552734E-5" translateX="394" translateY="214"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Start" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11302,6 +11415,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="118" translateY="128"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="Back" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="28" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="136" translateY="118"/>
         </item>
@@ -11309,6 +11423,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="120" translateY="106"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_L3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="132" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="133" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="183" translateY="112"/>
@@ -11317,6 +11432,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="167" translateY="100"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_R3" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="134" clipDepth="0" depth="5" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="163" translateY="112"/>
@@ -11326,6 +11442,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="147" translateY="100"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_LB" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="7" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11341,6 +11458,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_RB" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="136" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="162" translateY="161"/>
         </item>
@@ -11348,6 +11466,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="146" translateY="149"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_A" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="132" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11362,6 +11481,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="192" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_B" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="64" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="234" translateY="146"/>
         </item>
@@ -11369,6 +11489,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="218" translateY="134"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_X" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="61" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="213" translateY="144"/>
         </item>
@@ -11376,6 +11497,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="197" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_Y" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="35" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="211" translateY="144"/>
         </item>
@@ -11383,6 +11505,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="195" translateY="132"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_LT" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11398,6 +11521,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="360_RT" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="138" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="172" translateY="161"/>
         </item>
@@ -11407,7 +11531,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
-        <item type="FrameLabelTag" forceWriteAsLong="true" name="Reserved" namedAnchor="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="true" name="UnknownKey" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="1" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="0" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="0" translateY="0"/>
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="154" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="true" nbits="10" redAddTerm="0" redMultTerm="256"/>
@@ -11480,6 +11604,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="74" translateY="108"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_L3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="132" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="false" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0"/>
         <item type="PlaceObject2Tag" characterId="144" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="168" translateY="142"/>
@@ -11488,6 +11613,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="152" translateY="130"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_R3" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="145" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="154" translateY="142"/>
         </item>
@@ -11495,6 +11621,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="138" translateY="130"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_L1" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11510,6 +11637,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_R1" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="147" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="180" translateY="161"/>
         </item>
@@ -11517,6 +11645,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="164" translateY="149"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_A" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="1" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="2" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="132" clipDepth="0" depth="3" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
@@ -11531,6 +11660,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="142" translateY="142"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_B" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="149" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="136" translateY="132"/>
         </item>
@@ -11538,6 +11668,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="8" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="120" translateY="120"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_X" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="150" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="164" translateY="160"/>
         </item>
@@ -11545,6 +11676,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="148" translateY="148"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_Y" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="151" clipDepth="0" depth="4" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="150" translateY="146"/>
         </item>
@@ -11552,6 +11684,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <matrix type="MATRIX" hasRotate="false" hasScale="false" nRotateBits="0" nScaleBits="0" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.0" scaleY="0.0" translateX="134" translateY="134"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_L2" namedAnchor="false"/>
         <item type="RemoveObject2Tag" depth="4" forceWriteAsLong="false"/>
         <item type="RemoveObject2Tag" depth="5" forceWriteAsLong="false"/>
         <item type="PlaceObject2Tag" characterId="3" clipDepth="0" depth="1" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="true" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="false" ratio="0">
@@ -11567,6 +11700,7 @@ Make sure you use compatible reader/writer based on _xmlExportMajor/_xmlExportMi
           <colorTransform type="CXFORMWITHALPHA" alphaAddTerm="0" alphaMultTerm="256" blueAddTerm="0" blueMultTerm="256" greenAddTerm="0" greenMultTerm="256" hasAddTerms="false" hasMultTerms="false" nbits="1" redAddTerm="0" redMultTerm="256"/>
         </item>
         <item type="ShowFrameTag" forceWriteAsLong="false"/>
+        <item type="FrameLabelTag" forceWriteAsLong="false" name="PS3_R2" namedAnchor="false"/>
         <item type="PlaceObject2Tag" characterId="141" clipDepth="0" depth="2" forceWriteAsLong="false" placeFlagHasCharacter="true" placeFlagHasClipActions="false" placeFlagHasClipDepth="false" placeFlagHasColorTransform="false" placeFlagHasMatrix="true" placeFlagHasName="false" placeFlagHasRatio="false" placeFlagMove="true" ratio="0">
           <matrix type="MATRIX" hasRotate="false" hasScale="true" nRotateBits="0" nScaleBits="17" nTranslateBits="9" rotateSkew0="0.0" rotateSkew1="0.0" scaleX="0.9292755" scaleY="0.9326172" translateX="161" translateY="161"/>
         </item>
