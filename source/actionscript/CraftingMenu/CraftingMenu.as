@@ -42,14 +42,14 @@ class CraftingMenu extends MovieClip
    var currentMenuType = "";
    var dbgIntvl = 0;
 
-   var ExitBtn:   Object;
-   var SearchBtn: Object;
-   var SortBtn:   Object;
-   var OrderBtn:  Object;
-   var AcceptBtn: Object;
-   var CancelBtn: Object;
-   var CraftBtn:  Object;
-   var AuxBtn:    Object;
+   var EXIT:   Object = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   var SEARCH: Object = {text: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+   var SORT:   Object = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+   var ORDER:  Object = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+   var ACCEPT: Object = {text: "$Select", PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   var CANCEL: Object = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   var CRAFT:  Object = {text: "",        PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   var AUX:    Object = {text: "",        PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
 
    function CraftingMenu()
    {
@@ -61,7 +61,6 @@ class CraftingMenu extends MovieClip
       this.ItemInfo = this.ItemInfoHolder.ItemInfo;
       Mouse.addListener(this);
       skyui.util.ConfigManager.registerLoadCallback(this,"onConfigLoad");
-      this.InitBottomBarBtns();
    }
    function get bCanCraft()
    {
@@ -141,30 +140,30 @@ class CraftingMenu extends MovieClip
 
       if(this.getItemShown())
       {
-         this.AcceptBtn.text = this.ButtonText[CraftingMenu.SELECT_BUTTON];
-         this.BottomBarInfo.CreateButton(0, this.AcceptBtn);
+         CraftingMenu.ACCEPT.Label = this.ButtonText[CraftingMenu.SELECT_BUTTON];
+         this.BottomBarInfo.CreateButton(0, this.ACCEPT);
 
          if(this.bCanCraft && this.ButtonText[CraftingMenu.CRAFT_BUTTON] != "")
          {
-            this.CraftBtn.text = this.ButtonText[CraftingMenu.CRAFT_BUTTON];
-            this.BottomBarInfo.CreateButton(1, this.CraftBtn);
+            CraftingMenu.CRAFT.Label = this.ButtonText[CraftingMenu.CRAFT_BUTTON];
+            this.BottomBarInfo.CreateButton(1, CraftingMenu.CRAFT);
          }
 
          if(this.bCanCraft && this.ButtonText[CraftingMenu.AUX_BUTTON] != "")
          {
-            this.AuxBtn.text = this.ButtonText[CraftingMenu.AUX_BUTTON];
-            this.BottomBarInfo.CreateButton(2, this.AuxBtn);
+            CraftingMenu.AUX.Label = this.ButtonText[CraftingMenu.AUX_BUTTON];
+            this.BottomBarInfo.CreateButton(2, CraftingMenu.AUX);
          }
       }
       else
       {
-         this.BottomBarInfo.CreateButton(0, this.ExitBtn);
-         this.BottomBarInfo.CreateButton(1, this.SearchBtn);
+         this.BottomBarInfo.CreateButton(0, CraftingMenu.EXIT);
+         this.BottomBarInfo.CreateButton(1, CraftingMenu.SEARCH);
 
          if(this._platform != 0)
          {
-            this.BottomBarInfo.CreateButton(2, this.SortBtn);
-            this.BottomBarInfo.CreateButton(3, this.OrderBtn);
+            this.BottomBarInfo.CreateButton(2, CraftingMenu.SORT);
+            this.BottomBarInfo.CreateButton(3, CraftingMenu.ORDER);
          }
       }
 
@@ -555,18 +554,5 @@ class CraftingMenu extends MovieClip
       {
          this.onItemsListInputCatcherClick();
       }
-   }
-   function InitBottomBarBtns()
-   {
-      this.ExitBtn   = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {text: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-      this.SortBtn   = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-      
-      this.AcceptBtn = {text: "$Select", PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      
-      this.CraftBtn  = {text: "",        PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.AuxBtn    = {text: "",        PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
    }
 }

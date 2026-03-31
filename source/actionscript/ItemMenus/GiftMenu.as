@@ -14,18 +14,17 @@ class GiftMenu extends ItemMenu
    static var SKYUI_VERSION_STRING = GiftMenu.SKYUI_VERSION_MAJOR + "." + GiftMenu.SKYUI_VERSION_MINOR + " SE";
    var _bGivingGifts = true;
 
-   var ExitBtn:   Object;
-   var SearchBtn: Object;
-   var GiveBtn:   Object;
-   var TakeBtn:   Object;
-   var SortBtn:   Object;
-   var OrderBtn:  Object;
+   static var EXIT:   Object = {Label: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};
+   static var SEARCH: Object = {Label: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
+   static var GIVE:   Object = {Label: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+   static var TAKE:   Object = {Label: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
+   static var SORT:   Object = {Label: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
+   static var ORDER:  Object = {Label: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
 
    function GiftMenu()
    {
       super();
       this._categoryListIconArt = ["inv_all","inv_weapons","inv_armor","inv_potions","inv_scrolls","inv_food","inv_ingredients","inv_books","inv_keys","inv_misc"];
-      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -100,31 +99,21 @@ class GiftMenu extends ItemMenu
 
       if(a_bSelected)
       {
-         var actionBtn = !this._bGivingGifts ? this.TakeBtn : this.GiveBtn;
+         var actionBtn = !this._bGivingGifts ? GiftMenu.TAKE : GiftMenu.GIVE;
          this.BottomBar_mc.CreateButton(0, actionBtn);
       }
       else
       {
-         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
-         this.BottomBar_mc.CreateButton(1, this.SearchBtn);
+         this.BottomBar_mc.CreateButton(0, GiftMenu.EXIT);
+         this.BottomBar_mc.CreateButton(1, GiftMenu.SEARCH);
 
          if (this._platform != 0)
          {
-            this.BottomBar_mc.CreateButton(2, this.SortBtn);
-            this.BottomBar_mc.CreateButton(3, this.OrderBtn);
+            this.BottomBar_mc.CreateButton(2, GiftMenu.SORT);
+            this.BottomBar_mc.CreateButton(3, GiftMenu.ORDER);
          }
       }
 
       this.BottomBar_mc.PositionButtons();
-   }
-   function InitBottomBarBtns()
-   {
-      this.ExitBtn   = {Label: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};
-      this.SearchBtn = {Label: "$Search", PCArt: "Space", XBoxArt: "",       PS3Art: ""};
-      this.GiveBtn   = {Label: "$Give",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
-      this.TakeBtn   = {Label: "$Take",   PCArt: "E",     XBoxArt: "360_A",  PS3Art: "PS3_A"};
-      
-      this.SortBtn   = {Label: "$Sort",   PCArt: "",      XBoxArt: "360_RS", PS3Art: "PS3_RS"};
-      this.OrderBtn  = {Label: "$Order",  PCArt: "",      XBoxArt: "360_LS", PS3Art: "PS3_LS"};
    }
 }

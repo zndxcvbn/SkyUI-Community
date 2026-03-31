@@ -22,22 +22,21 @@ class BarterMenu extends ItemMenu
    var iVendorGold = 0;
    var bEnableTabs = true;
 
-   var ExitBtn:   Object;
-   var SearchBtn: Object;
-   var SwitchBtn: Object;
-   var BuyBtn:    Object;
-   var SellBtn:   Object;
-   var SortBtn:   Object;
-   var OrderBtn:  Object;
-   var AcceptBtn: Object;
-   var CancelBtn: Object;
+   static var EXIT:   Object = {Label: "$Exit",       PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   static var SEARCH: Object = {Label: "$Search",     PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+   static var SWITCH: Object = {Label: "$Switch Tab", PCArt: "L-Alt", XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
+   static var BUY:    Object = {Label: "$Buy",        PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var SELL:   Object = {Label: "$Sell",       PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var SORT:   Object = {Label: "$Sort",       PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+   static var ORDER:  Object = {Label: "$Order",      PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+   static var ACCEPT: Object = {Label: "$Select",     PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var CANCEL: Object = {Label: "$Cancel",     PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
 
    function BarterMenu()
    {
       super();
       this._categoryListIconArt = ["inv_all","inv_weapons","inv_armor","inv_potions","inv_scrolls","inv_food","inv_ingredients","inv_books","inv_keys","inv_misc"];
       this._tabBarIconArt = ["buy","sell"];
-      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -174,37 +173,22 @@ class BarterMenu extends ItemMenu
 
       if(a_bSelected)
       {
-         var actionBtn = this.IsViewingVendorItems() ? this.BuyBtn : this.SellBtn;
+         var actionBtn = this.IsViewingVendorItems() ? BarterMenu.BUY : BarterMenu.SELL;
          this.BottomBar_mc.CreateButton(0, actionBtn);
       }
       else
       {
-         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
-         this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
-         this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+         this.BottomBar_mc.CreateButton(0, BarterMenu.EXIT);
+         this.BottomBar_mc.CreateButton(1, BarterMenu.SWITCH);
+         this.BottomBar_mc.CreateButton(2, BarterMenu.SEARCH);
 
          if (this._platform != 0)
          {
-            this.BottomBar_mc.CreateButton(3, this.SortBtn);
-            this.BottomBar_mc.CreateButton(4, this.OrderBtn);
+            this.BottomBar_mc.CreateButton(3, BarterMenu.SORT);
+            this.BottomBar_mc.CreateButton(4, BarterMenu.ORDER);
          }
       }
 
       this.BottomBar_mc.PositionButtons();
-   }
-   function InitBottomBarBtns()
-   {
-      this.ExitBtn   = {Label: "$Exit",       PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {Label: "$Search",     PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-      this.SwitchBtn = {Label: "$Switch Tab", PCArt: "L-Alt", XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
-      
-      this.BuyBtn    = {Label: "$Buy",        PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.SellBtn   = {Label: "$Sell",       PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      
-      this.SortBtn   = {Label: "$Sort",       PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {Label: "$Order",      PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-      
-      this.AcceptBtn = {Label: "$Select",     PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {Label: "$Cancel",     PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
 }

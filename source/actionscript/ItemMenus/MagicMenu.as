@@ -25,22 +25,21 @@ class MagicMenu extends ItemMenu
    var _bMenuClosing = false;
    var _bSwitchMenus = false;
    
-   var ExitBtn:   Object;
-   var SearchBtn: Object;
-   var SwitchBtn: Object;
-   var EquipBtn:  Object;
-   var FavBtn:    Object;
-   var UnlockBtn: Object;
-   var SortBtn:   Object;
-   var OrderBtn:  Object;
-   var AcceptBtn: Object;
-   var CancelBtn: Object;
+   static var EXIT:     Object = {Label: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   static var SEARCH:   Object = {Label: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+   static var SWITCH:   Object = {Label: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
+   static var EQUIP:    Object = {Label: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   static var FAVORITE: Object = {Label: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+   static var UNLOCK:   Object = {Label: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   static var SORT:     Object = {Label: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+   static var ORDER:    Object = {Label: "$Order",     PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+   static var ACCEPT:   Object = {Label: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var CANCEL:   Object = {Label: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
 
    function MagicMenu()
    {
       super();
       this._categoryListIconArt = ["cat_favorites","mag_all","mag_alteration","mag_illusion","mag_destruction","mag_conjuration","mag_restoration","mag_shouts","mag_powers","mag_activeeffects"];
-      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -185,44 +184,28 @@ class MagicMenu extends ItemMenu
          var itemInfo = this.itemCard.itemInfo;
          
          var isFavorited = (selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag) != 0;
-         this.FavBtn.text = isFavorited ? "$Unfavorite" : "$Favorite";
+         MagicMenu.FAVORITE.Label = isFavorited ? "$Unfavorite" : "$Favorite";
 
-         this.BottomBar_mc.CreateButton(0, this.EquipBtn);
-         this.BottomBar_mc.CreateButton(1, this.FavBtn);
+         this.BottomBar_mc.CreateButton(0, MagicMenu.EQUIP);
+         this.BottomBar_mc.CreateButton(1, MagicMenu.FAVORITE);
 
          if(itemInfo.showUnlocked)
-            this.BottomBar_mc.CreateButton(2, this.UnlockBtn);
+            this.BottomBar_mc.CreateButton(2, MagicMenu.UNLOCK);
       }
       else
       {
-         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
-         this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
-         this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+         this.BottomBar_mc.CreateButton(0, MagicMenu.EXIT);
+         this.BottomBar_mc.CreateButton(1, MagicMenu.SWITCH);
+         this.BottomBar_mc.CreateButton(2, MagicMenu.SEARCH);
 
          if(this._platform != 0)
          {
-            this.BottomBar_mc.CreateButton(3, this.SortBtn);
-            this.BottomBar_mc.CreateButton(4, this.OrderBtn);
+            this.BottomBar_mc.CreateButton(3, MagicMenu.SORT);
+            this.BottomBar_mc.CreateButton(4, MagicMenu.ORDER);
          }
       }
 
       this.BottomBar_mc.PositionButtons();
-   }
-   function InitBottomBarBtns()
-   {
-      this.ExitBtn   = {Label: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn = {Label: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-      this.SwitchBtn = {Label: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
-      
-      this.EquipBtn  = {Label: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.UnlockBtn = {Label: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      this.FavBtn    = {Label: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
-      
-      this.SortBtn   = {Label: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn  = {Label: "$Order",     PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-      
-      this.AcceptBtn = {Label: "$Select",    PCArt: "Enter", XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn = {Label: "$Cancel",    PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
    function startMenuFade()
    {

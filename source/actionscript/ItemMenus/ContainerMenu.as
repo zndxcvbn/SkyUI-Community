@@ -32,26 +32,25 @@ class ContainerMenu extends ItemMenu
    var bNPCMode = false;
    var bEnableTabs = true;
 
-   var ExitBtn:      Object;
-   var SearchBtn:    Object;
-   var SwitchBtn:    Object;
-   var TakeBtn:      Object;
-   var StoreBtn:     Object;
-   var GiveBtn:      Object;
-   var TakeAllBtn:   Object;
-   var EquipModeBtn: Object;
-   var FavBtn:       Object;
-   var SortBtn:      Object;
-   var OrderBtn:     Object;
-   var AcceptBtn:    Object;
-   var CancelBtn:    Object;
+   static var EXIT:      Object = {Label: "$Exit",       PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   static var SEARCH:    Object = {Label: "$Search",     PCArt: "Space",   XBoxArt: "",         PS3Art: ""};
+   static var SWITCH:    Object = {Label: "$Switch Tab", PCArt: "L-Alt",   XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
+   static var TAKE:      Object = {Label: "$Take",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var STORE:     Object = {Label: "$Store",      PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var GIVE:      Object = {Label: "$Give",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var TAKEALL:   Object = {Label: "$Take All",   PCArt: "R",       XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   static var EQUIPMODE: Object = {Label: "$Equip Mode", PCArt: "L-Shift", XBoxArt: "",         PS3Art: ""};
+   static var FAVORITE:  Object = {Label: "$Favorite",   PCArt: "F",       XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+   static var SORT:      Object = {Label: "$Sort",       PCArt: "",        XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+   static var ORDER:     Object = {Label: "$Order",      PCArt: "",        XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+   static var ACCEPT:    Object = {Label: "$Select",     PCArt: "Enter",   XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var CANCEL:    Object = {Label: "$Cancel",     PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
 
    function ContainerMenu()
    {
       super();
       this._categoryListIconArt = ["inv_all","inv_weapons","inv_armor","inv_potions","inv_scrolls","inv_food","inv_ingredients","inv_books","inv_keys","inv_misc"];
       this._tabBarIconArt = ["take","give"];
-      this.InitBottomBarBtns();
    }
    function InitExtensions()
    {
@@ -276,9 +275,9 @@ class ContainerMenu extends ItemMenu
          {
             if(this._platform != 0)
             {
-               this.BottomBar_mc.CreateButton(0, this.TakeBtn);
+               this.BottomBar_mc.CreateButton(0, ContainerMenu.TAKE);
                this.BottomBar_mc.CreateButton(1, this.getEquipButtonData(itemInfo.type, true));
-               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, this.TakeAllBtn);
+               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, ContainerMenu.TAKEALL);
             }
             else
             {
@@ -288,23 +287,23 @@ class ContainerMenu extends ItemMenu
                }
                else
                {
-                  this.BottomBar_mc.CreateButton(0, this.TakeBtn);
-                  this.BottomBar_mc.CreateButton(1, this.EquipModeBtn);
+                  this.BottomBar_mc.CreateButton(0, ContainerMenu.TAKE);
+                  this.BottomBar_mc.CreateButton(1, ContainerMenu.EQUIPMODE);
                }
-               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, this.TakeAllBtn);
+               if(!this.bNPCMode) this.BottomBar_mc.CreateButton(2, ContainerMenu.TAKEALL);
             }
          }
          else
          {
-            var actionBtn = !this.bNPCMode ? this.StoreBtn : this.GiveBtn;
+            var actionBtn = !this.bNPCMode ? ContainerMenu.STORE : ContainerMenu.GIVE;
             
             if(this._platform != 0)
             {
                this.BottomBar_mc.CreateButton(0, actionBtn);
                this.BottomBar_mc.CreateButton(1, this.getEquipButtonData(itemInfo.type, true));
                
-               this.FavBtn.text = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
-               this.BottomBar_mc.CreateButton(2, this.FavBtn);
+               this.FAVORITE.Label = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
+               this.BottomBar_mc.CreateButton(2, ContainerMenu.FAVORITE);
             }
             else
             {
@@ -315,52 +314,32 @@ class ContainerMenu extends ItemMenu
                else
                {
                   this.BottomBar_mc.CreateButton(0, actionBtn);
-                  this.BottomBar_mc.CreateButton(1, this.EquipModeBtn);
+                  this.BottomBar_mc.CreateButton(1, ContainerMenu.EQUIPMODE);
                }
-               this.FavBtn.text = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
-               this.BottomBar_mc.CreateButton(2, this.FavBtn);
+               this.FAVORITE.Label = !itemInfo.favorite ? "$Favorite" : "$Unfavorite";
+               this.BottomBar_mc.CreateButton(2, ContainerMenu.FAVORITE);
             }
          }
       }
       else
       {
-         this.BottomBar_mc.CreateButton(0, this.ExitBtn);
-         this.BottomBar_mc.CreateButton(1, this.SwitchBtn);
-         this.BottomBar_mc.CreateButton(2, this.SearchBtn);
+         this.BottomBar_mc.CreateButton(0, ContainerMenu.EXIT);
+         this.BottomBar_mc.CreateButton(1, ContainerMenu.SWITCH);
+         this.BottomBar_mc.CreateButton(2, ContainerMenu.SEARCH);
 
          if(this._platform != 0)
          {
-            this.BottomBar_mc.CreateButton(3, this.SortBtn);
-            this.BottomBar_mc.CreateButton(4, this.OrderBtn);
+            this.BottomBar_mc.CreateButton(3, ContainerMenu.SORT);
+            this.BottomBar_mc.CreateButton(4, ContainerMenu.ORDER);
          }
          
-         if(this.isViewingContainer() && !this.bNPCMode)
+         if(this.isViewingContainer() && !ContainerMenu.bNPCMode)
          {
             var slot = (this._platform != 0) ? 4 : 3;
-            this.BottomBar_mc.CreateButton(slot, this.TakeAllBtn);
+            this.BottomBar_mc.CreateButton(slot, ContainerMenu.TAKEALL);
          }
       }
 
       this.BottomBar_mc.PositionButtons();
-   }
-   function InitBottomBarBtns()
-   {
-      this.ExitBtn      = {Label: "$Exit",       PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
-      this.SearchBtn    = {Label: "$Search",     PCArt: "Space",   XBoxArt: "",         PS3Art: ""};
-      this.SwitchBtn    = {Label: "$Switch Tab", PCArt: "L-Alt",   XBoxArt: "360_LB",   PS3Art: "PS3_L1"};
-        
-      this.TakeBtn      = {Label: "$Take",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.StoreBtn     = {Label: "$Store",      PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.GiveBtn      = {Label: "$Give",       PCArt: "E",       XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.TakeAllBtn   = {Label: "$Take All",   PCArt: "R",       XBoxArt: "360_X",    PS3Art: "PS3_X"};
-      
-      this.EquipModeBtn = {Label: "$Equip Mode", PCArt: "L-Shift", XBoxArt: "",         PS3Art: ""};
-      this.FavBtn       = {Label: "$Favorite",   PCArt: "F",       XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
-        
-      this.SortBtn      = {Label: "$Sort",       PCArt: "",        XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-      this.OrderBtn     = {Label: "$Order",      PCArt: "",        XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-        
-      this.AcceptBtn    = {Label: "$Select",     PCArt: "Enter",   XBoxArt: "360_A",    PS3Art: "PS3_A"};
-      this.CancelBtn    = {Label: "$Cancel",     PCArt: "Tab",     XBoxArt: "360_B",    PS3Art: "PS3_B"};
    }
 }
