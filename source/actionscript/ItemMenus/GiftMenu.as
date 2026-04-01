@@ -1,11 +1,7 @@
 class GiftMenu extends ItemMenu
 {
-   var _cancelControls;
    var _categoryListIconArt;
    var _platform;
-   var _searchControls;
-   var _sortColumnControls;
-   var _sortOrderControls;
    var BottomBar_mc;
    var inventoryLists;
    static var SKYUI_RELEASE_IDX = 2018;

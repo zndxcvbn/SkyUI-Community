@@ -1,16 +1,11 @@
 class ContainerMenu extends ItemMenu
 {
-   var _cancelControls;
    var _categoryListIconArt;
    var _equipHand;
    var _equipModeControls;
    var _equipModeKey;
    var _platform;
    var _quantityMinCount;
-   var _searchControls;
-   var _sortColumnControls;
-   var _sortOrderControls;
-   var _switchControls;
    var _tabBarIconArt;
    var bFadedIn;
    var BottomBar_mc;

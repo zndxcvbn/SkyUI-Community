@@ -1,16 +1,9 @@
 class InventoryMenu extends ItemMenu
 {
    var ToggleMenuFade;
-   var _acceptControls;
-   var _cancelControls;
    var _categoryListIconArt;
    var _platform;
    var _quantityMinCount;
-   var _searchControls;
-   var _sortColumnControls;
-   var _sortOrderControls;
-   var _switchControls;
-   var _switchTabKey;
    var bFadedIn;
    var BottomBar_mc;
    var checkBook;

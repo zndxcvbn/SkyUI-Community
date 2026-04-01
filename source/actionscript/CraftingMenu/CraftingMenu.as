@@ -15,13 +15,6 @@ class CraftingMenu extends MovieClip
    var MenuName;
    var MenuNameHolder;
    var MouseRotationRect;
-   var _acceptControls;
-   var _cancelControls;
-   var _config;
-   var _searchControls;
-   var _searchKey;
-   var _sortColumnControls;
-   var _sortOrderControls;
    var _subtypeName;
    var bCanExpandPanel;
    var bHideAdditionalDescription;

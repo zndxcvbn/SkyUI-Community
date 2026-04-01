@@ -1,12 +1,7 @@
 class BarterMenu extends ItemMenu
 {
-   var _cancelControls;
    var _categoryListIconArt;
    var _platform;
-   var _searchControls;
-   var _sortColumnControls;
-   var _sortOrderControls;
-   var _switchControls;
    var _tabBarIconArt;
    var BottomBar_mc;
    var inventoryLists;
