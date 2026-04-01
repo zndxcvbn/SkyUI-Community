@@ -56,6 +56,13 @@ class BarterMenu extends ItemMenu
       {
          _loc5_.changeFilterFlag(this.inventoryLists.categoryList.selectedEntry.flag);
       }
+
+      BarterMenu.SEARCH.PCArt = this._searchKey;
+      BarterMenu.SWITCH.PCArt = this._switchTabKey;
+      BarterMenu.SWITCH.XBoxArt = this._switchTabKey;
+      BarterMenu.SWITCH.PS3Art = this._switchTabKey;
+
+      this.UpdateBottomBar(false);
    }
    function onExitButtonPress()
    {

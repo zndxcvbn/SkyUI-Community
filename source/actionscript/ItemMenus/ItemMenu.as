@@ -110,7 +110,7 @@ class ItemMenu extends MovieClip
       this._switchControls = {keyCode:this._switchTabKey};
       this._searchKey = a_config.Input.controls.pc.search;
       this._searchControls = {keyCode:this._searchKey};
-      this.updateBottomBar(false);
+      // this.UpdateBottomBar(false);
    }
    function SetPlatform(a_platform, a_bPS3Switch)
    {
@@ -504,26 +504,26 @@ class ItemMenu extends MovieClip
    }
    function getEquipButtonData(a_itemType, a_bAlwaysEquip)
    {
-      var btn = {Label: "$Use", PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
+      var btn = {Label: "$Use", PCArt: "E", PCArtSecondary: "Mouse1", XBoxArt: "360_A", PS3Art: "PS3_A"};
 
-      var artEquip = {PCArt: "R", XBoxArt: "360_X", PS3Art: "PS3_X"};
+      var artEquip = {PCArt: "E", XBoxArt: "360_X", PS3Art: "PS3_X"};
 
       switch(a_itemType)
       {
          case skyui.defines.Inventory.ICT_ARMOR:
-            btn.text = "$Equip";
-            if (a_bAlwaysEquip) { btn.PCArt = "R"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X"; }
+            btn.Label = "$Equip";
+            if (a_bAlwaysEquip) { btn.PCArt = "E"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X"; }
             break;
          case skyui.defines.Inventory.ICT_WEAPON:
-            btn.text = "$Equip";
-            btn.PCArt = "R"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X";
+            btn.Label = "$Equip";
+            btn.PCArt = "E"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X";
             break;
          case skyui.defines.Inventory.ICT_BOOK:
-            btn.text = "$Read";
+            btn.Label = "$Read";
             break;
          case skyui.defines.Inventory.ICT_FOOD:
          case skyui.defines.Inventory.ICT_INGREDIENT:
-            btn.text = "$Eat";
+            btn.Label = "$Eat";
             break;
       }
       return btn;

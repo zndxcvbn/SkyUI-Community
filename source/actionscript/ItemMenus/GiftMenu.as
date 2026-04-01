@@ -42,6 +42,9 @@ class GiftMenu extends ItemMenu
       {
          _loc5_.changeFilterFlag(this.inventoryLists.categoryList.selectedEntry.flag);
       }
+      GiftMenu.SEARCH.PCArt = this._searchKey;
+
+      this.UpdateBottomBar(false);
    }
    function ShowItemsList()
    {
@@ -65,7 +68,6 @@ class GiftMenu extends ItemMenu
       _loc2_.entryList[0].text = "$ALL";
       _loc2_.InvalidateData();
       this.inventoryLists.showItemsList();
-      this.UpdateBottomBar(false);
    }
    function onHideItemsList(event)
    {

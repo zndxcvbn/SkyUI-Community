@@ -72,6 +72,13 @@ class ContainerMenu extends ItemMenu
       }
       this._equipModeKey = a_config.Input.controls.pc.equipMode;
       this._equipModeControls = {keyCode:this._equipModeKey};
+
+      ContainerMenu.SEARCH.PCArt = this._searchKey;
+      ContainerMenu.SWITCH.PCArt = this._switchTabKey;
+      ContainerMenu.SWITCH.XBoxArt = this._switchTabKey;
+      ContainerMenu.SWITCH.PS3Art = this._switchTabKey;
+
+      this.UpdateBottomBar(false);
    }
    function ShowItemsList()
    {
@@ -176,7 +183,6 @@ class ContainerMenu extends ItemMenu
    function onShowItemsList(event)
    {
       this.inventoryLists.showItemsList();
-      this.UpdateBottomBar(false);
    }
    function onHideItemsList(event)
    {

@@ -22,7 +22,7 @@ class MagicMenu extends ItemMenu
    static var EXIT:     Object = {Label: "$Exit",      PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
    static var SEARCH:   Object = {Label: "$Search",    PCArt: "Space", XBoxArt: "",         PS3Art: ""};
    static var SWITCH:   Object = {Label: "$Inventory", PCArt: "L-Alt", XBoxArt: "360_Back", PS3Art: "PS3_Select"};
-   static var EQUIP:    Object = {Label: "$Equip",     PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   static var EQUIP:    Object = {Label: "$Equip",     PCArt: "E",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
    static var FAVORITE: Object = {Label: "$Favorite",  PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
    static var UNLOCK:   Object = {Label: "$Unlock",    PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
    static var SORT:     Object = {Label: "$Sort",      PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
@@ -57,6 +57,12 @@ class MagicMenu extends ItemMenu
       {
          _loc5_.changeFilterFlag(this.inventoryLists.categoryList.selectedEntry.flag);
       }
+      MagicMenu.SEARCH.PCArt = this._searchKey;
+      MagicMenu.SWITCH.PCArt = this._switchTabKey;
+      MagicMenu.SWITCH.XBoxArt = this._switchTabKey;
+      MagicMenu.SWITCH.PS3Art = this._switchTabKey;
+
+      this.UpdateBottomBar(false);
    }
    function handleInput(details, pathToFocus)
    {
@@ -137,7 +143,6 @@ class MagicMenu extends ItemMenu
       {
          this.UpdateBottomBar(true);
       }
-      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {

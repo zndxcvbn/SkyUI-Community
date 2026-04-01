@@ -35,14 +35,14 @@ class CraftingMenu extends MovieClip
    var currentMenuType = "";
    var dbgIntvl = 0;
 
-   var EXIT:   Object = {text: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-   var SEARCH: Object = {text: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
-   var SORT:   Object = {text: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
-   var ORDER:  Object = {text: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
-   var ACCEPT: Object = {text: "$Select", PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
-   var CANCEL: Object = {text: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
-   var CRAFT:  Object = {text: "",        PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
-   var AUX:    Object = {text: "",        PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
+   static var EXIT:   Object = {Label: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   static var SEARCH: Object = {Label: "$Search", PCArt: "Space", XBoxArt: "",         PS3Art: ""};
+   static var SORT:   Object = {Label: "$Sort",   PCArt: "",      XBoxArt: "360_RS",   PS3Art: "PS3_RS"};
+   static var ORDER:  Object = {Label: "$Order",  PCArt: "",      XBoxArt: "360_LS",   PS3Art: "PS3_LS"};
+   static var ACCEPT: Object = {Label: "$Select", PCArt: "E",     XBoxArt: "360_A",    PS3Art: "PS3_A"};
+   static var CANCEL: Object = {Label: "$Cancel", PCArt: "Tab",   XBoxArt: "360_B",    PS3Art: "PS3_B"};
+   static var CRAFT:  Object = {Label: "",        PCArt: "R",     XBoxArt: "360_X",    PS3Art: "PS3_X"};
+   static var AUX:    Object = {Label: "",        PCArt: "F",     XBoxArt: "360_Y",    PS3Art: "PS3_Y"};
 
    function CraftingMenu()
    {
@@ -134,7 +134,7 @@ class CraftingMenu extends MovieClip
       if(this.getItemShown())
       {
          CraftingMenu.ACCEPT.Label = this.ButtonText[CraftingMenu.SELECT_BUTTON];
-         this.BottomBarInfo.CreateButton(0, this.ACCEPT);
+         this.BottomBarInfo.CreateButton(0, CraftingMenu.ACCEPT);
 
          if(this.bCanCraft && this.ButtonText[CraftingMenu.CRAFT_BUTTON] != "")
          {
@@ -418,13 +418,27 @@ class CraftingMenu extends MovieClip
          _loc5_.entryWidth -= CraftingLists.SHORT_LIST_OFFSET;
       }
       this.ItemList.layout = _loc5_;
-      var _loc7_ = a_config.Input.controls.gamepad.prevColumn;
-      var _loc6_ = a_config.Input.controls.gamepad.nextColumn;
-      var _loc8_ = a_config.Input.controls.gamepad.sortOrder;
-      this._sortColumnControls = [{keyCode:_loc7_},{keyCode:_loc6_}];
-      this._sortOrderControls = {keyCode:_loc8_};
-      this._searchKey = a_config.Input.controls.pc.search;
-      this._searchControls = {keyCode:this._searchKey};
+      if(this._platform == 0)
+      {
+         this._switchTabKey = a_config.Input.controls.pc.switchTab;
+         this._searchKey = a_config.Input.controls.pc.search;
+      }
+      else
+      {
+         this._switchTabKey = a_config.Input.controls.gamepad.switchTab;
+         _loc7_ = a_config.Input.controls.gamepad.prevColumn;
+         _loc6_ = a_config.Input.controls.gamepad.nextColumn;
+         _loc8_ = a_config.Input.controls.gamepad.sortOrder;
+         this._sortColumnControls = [{keyCode:_loc7_},{keyCode:_loc6_}];
+         this._sortOrderControls = {keyCode:_loc8_};
+      }
+
+      CraftingMenu.SEARCH.PCArt = this._searchKey;
+      CraftingMenu.SWITCH.PCArt = this._switchTabKey;
+      CraftingMenu.SWITCH.XBoxArt = this._switchTabKey;
+      CraftingMenu.SWITCH.PS3Art = this._switchTabKey;
+
+      this.UpdateButtonText();
    }
    function onItemListPressed(event)
    {

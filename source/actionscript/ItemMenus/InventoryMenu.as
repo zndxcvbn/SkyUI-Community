@@ -62,6 +62,12 @@ class InventoryMenu extends ItemMenu
       {
          _loc5_.changeFilterFlag(this.inventoryLists.categoryList.selectedEntry.flag);
       }
+      InventoryMenu.SEARCH.PCArt = this._searchKey;
+      InventoryMenu.SWITCH.PCArt = this._switchTabKey;
+      InventoryMenu.SWITCH.XBoxArt = this._switchTabKey;
+      InventoryMenu.SWITCH.PS3Art = this._switchTabKey;
+
+      this.UpdateBottomBar(false);
    }
    function handleInput(details, pathToFocus)
    {
@@ -161,7 +167,6 @@ class InventoryMenu extends ItemMenu
       {
          this.UpdateBottomBar(true);
       }
-      this.UpdateBottomBar(false);
    }
    function onItemHighlightChange(event)
    {
@@ -252,7 +257,7 @@ class InventoryMenu extends ItemMenu
          var selectedEntry = this.inventoryLists.itemList.selectedEntry;
 
          var isFavorited = (selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag) != 0;
-         this.FavBtn.text = isFavorited ? "$Unfavorite" : "$Favorite";
+         InventoryMenu.FAVORITE.Label = isFavorited ? "$Unfavorite" : "$Favorite";
 
          this.BottomBar_mc.CreateButton(0, this.getEquipButtonData(itemInfo.type, false));
          this.BottomBar_mc.CreateButton(1, InventoryMenu.DROP);
