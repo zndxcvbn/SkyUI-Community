@@ -504,28 +504,63 @@ class ItemMenu extends MovieClip
    }
    function getEquipButtonData(a_itemType, a_bAlwaysEquip)
    {
-      var btn = {Label: "$Use", PCArt: "E", PCArtSecondary: "Mouse1", XBoxArt: "360_A", PS3Art: "PS3_A"};
-
-      var artEquip = {PCArt: "E", XBoxArt: "360_X", PS3Art: "PS3_X"};
+      var btn = {Label: "$Use", PCArt: "E", XBoxArt: "360_A", PS3Art: "PS3_A"};
 
       switch(a_itemType)
       {
          case skyui.defines.Inventory.ICT_ARMOR:
             btn.Label = "$Equip";
-            if (a_bAlwaysEquip) { btn.PCArt = "E"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X"; }
+            if (a_bAlwaysEquip) 
+            {
+               btn.PCArt = "E";
+               btn.XBoxArt = "360_X";
+               btn.PS3Art = "PS3_X";
+            }
+            else
+            {
+               btn.PCArt = "E";
+               btn.XBoxArt = "360_A";
+               btn.PS3Art = "PS3_A";
+            }
             break;
+            
          case skyui.defines.Inventory.ICT_WEAPON:
             btn.Label = "$Equip";
-            btn.PCArt = "E"; btn.XBoxArt = "360_X"; btn.PS3Art = "PS3_X";
+            btn.PCArt = "Mouse1|Mouse2";
+            btn.XBoxArt = "360_LT|360_RT";
+            btn.PS3Art = "PS3_LT|PS3_RT";
             break;
+            
          case skyui.defines.Inventory.ICT_BOOK:
             btn.Label = "$Read";
+            btn.PCArt = "E";
+            btn.XBoxArt = "360_A";
+            btn.PS3Art = "PS3_A";
             break;
+            
+         case skyui.defines.Inventory.ICT_POTION:
+            btn.Label = "$Use";
+            btn.PCArt = "E";
+            btn.XBoxArt = "360_A";
+            btn.PS3Art = "PS3_A";
+            break;
+            
          case skyui.defines.Inventory.ICT_FOOD:
          case skyui.defines.Inventory.ICT_INGREDIENT:
             btn.Label = "$Eat";
+            btn.PCArt = "E";
+            btn.XBoxArt = "360_A";
+            btn.PS3Art = "PS3_A";
+            break;
+            
+         default:
+            btn.Label = "$Equip";
+            btn.PCArt = "Mouse1|Mouse2";
+            btn.XBoxArt = "360_LT|360_RT";
+            btn.PS3Art = "PS3_LT|PS3_RT";
             break;
       }
+      
       return btn;
    }
    function UpdateBottomBar(a_bSelected)

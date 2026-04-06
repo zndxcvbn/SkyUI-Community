@@ -185,7 +185,7 @@ class MagicMenu extends ItemMenu
          var isFavorited = (selectedEntry.filterFlag & this.inventoryLists.categoryList.entryList[0].flag) != 0;
          MagicMenu.FAVORITE.Label = isFavorited ? "$Unfavorite" : "$Favorite";
 
-         this.BottomBar_mc.CreateButton(0, MagicMenu.EQUIP);
+         this.BottomBar_mc.CreateButton(0, this.getEquipButtonData(itemInfo.type, false));
          this.BottomBar_mc.CreateButton(1, MagicMenu.FAVORITE);
 
          if(itemInfo.showUnlocked)
