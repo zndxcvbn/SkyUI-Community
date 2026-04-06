@@ -19,6 +19,8 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
    var XBoxButtonSecondary = null;
    var PS3ButtonSecondary = null;
    var PCButtonSecondary = null;
+   var iconClips = [];
+   
    function CrossPlatformButtons()
    {
       super();
@@ -47,136 +49,222 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
       }
       this.RefreshArt();
    }
+
+   function attachIcon(targetObj, instanceName, targetValue, fallbackValue)
+   {
+      var newClip = targetObj.attachMovie("ButtonArt", instanceName, targetObj.getNextHighestDepth());
+      if (newClip != undefined) {
+         newClip.gotoAndStop(targetValue);
+         if (fallbackValue != undefined && newClip._currentframe == 1 && targetValue != 1 && targetValue != "Keyboard") {
+            newClip.gotoAndStop(fallbackValue);
+         }
+      } else {
+         newClip = targetObj.attachMovie(targetValue, instanceName, targetObj.getNextHighestDepth());
+         if (newClip == undefined && fallbackValue != undefined) {
+            newClip = targetObj.attachMovie(fallbackValue, instanceName, targetObj.getNextHighestDepth());
+         }
+      }
+      return newClip;
+   }
    /* @override Use ButtonArt.swf instead embedded DefineSprite btns in each .swf 
       Fallback: Vanilla behavior (attachMovie DefineSprite btns from its own .swf)
    */
    function RefreshArt()
    {
-      if(undefined != this.ButtonArt)
+      this.removeAllIcons();
+      
+      var iconNames = this.getIconNamesForCurrentPlatform();
+      
+      if(iconNames == null || iconNames.length == 0)
       {
-         this.ButtonArt.removeMovieClip();
-      }
-      if(undefined != this.ButtonArtSecondary)
-      {
-         this.ButtonArtSecondary.removeMovieClip();
-      }
-      if(undefined != this.ButtonArt_mc)
-      {
-         this.ButtonArt_mc.removeMovieClip();
-      }
-      if(undefined != this.ButtonArtSecondary_mc)
-      {
-         this.ButtonArtSecondary_mc.removeMovieClip();
+         return;
       }
       
-      var _loc2_;
-      var _loc3_;
-      var _loc5_;
-      var _loc4_;
+      this.ButtonArt_mc = this.createEmptyMovieClip("ButtonArt_mc", this.getNextHighestDepth());
+      this.ButtonArt = this.ButtonArt_mc;
+      this.iconClips = [];
       
-      var attachIcon = function(targetObj, instanceName, targetValue, fallbackValue) {
-         var newClip = targetObj.attachMovie("ButtonArt", instanceName, targetObj.getNextHighestDepth());
-         if (newClip != undefined) {
-            newClip.gotoAndStop(targetValue);
-            if (fallbackValue != undefined && newClip._currentframe == 1 && targetValue != 1 && targetValue != "Keyboard") {
-               newClip.gotoAndStop(fallbackValue);
-            }
-         } else {
-            newClip = targetObj.attachMovie(targetValue, instanceName, targetObj.getNextHighestDepth());
-            if (newClip == undefined && fallbackValue != undefined) {
-               newClip = targetObj.attachMovie(fallbackValue, instanceName, targetObj.getNextHighestDepth());
-            }
+      var currentX = 0;
+      
+      for(var i = 0; i < iconNames.length; i++)
+      {
+         var iconName = iconNames[i];
+         if(iconName == "None" || iconName == undefined)
+         {
+            continue;
          }
-         return newClip;
-      };
-
+         
+         var iconClip = this.attachIcon(this.ButtonArt_mc, "icon_" + i, iconName);
+         if(iconClip != undefined)
+         {
+            iconClip._x = currentX;
+            iconClip._y = (this._height - iconClip._height) / 2;
+            currentX += iconClip._width;
+            this.iconClips.push(iconClip);
+         }
+      }
+      
+      if(this.ButtonArt_mc != undefined)
+      {
+         this.ButtonArt_mc._x = -this.ButtonArt_mc._width;
+         this.ButtonArt_mc._y = 0;
+      }
+      
+      this.Reposition();
+      if(this.border != undefined) this.border._visible = false;
+   }
+   
+   function getIconNamesForCurrentPlatform()
+   {
+      var primaryString;
+      var secondaryString = null;
+      var fallbackPrimary = null;
+      var fallbackSecondary = null;
+      
       switch(this.CurrentPlatform)
       {
          case Shared.ButtonChange.PLATFORM_PC:
-            if(this.PCButton != "None" && this.PCButton != undefined)
-            {
-               this.ButtonArt_mc = attachIcon(this, "ButtonArt", this.PCButton);
-            }
-            if(this.PCButtonSecondary != null && this.PCButtonSecondary != undefined)
-            {
-               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", this.PCButtonSecondary);
-            }
+            primaryString = this.PCButton;
+            secondaryString = this.PCButtonSecondary;
             break;
             
          case Shared.ButtonChange.PLATFORM_PC_GAMEPAD:
          case Shared.ButtonChange.PLATFORM_360:
          case Shared.ButtonChange.PLATFORM_SCARLETT:
-            if(this.XBoxButton != "None" && this.XBoxButton != undefined)
-            {
-               this.ButtonArt_mc = attachIcon(this, "ButtonArt", this.XBoxButton);
-            }
-            if(this.XBoxButtonSecondary != null && this.XBoxButtonSecondary != undefined)
-            {
-               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", this.XBoxButtonSecondary);
-            }
+            primaryString = this.XBoxButton;
+            secondaryString = this.XBoxButtonSecondary;
             break;
             
          case Shared.ButtonChange.PLATFORM_PS3:
          case Shared.ButtonChange.PLATFORM_PROSPERO:
          default:
-            _loc2_ = this.PS3Button;
-            _loc3_ = this.PS3ButtonSecondary;
-            gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
+            primaryString = this.PS3Button;
+            secondaryString = this.PS3ButtonSecondary;
+            fallbackPrimary = primaryString;
+            fallbackSecondary = secondaryString;
+            
+            gfx.io.GameDelegate.call("myLog",[String(primaryString)]);
             
             if(this.PS3Swapped)
             {
-               if(_loc2_ == "PS3_A") _loc2_ = "PS3_B";
-               else if(_loc2_ == "PS3_B") _loc2_ = "PS3_A";
-               
-               if(_loc3_ == "PS3_A") _loc3_ = "PS3_B";
-               else if(_loc3_ == "PS3_B") _loc3_ = "PS3_A";
+               primaryString = this.swapPS3Buttons(primaryString);
+               secondaryString = this.swapPS3Buttons(secondaryString);
             }
-            
-            _loc5_ = _loc2_;
-            _loc4_ = _loc3_;
             
             if(this.CurrentPlatform == Shared.ButtonChange.PLATFORM_PROSPERO)
             {
-               var convertToPS5 = function(buttonName)
-               {
-                  if(buttonName != undefined && buttonName.indexOf("PS3_") == 0)
-                  {
-                     return "PS5_" + buttonName.substr(4);
-                  }
-                  return buttonName;
-               };
-               
-               _loc2_ = convertToPS5(_loc2_);
-               _loc3_ = convertToPS5(_loc3_);
+               primaryString = this.convertToPS5(primaryString);
+               secondaryString = this.convertToPS5(secondaryString);
             }
             
-            gfx.io.GameDelegate.call("myLog",[String(_loc2_)]);
-            
-            if(_loc2_ != "None" && _loc2_ != undefined)
-            {
-               this.ButtonArt_mc = attachIcon(this, "ButtonArt", _loc2_, _loc5_);
-            }
-            
-            if(_loc3_ != null && _loc3_ != undefined)
-            {
-               this.ButtonArtSecondary_mc = attachIcon(this, "ButtonArtSecondary", _loc3_, _loc4_);
-            }
+            gfx.io.GameDelegate.call("myLog",[String(primaryString)]);
             break;
+      }
+      
+      var allIcons = [];
+      
+      if(primaryString != "None" && primaryString != undefined)
+      {
+         var primaryIcons = this.parseIconString(primaryString);
+         allIcons = allIcons.concat(primaryIcons);
+      }
+      
+      if(secondaryString != null && secondaryString != "None" && secondaryString != undefined)
+      {
+         var secondaryIcons = this.parseIconString(secondaryString);
+         allIcons = allIcons.concat(secondaryIcons);
+      }
+      
+      return allIcons;
+   }
+   
+   function parseIconString(iconString)
+   {
+      if(iconString == undefined || iconString == null || iconString == "None")
+      {
+         return [];
+      }
+      
+      if(typeof(iconString) != "string")
+      {
+         return [String(iconString)];
+      }
+      
+      return iconString.split("|");
+   }
+   
+   function swapPS3Buttons(buttonName)
+   {
+      if(buttonName == undefined) return buttonName;
+      
+      if(typeof(buttonName) == "string" && buttonName.indexOf("|") != -1)
+      {
+         var parts = buttonName.split("|");
+         for(var i = 0; i < parts.length; i++)
+         {
+            if(parts[i] == "PS3_A") parts[i] = "PS3_B";
+            else if(parts[i] == "PS3_B") parts[i] = "PS3_A";
+         }
+         return parts.join("|");
+      }
+      
+      if(buttonName == "PS3_A") return "PS3_B";
+      if(buttonName == "PS3_B") return "PS3_A";
+      return buttonName;
+   }
+   
+   function convertToPS5(buttonName)
+   {
+      if(buttonName == undefined) return buttonName;
+      
+      if(typeof(buttonName) == "string" && buttonName.indexOf("|") != -1)
+      {
+         var parts = buttonName.split("|");
+         for(var i = 0; i < parts.length; i++)
+         {
+            if(parts[i] != undefined && parts[i].indexOf("PS3_") == 0)
+            {
+               parts[i] = "PS5_" + parts[i].substr(4);
+            }
+         }
+         return parts.join("|");
+      }
+      
+      if(typeof(buttonName) == "string" && buttonName.indexOf("PS3_") == 0)
+      {
+         return "PS5_" + buttonName.substr(4);
+      }
+      return buttonName;
+   }
+   
+   function removeAllIcons()
+   {
+      if(this.iconClips)
+      {
+         for(var i = 0; i < this.iconClips.length; i++)
+         {
+            if(this.iconClips[i] != undefined)
+            {
+               this.iconClips[i].removeMovieClip();
+            }
+         }
+         this.iconClips = [];
       }
       
       if(this.ButtonArt_mc != undefined)
       {
-         this.ButtonArt_mc._x -= this.ButtonArt_mc._width;
-         this.ButtonArt_mc._y = (this._height - this.ButtonArt_mc._height) / 2;
+         this.ButtonArt_mc.removeMovieClip();
+         this.ButtonArt_mc = undefined;
       }
       
       if(this.ButtonArtSecondary_mc != undefined)
       {
-         this.ButtonArtSecondary_mc._y = this.ButtonArt_mc._y;
+         this.ButtonArtSecondary_mc.removeMovieClip();
+         this.ButtonArtSecondary_mc = undefined;
       }
       
-      this.Reposition();
-      if(this.border != undefined) this.border._visible = false;
+      this.ButtonArt = undefined;
+      this.ButtonArtSecondary = undefined;
    }
    function GetArt()
    {
