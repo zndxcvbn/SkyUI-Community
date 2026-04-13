@@ -14,6 +14,7 @@ class StatsPage extends MovieClip
    }
    function onLoad()
    {
+      this.CategoryList.bAllowUpToTabs = true;
       this.CategoryList.entryList.push({text:"$GENERAL",stats:new Array(),savedHighlight:0});
       this.CategoryList.entryList.push({text:"$QUEST",stats:new Array(),savedHighlight:0});
       this.CategoryList.entryList.push({text:"$COMBAT",stats:new Array(),savedHighlight:0});
@@ -31,6 +32,7 @@ class StatsPage extends MovieClip
          gfx.io.GameDelegate.call("updateStats",[],this,"PopulateStatsList");
          this.bUpdated = true;
       }
+      this.onCategoryHighlight();
       this.CategoryList.addEventListener("listMovedUp",this,"onCategoryListMoveUp");
       this.CategoryList.addEventListener("listMovedDown",this,"onCategoryListMoveDown");
       this.CategoryList.addEventListener("selectionChange",this,"onCategoryListMouseSelectionChange");

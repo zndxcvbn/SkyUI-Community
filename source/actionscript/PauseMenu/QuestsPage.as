@@ -33,6 +33,7 @@ class QuestsPage extends MovieClip
    }
    function onLoad()
    {
+      this.TitleList.bAllowUpToTabs = true;
       this.BottomBar_mc = this._parent._parent.BottomBar_mc;
       this.QuestTitleText.SetText(" ");
       this.DescriptionText.SetText(" ");
@@ -51,6 +52,7 @@ class QuestsPage extends MovieClip
          this.bUpdated = true;
       }
       this.UpdateButtonsVisibility();
+      this.onQuestHighlight();
       this.TitleList.addEventListener("itemPress",this,"onTitleListSelect");
       this.TitleList.addEventListener("listMovedUp",this,"onTitleListMoveUp");
       this.TitleList.addEventListener("listMovedDown",this,"onTitleListMoveDown");
