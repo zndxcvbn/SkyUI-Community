@@ -18,10 +18,7 @@ class CraftingMenu extends MovieClip
    var _subtypeName;
    var bCanExpandPanel;
    var bHideAdditionalDescription;
-   static var SKYUI_RELEASE_IDX = 2018;
-   static var SKYUI_VERSION_MAJOR = 5;
-   static var SKYUI_VERSION_MINOR = 2;
-   static var SKYUI_VERSION_STRING = CraftingMenu.SKYUI_VERSION_MAJOR + "." + CraftingMenu.SKYUI_VERSION_MINOR + " SE";
+   var navPanel;
    static var LIST_OFFSET = 20;
    static var SELECT_BUTTON = 0;
    static var EXIT_BUTTON = 1;

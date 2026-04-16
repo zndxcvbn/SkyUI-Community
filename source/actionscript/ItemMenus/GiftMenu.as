@@ -4,10 +4,7 @@ class GiftMenu extends ItemMenu
    var _platform;
    var BottomBar_mc;
    var inventoryLists;
-   static var SKYUI_RELEASE_IDX = 2018;
-   static var SKYUI_VERSION_MAJOR = 5;
-   static var SKYUI_VERSION_MINOR = 2;
-   static var SKYUI_VERSION_STRING = GiftMenu.SKYUI_VERSION_MAJOR + "." + GiftMenu.SKYUI_VERSION_MINOR + " SE";
+   var navPanel;
    var _bGivingGifts = true;
 
    static var EXIT:   Object = {Label: "$Exit",   PCArt: "Tab",   XBoxArt: "360_B",  PS3Art: "PS3_B"};

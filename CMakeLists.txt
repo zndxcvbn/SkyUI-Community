@@ -7,11 +7,20 @@ cmake_minimum_required(VERSION 4.2)
 # Reference: https://cmake.org/cmake/help/latest/policy/CMP0175.html
 cmake_policy(SET CMP0175 OLD)
 
+include("${CMAKE_CURRENT_SOURCE_DIR}/Version.cmake")
+
 project(
     SkyUI
-    VERSION 6.7
+    VERSION ${VER_MAJOR}.${VER_MINOR}
     LANGUAGES NONE
 )
+
+set(PROJECT_RELEASE_IDX ${VER_RELEASE_IDX})
+if(VER_SUFFIX)
+    set(PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR} ${VER_SUFFIX}")
+else()
+    set(PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+endif()
 
 # ---------------------------------------------------------------------------
 # Options & Core Paths
@@ -136,7 +145,6 @@ add_custom_target("ActionScript" DEPENDS ${AS_TARGETS})
 if(IS_DEBUG_BUILD)
 
     set(_DEPLOY_SCRIPT    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Deploy.cmake")
-    set(_DEPLOY_STAMP     "${CMAKE_BINARY_DIR}/_deploy.stamp")
     set(_DEPLOY_LISTS_DIR "${CMAKE_BINARY_DIR}/_deploy_lists")
 
     file(MAKE_DIRECTORY "${_DEPLOY_LISTS_DIR}")
@@ -153,25 +161,19 @@ if(IS_DEBUG_BUILD)
     file(WRITE "${_DEPLOY_LISTS_DIR}/swf_passthrough.txt" "") # Obsolete
     file(WRITE "${_DEPLOY_LISTS_DIR}/esp_file.txt"        "${_ESP_FILE}")
 
-    add_custom_command(
-        OUTPUT "${_DEPLOY_STAMP}"
+    add_custom_target("deploy_debug" ALL
         COMMAND "${CMAKE_COMMAND}"
             "-DOUTPUT_DIR=${MOD_DEBUG_PATH}"
             "-DDEPLOY_LISTS_DIR=${_DEPLOY_LISTS_DIR}"
             "-DSWF_COMPILED_BASE=${CMAKE_BINARY_DIR}/interface"
             "-DSWF_PASSTHROUGH_BASE=${CMAKE_CURRENT_SOURCE_DIR}/data/interface"
             -P "${_DEPLOY_SCRIPT}"
-        COMMAND "${CMAKE_COMMAND}" -E touch "${_DEPLOY_STAMP}"
         DEPENDS
             ${Papyrus_OUTPUT}
             ${SWF_COMPILED_OUTPUTS}
             "${_ESP_FILE}"
         COMMENT "Deploying to ${MOD_DEBUG_PATH}"
         VERBATIM
-    )
-
-    add_custom_target("deploy_debug" ALL
-        DEPENDS "${_DEPLOY_STAMP}"
     )
     add_dependencies("deploy_debug" "Papyrus" "ActionScript")
 
