@@ -94,6 +94,41 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
             continue;
          }
          
+         if(iconName == "+")
+         {
+            var plusTF = this.ButtonArt_mc.createTextField("plus_" + i, this.ButtonArt_mc.getNextHighestDepth(), currentX, 0, 10, 10);
+            plusTF.autoSize = "left";
+            plusTF.selectable = false;
+            
+            var tfFormat;
+            if(this.textField != undefined)
+            {
+               plusTF.embedFonts = this.textField.embedFonts;
+               tfFormat = this.textField.getTextFormat();
+               plusTF.setNewTextFormat(tfFormat);
+            }
+            else
+            {
+               tfFormat = new TextFormat();
+               tfFormat.size = 20;
+               tfFormat.color = 0xFFFFFF;
+               plusTF.setNewTextFormat(tfFormat);
+            }
+            
+            plusTF.text = "+";
+            
+            if(this.textField != undefined)
+            {
+               plusTF.setTextFormat(this.textField.getTextFormat());
+            }
+            
+            plusTF._y = (this._height - plusTF._height) / 2;
+            currentX += plusTF._width;
+            
+            this.iconClips.push(plusTF);
+            continue;
+         }
+         
          var iconClip = this.attachIcon(this.ButtonArt_mc, "icon_" + i, iconName);
          if(iconClip != undefined)
          {
@@ -161,7 +196,7 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
             break;
       }
       
-      var allIcons = [];
+      var allIcons =[];
       
       if(primaryString != "None" && primaryString != undefined)
       {
@@ -182,30 +217,31 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
    {
       if(iconString == undefined || iconString == null || iconString == "None")
       {
-         return [];
+         return[];
       }
       
       if(typeof(iconString) != "string")
       {
-         return [String(iconString)];
+         return[String(iconString)];
       }
       
-      return iconString.split("|");
+      return iconString.split("+").join("|+|").split("|");
    }
    
    function swapPS3Buttons(buttonName)
    {
       if(buttonName == undefined) return buttonName;
       
-      if(typeof(buttonName) == "string" && buttonName.indexOf("|") != -1)
+      if(typeof(buttonName) == "string" && (buttonName.indexOf("|") != -1 || buttonName.indexOf("+") != -1))
       {
-         var parts = buttonName.split("|");
+         var tempStr = buttonName.split("+").join("|+|");
+         var parts = tempStr.split("|");
          for(var i = 0; i < parts.length; i++)
          {
             if(parts[i] == "PS3_A") parts[i] = "PS3_B";
             else if(parts[i] == "PS3_B") parts[i] = "PS3_A";
          }
-         return parts.join("|");
+         return parts.join("|").split("|+|").join("+");
       }
       
       if(buttonName == "PS3_A") return "PS3_B";
@@ -217,9 +253,10 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
    {
       if(buttonName == undefined) return buttonName;
       
-      if(typeof(buttonName) == "string" && buttonName.indexOf("|") != -1)
+      if(typeof(buttonName) == "string" && (buttonName.indexOf("|") != -1 || buttonName.indexOf("+") != -1))
       {
-         var parts = buttonName.split("|");
+         var tempStr = buttonName.split("+").join("|+|");
+         var parts = tempStr.split("|");
          for(var i = 0; i < parts.length; i++)
          {
             if(parts[i] != undefined && parts[i].indexOf("PS3_") == 0)
@@ -227,7 +264,7 @@ class Components.CrossPlatformButtons extends gfx.controls.Button
                parts[i] = "PS5_" + parts[i].substr(4);
             }
          }
-         return parts.join("|");
+         return parts.join("|").split("|+|").join("+");
       }
       
       if(typeof(buttonName) == "string" && buttonName.indexOf("PS3_") == 0)
