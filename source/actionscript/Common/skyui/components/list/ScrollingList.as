@@ -155,16 +155,14 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             _loc5_ = _loc5_ + 1;
         }
         var _loc2_;
-        if(this.isMouseDrivenNav)
+        if(this.isMouseDrivenNav && this.hitTest(_root._xmouse, _root._ymouse, true))
         {
-            _loc2_ = Mouse.getTopMostEntity();
-            while(_loc2_ != undefined)
-            {
-                if(_loc2_._parent == this && _loc2_._visible && _loc2_.itemIndex != undefined)
-                {
-                    this.doSetSelectedIndex(_loc2_.itemIndex,skyui.components.list.BasicList.SELECT_MOUSE);
+            for (var i = 0; i < this._listIndex; i++) {
+                var clip = this.getClipByIndex(i);
+                if (clip._visible && clip.itemIndex != undefined && clip.hitTest(_root._xmouse, _root._ymouse, true)) {
+                    this.doSetSelectedIndex(clip.itemIndex, skyui.components.list.BasicList.SELECT_MOUSE);
+                    break;
                 }
-                _loc2_ = _loc2_._parent;
             }
         }
         if(this.scrollUpButton != undefined)
@@ -321,27 +319,14 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     }
     function onMouseWheel(a_delta)
     {
-        if(this.disableInput)
+        if (this.disableInput) return undefined;
+        
+        if (this.hitTest(_root._xmouse, _root._ymouse, true)) 
         {
-            return undefined;
+            this.isMouseDrivenNav = true;
+            if (a_delta < 0)      this.scrollPosition += this.scrollDelta;
+            else if (a_delta > 0) this.scrollPosition -= this.scrollDelta;
         }
-        var _loc2_ = Mouse.getTopMostEntity();
-        while(_loc2_ && _loc2_ != undefined)
-        {
-            if(_loc2_ == this)
-            {
-                if(a_delta < 0)
-                {
-                    this.scrollPosition += this.scrollDelta;
-                }
-                else if(a_delta > 0)
-                {
-                    this.scrollPosition -= this.scrollDelta;
-                }
-            }
-            _loc2_ = _loc2_._parent;
-        }
-        this.isMouseDrivenNav = true;
     }
     function onScroll(event)
     {
