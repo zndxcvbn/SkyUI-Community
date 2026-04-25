@@ -98,7 +98,7 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
         }
     }
 
-    public function updateSelectionAnimation(isSelected: Boolean, a_list: Object)
+    public function updateSelectionAnimation(isSelected: Boolean, a_list: ScrollingList)
     {
         if (isSelected) {
             this.selectIndicator._visible = true;
@@ -126,7 +126,10 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
 
             var prevY: Number = a_list.lastSelectionAnimY;
             var diffY: Number = prevY - this._y;
-            if (diffY == 0) return;
+            if (diffY == 0) {
+                this.resetSelectionAnim(true);
+                return;
+            }
             a_list.lastSelectionAnimY = this._y;
             
             if (Math.abs(diffY) < skyui.components.list.TabularListEntry.ANIM_MAX_JUMP_Y) {

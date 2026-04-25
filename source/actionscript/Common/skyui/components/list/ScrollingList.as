@@ -42,10 +42,13 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         if (a_newPosition == this._scrollPosition || a_newPosition < 0 || a_newPosition > this._maxScrollPosition)
             return;
             
-        if (this.scrollbar != undefined)
+        if (this.scrollbar != undefined) {
             this.scrollbar.position = a_newPosition;
-        else
+        } else {
+            this.bDisableAnim = true;
             this.updateScrollPosition(a_newPosition);
+            this.bDisableAnim = false;
+        }
     }
 
     private var _maxScrollPosition: Number = 0;
@@ -330,8 +333,11 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     private function onScroll(event: Object)
     {
         this.bDisableAnim = true;
-        this.updateScrollPosition(Math.floor(event.position + 0.5));
-        this.bDisableAnim = false;
+        try {
+            this.updateScrollPosition(Math.floor(event.position + 0.5));
+        } finally {
+            this.bDisableAnim = false;
+        }
     }
 
     // @override BasicList
