@@ -10,6 +10,9 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // The maximum allowed size. Actual size might be smaller if the list is not filled completely.
     private var _maxListIndex: Number;
 
+    // Flag that allows list Entry to disable their animation
+    public var bDisableAnim: Boolean = false;
+    public var lastSelectionAnimY: Number = -1;
 
   /* STAGE ELEMENTS */
 
@@ -218,6 +221,8 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             this._selectedIndex = -1;
         
         this.calculateMaxScrollPosition();		
+        
+        this.bDisableAnim = true;
         this.UpdateList();
         
         // Restore selection
@@ -228,6 +233,8 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             var entryClip = this.getClipByIndex(this._curClipIndex);
             this.doSetSelectedIndex(entryClip.itemIndex, skyui.components.list.BasicList.SELECT_MOUSE);
         }
+        
+        this.bDisableAnim = false;
         
         if (this.onInvalidate)
             this.onInvalidate();
@@ -322,12 +329,18 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
     private function onScroll(event: Object)
     {
+        this.bDisableAnim = true;
         this.updateScrollPosition(Math.floor(event.position + 0.5));
+        this.bDisableAnim = false;
     }
 
     // @override BasicList
     private function doSetSelectedIndex(a_newIndex: Number, a_keyboardOrMouse: Number)
     {
+        if (this._selectedIndex == -1 && a_newIndex != -1) {
+            this.lastSelectionAnimY = -1;
+        }
+        
         if (this.disableSelection || a_newIndex == this._selectedIndex)
             return;
             

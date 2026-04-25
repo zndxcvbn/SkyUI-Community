@@ -27,7 +27,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
    // @override TabularListEntry
    public function initialize(a_index: Number, a_state: ListState)
    {
-      super.initialize();
+      super.initialize(a_index);
       
       var iconLoader = new MovieClipLoader();
       iconLoader.addListener(this);
