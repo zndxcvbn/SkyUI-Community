@@ -368,6 +368,7 @@ class Shared.GlobalFunc
      * This allows any MovieClip to be aligned relative to another clip.
      */
     static function AddAnchorFunction() {
+        if (MovieClip.prototype.Anchor != undefined) return;
         if (Shared.GlobalFunc._deferCounter == undefined) Shared.GlobalFunc._deferCounter = 0;
 
         /**
