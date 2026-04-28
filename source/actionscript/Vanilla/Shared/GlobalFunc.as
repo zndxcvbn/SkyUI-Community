@@ -429,13 +429,14 @@ class Shared.GlobalFunc
         if (!target || !source) return;
         
         var destPt = Shared.GlobalFunc._getAnchorPointGlobal(source, sourceAnchor);
-        if (!destPt || isNaN(destPt.x)) return;
+        if (!destPt || isNaN(destPt.x) || isNaN(destPt.y)) return;
         
         destPt.x += (offsetX != undefined ? offsetX : 0);
         destPt.y += (offsetY != undefined ? offsetY : 0);
         
         var targetPt = Shared.GlobalFunc._getAnchorPointLocal(target, targetAnchor);
         target.localToGlobal(targetPt);
+        if (!targetPt || isNaN(targetPt.x) || isNaN(targetPt.y)) return;
         
         var parent = target._parent;
         if (parent) {
