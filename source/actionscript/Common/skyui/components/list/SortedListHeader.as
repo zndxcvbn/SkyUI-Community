@@ -51,6 +51,11 @@ class skyui.components.list.SortedListHeader extends MovieClip
         this._layout.selectColumnPrev(a_columnIndex);
     }
 
+    public function columnCtrlPress(a_columnIndex: Number)
+    {
+        this._layout.clearSorting();
+    }
+
 
   /* PRIVATE FUNCTIONS */
 
@@ -83,8 +88,12 @@ class skyui.components.list.SortedListHeader extends MovieClip
 
         columnButton.onPress = function(a_mouseIndex, a_keyboardOrMouse, a_buttonIndex)
         {
-            if (!this.columnIndex != undefined)
-                this._parent.columnPress(this.columnIndex);
+            if (!this.columnIndex != undefined) {
+                if (Key.isDown(Key.CONTROL))
+                    this._parent.columnCtrlPress(this.columnIndex);
+                else
+                    this._parent.columnPress(this.columnIndex);
+            }
         };
 
         columnButton.onPressAux = function(a_mouseIndex, a_keyboardOrMouse, a_buttonIndex)

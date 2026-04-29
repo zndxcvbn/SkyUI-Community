@@ -304,6 +304,18 @@ class skyui.components.list.ListLayout
         this.updateLayout();
     }
 
+    public function clearSorting()
+    {
+        this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
+        if (this._activeColumnIndex == undefined || this._activeColumnIndex < 0)
+            this._activeColumnIndex = 0;
+            
+        this._activeColumnState = 1;
+        this._prefData.column = this._columnList[this.toColumnListIndex(this._activeColumnIndex)];
+        this._prefData.stateIndex = 1;
+        this.updateLayout();
+    }
+
 
     /* PRIVATE FUNCTIONS */
 
@@ -490,7 +502,7 @@ class skyui.components.list.ListLayout
         var xPos = 0;
         c = 0;
         for (var i = 0; i < this._columnList.length; i++) {
-            var col = _columnList[i];
+            var col = this._columnList[i];
             // Skip
             if (col.hidden == true)
                 continue;
