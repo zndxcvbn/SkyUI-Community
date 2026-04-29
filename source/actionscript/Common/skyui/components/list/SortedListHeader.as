@@ -41,14 +41,14 @@ class skyui.components.list.SortedListHeader extends MovieClip
 
   /* PUBLIC FUNCTIONS */
 
-    public function columnPress(a_columnIndex: Number)
+    public function columnPress(a_columnIndex: Number, a_bShift: Boolean)
     {
-        this._layout.selectColumn(a_columnIndex);
+        this._layout.selectColumn(a_columnIndex, a_bShift);
     }
 
-    public function columnRightPress(a_columnIndex: Number)
+    public function columnRightPress(a_columnIndex: Number, a_bShift: Boolean)
     {
-        this._layout.selectColumnPrev(a_columnIndex);
+        this._layout.selectColumnPrev(a_columnIndex, a_bShift);
     }
 
     public function columnCtrlPress(a_columnIndex: Number)
@@ -92,14 +92,14 @@ class skyui.components.list.SortedListHeader extends MovieClip
                 if (Key.isDown(Key.CONTROL))
                     this._parent.columnCtrlPress(this.columnIndex);
                 else
-                    this._parent.columnPress(this.columnIndex);
+                    this._parent.columnPress(this.columnIndex, Key.isDown(Key.SHIFT));
             }
         };
 
         columnButton.onPressAux = function(a_mouseIndex, a_keyboardOrMouse, a_buttonIndex)
         {
             if (!this.columnIndex != undefined && a_buttonIndex == 1)
-                this._parent.columnRightPress(this.columnIndex);
+                this._parent.columnRightPress(this.columnIndex, Key.isDown(Key.SHIFT));
         };
 
         this._columns[a_index] = columnButton;
