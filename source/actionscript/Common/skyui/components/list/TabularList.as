@@ -116,8 +116,8 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
     {
         var config = event.config;
         
-        if (config.ItemList.itemCountMode != undefined) {
-            var mode = Number(config.ItemList.itemCountMode);
+        if (config.ItemList.itemCount.mode != undefined) {
+            var mode = Number(config.ItemList.itemCount.mode);
             
             if (mode > 2) {
                 mode = 2;
