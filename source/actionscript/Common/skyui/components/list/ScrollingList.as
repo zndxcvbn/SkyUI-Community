@@ -13,6 +13,7 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // Flag that allows list Entry to disable their animation
     public var bDisableAnim: Boolean = false;
     public var lastSelectionAnimY: Number = -1;
+    public var enableAnimation: Boolean = true; 
 
   /* STAGE ELEMENTS */
 

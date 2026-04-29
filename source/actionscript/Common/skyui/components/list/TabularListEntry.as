@@ -102,8 +102,8 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
     {
         if (isSelected) {
             this.selectIndicator._visible = true;
-
-            if (a_list.bDisableAnim) {
+            
+            if (a_list.bDisableAnim || a_list.enableAnimation === false) {
                 this.resetSelectionAnim(true);
                 a_list.lastSelectionAnimY = this._y;
                 return;
