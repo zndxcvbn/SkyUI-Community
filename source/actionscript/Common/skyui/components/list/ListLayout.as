@@ -256,6 +256,32 @@ class skyui.components.list.ListLayout
         this.updateLayout();
     }
 
+    public function selectColumnPrev(a_index: Number)
+    {
+        var listIndex = this.toColumnListIndex(a_index);
+        var col = this._columnList[listIndex];
+        
+        // Invalid column
+        if (col == null || col.passive)
+            return;
+            
+        if (this._activeColumnIndex != a_index) {
+            this._activeColumnIndex = a_index;
+            this._activeColumnState = col.states;
+        } else {
+            if (this._activeColumnState > 1)
+                this._activeColumnState--;
+            else
+                this._activeColumnState = col.states;
+        }
+        
+        // Save as preferred state
+        this._prefData.column = col;
+        this._prefData.stateIndex = this._activeColumnState;
+            
+        this.updateLayout();
+    }
+
     public function restoreColumnState(a_activeIndex: Number, a_activeState: Number)
     {
         var listIndex = this.toColumnListIndex(a_activeIndex);
