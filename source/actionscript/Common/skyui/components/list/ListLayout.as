@@ -319,6 +319,7 @@ class skyui.components.list.ListLayout
 
     public function clearSorting()
     {
+        this._forceReverse = false;
         this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
         if (this._activeColumnIndex == undefined || this._activeColumnIndex < 0)
             this._activeColumnIndex = 0;
@@ -374,7 +375,7 @@ class skyui.components.list.ListLayout
             }
                 
             columnLayoutData.type = col.type;
-            
+
             columnLayoutData.labelValue = stateData.label.text;
             columnLayoutData.entryValue = stateData.entry.text;
             columnLayoutData.colorAttribute = stateData.colorAttribute;
