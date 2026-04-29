@@ -122,6 +122,8 @@ Add_SWF(craftingmenu
     Common/skyui/filter/NameFilter.as
     Common/skyui/filter/SortFilter.as
     Common/skyui/components/list/BasicListEntry.as
+    Common/skyui/components/list/ListLayout.as
+    Common/skyui/components/list/SortedListHeader.as
     Common/skyui/components/list/TabularListEntry.as
     CraftingMenu/CraftingDataSetter.as
     CraftingMenu/CraftingIconSetter.as
@@ -483,6 +485,8 @@ Add_SWF(skyui_inventorylists
     Common/skyui/components/list/BasicListEntry.as
     Common/skyui/components/list/TabularListEntry.as
     Common/skyui/components/list/ScrollingList.as
+    Common/skyui/components/list/SortedListHeader.as
+    Common/skyui/components/list/ListLayout.as
     ItemMenus/CategoryList.as
     ItemMenus/CategoryListEntry.as
     ItemMenus/InventoryListEntry.as
