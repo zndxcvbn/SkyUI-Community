@@ -3,7 +3,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
   /* PRIVATE VARIABLES */
 
     private var _columns: Array;
-    private var _itemCount: Number = 0;
+    private var _itemCount: Number = -1;
     private var _countColumn: MovieClip;
 
 
@@ -55,6 +55,8 @@ class skyui.components.list.SortedListHeader extends MovieClip
         if (a_count < 0) {
             if (this._countColumn != undefined)
                 this._countColumn._visible = false;
+            if (this._layout != undefined)
+                this.positionButtons();
             return;
         }
         

@@ -76,14 +76,14 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
         if (this.header == undefined || this.listEnumeration == undefined)
             return;
 
-        if (this._itemCountMode <= 0) {
+        if (this._itemCountMode <= 0 || this._layout == undefined || this._layout.columnLayoutData == undefined) {
             this.header.updateItemCount(-1);
             return;
         }
 
         var totalRows = this.listEnumeration.size();
         var totalItemsCount = 0;
-        
+
         var activeColIdx = this._layout.activeColumnIndex;
         var isActiveColName = (this._layout.columnLayoutData[activeColIdx].type == skyui.components.list.ListLayout.COL_TYPE_NAME);
         
