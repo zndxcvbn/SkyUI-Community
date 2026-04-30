@@ -30,6 +30,13 @@ itemcard.yOffset = 0
 [ItemList] 
 ; =====================================================================================================================
 quantityMenu.minCount = 6 ; Number of items required to trigger quantity dialog. 0 is disabled
+itemCount.mode = 2        ; 0: Hide, 1: Number of items (without stacks), 2: Number of items (with stacks)
+
+
+; =====================================================================================================================
+[ScrollingList]
+; =====================================================================================================================
+selection.animation = true ; Enable/Disable Smooth Selection Animation (Selection Indicator)
 
 
 ; =====================================================================================================================
@@ -56,6 +63,7 @@ vars.a_textBorder.value = <0, 0, 1.1, 0> ; left right top bottom
 vars.n_iconSize.value = 18
 
 defaults.entryWidth = 530
+defaults.columnMargin = 0 ; global spacing between columns of the right block
 
 ; Default text format defaults -------------------------------------------------------
 defaults.entry.textFormat.font = '$EverywhereMediumFont'
