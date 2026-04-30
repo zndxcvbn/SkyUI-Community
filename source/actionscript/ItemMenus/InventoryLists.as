@@ -1,6 +1,7 @@
 class InventoryLists extends MovieClip
 {
    var _columnSelectDialog;
+   var _columnSelectDialogX;
    var _columnSelectInterval;
    var _currCategoryIndex;
    var _currentState;
@@ -177,6 +178,19 @@ class InventoryLists extends MovieClip
             return true;
          }
       }
+      
+      var kc = details.code;
+      var isCtrl = details.ctrlKey || Key.isDown(Key.CONTROL);
+
+      if (isCtrl && (kc == 87 || kc == 38 || kc == 83 || kc == 40)) {
+         if (details.value == "keyDown" || details.value == "keyHold") {
+            var dir = (kc == 83 || kc == 40) ? 1 : -1;
+            this.selectEquippedItem(dir);
+            return true;
+         }
+         if (details.value == "keyUp") return true;
+      }
+
       if(Shared.GlobalFunc.IsKeyPressed(details))
       {
          if(details.skseKeycode == this._searchKey)
@@ -337,7 +351,7 @@ class InventoryLists extends MovieClip
       this.categoryList.disableSelection = this.categoryList.disableInput = true;
       this.itemList.disableSelection = this.itemList.disableInput = true;
       this.searchWidget.isDisabled = true;
-      this._columnSelectDialog = skyui.util.DialogManager.open(this.panelContainer,"ColumnSelectDialog",{_x:554,_y:35,layout:this.itemList.layout});
+      this._columnSelectDialog = skyui.util.DialogManager.open(this.panelContainer,"ColumnSelectDialog",{_x:this._columnSelectDialogX != undefined ? this._columnSelectDialogX : 554,_y:35,layout:this.itemList.layout});
       this._columnSelectDialog.addEventListener("dialogClosed",this,"onColumnSelectDialogClosed");
    }
    function onColumnSelectDialogClosed(event)
@@ -409,5 +423,55 @@ class InventoryLists extends MovieClip
       this.categoryList.disableSelection = this.categoryList.disableInput = false;
       this.itemList.disableSelection = this.itemList.disableInput = false;
       this._nameFilter.filterText = event.data;
+   }
+
+   function selectEquippedItem(a_direction: Number)
+   {
+      var list = this.itemList;
+      var enumSize = list.getListEnumSize();
+      if (enumSize <= 0) return;
+
+      var currentEnumIdx = list.getSelectedListEnumIndex();
+      if (currentEnumIdx == undefined || currentEnumIdx == -1) {
+         currentEnumIdx = (a_direction > 0) ? -1 : 0;
+      }
+
+      for (var i = 1; i <= enumSize; i++) {
+         var nextEnumIdx = (currentEnumIdx + (i * a_direction)) % enumSize;
+         if (nextEnumIdx < 0) nextEnumIdx += enumSize;
+         
+         var entry = list.getListEnumEntry(nextEnumIdx);
+
+         if (entry != undefined && entry.equipState != undefined && entry.equipState > 0) {
+            list.doSetSelectedIndex(entry.itemIndex, 1); 
+            gfx.io.GameDelegate.call("PlaySound", ["UIMenuFocus"]);
+            return;
+         }
+      }
+   }
+
+   function applyDynamicWidth(a_newWidth: Number)
+   {
+      var defaultWidth = 530;
+      var delta = a_newWidth - defaultWidth;
+
+      this.panelContainer.ListBackground._width += delta;
+      this.itemList.header.seperator._width += delta;
+      this.categoryList.background._width += delta;
+
+      var tab = this.panelContainer.tabBar;
+      var halfDelta = delta / 2;
+
+      tab.image._width += delta;
+      tab.rightIcon._x += delta;
+      tab.rightLabel._x += delta;
+      tab.leftButton._width += halfDelta;
+      tab.rightButton._x += halfDelta;
+      tab.rightButton._width += halfDelta;
+
+      this.itemList.scrollbar._x += delta;
+      this.searchWidget._x += delta;
+      this.columnSelectButton._x += delta;
+      this._columnSelectDialogX = 554 + delta;
    }
 }
