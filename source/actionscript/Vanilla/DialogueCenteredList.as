@@ -1,164 +1,160 @@
 class DialogueCenteredList extends Shared.CenteredScrollingList
 {
-   var EntriesA;
-   var GetClipByIndex;
-   var SetEntry;
-   var _parent;
-   var bDisableInput;
-   var bMouseDrivenNav;
-   var bPointerHighlight;
-   var bRecenterSelection;
-   var doSetSelectedIndex;
-   var fCenterY;
-   var fListHeight;
-   var iListItemsShown;
-   var iMaxItemsShown;
-   var iNumTopHalfEntries;
-   var iPlatform;
-   var iScrollPosition;
-   var iSelectedIndex;
-   var scrollPosition;
-   function DialogueCenteredList()
-   {
-      super();
-      this.fCenterY = this.GetClipByIndex(this.iNumTopHalfEntries)._y + this.GetClipByIndex(this.iNumTopHalfEntries)._height / 2;
-   }
-   function SetEntryText(aEntryClip, aEntryObject)
-   {
-      super.SetEntryText(aEntryClip,aEntryObject);
-      if(aEntryClip.textField != undefined)
-      {
-         aEntryClip.textField.textColor = !(aEntryObject.topicIsNew == undefined || aEntryObject.topicIsNew) ? 6316128 : 16777215;
-      }
-   }
-   function UpdateList()
-   {
-      if(this.bPointerHighlight)
-      {
-         this.iSelectedIndex = this.iScrollPosition;
-      }
+  /* PUBLIC VARIABLES */ 
 
-      var _loc8_ = 0; var _loc6_ = 0; var _loc2_ = 0;
-      while(_loc2_ < this.iScrollPosition - this.iNumTopHalfEntries) { _loc2_++; }
-      
-      this.iListItemsShown = 0;
-      var _loc4_ = 0;
-      var _loc5_;
-      while(_loc4_ < this.iNumTopHalfEntries)
-      {
-         _loc5_ = this.GetClipByIndex(_loc4_);
-         if(this.iScrollPosition - this.iNumTopHalfEntries + _loc4_ >= 0)
-         {
-            this.SetEntry(_loc5_, this.EntriesA[_loc2_]);
-            _loc5_._visible = true;
-            _loc5_.itemIndex = _loc2_;
-            this.EntriesA[_loc2_].clipIndex = _loc4_;
-            _loc2_ = _loc2_ + 1;
-         }
-         else
-         {
-            this.SetEntry(_loc5_, {text:" "});
-            _loc5_._visible = false;
-            _loc5_.itemIndex = undefined;
-         }
-         _loc5_._y = _loc8_ + _loc6_;
-         _loc6_ += _loc5_._height;
-         this.iListItemsShown++;
-         _loc4_ = _loc4_ + 1;
-      }
+    public var fCenterY: Number;    
 
-      if(this.bPointerHighlight) { this.iSelectedIndex = _loc2_; }
 
-      while(_loc2_ < this.EntriesA.length && this.iListItemsShown < this.iMaxItemsShown && _loc6_ <= this.fListHeight)
-      {
-         _loc5_ = this.GetClipByIndex(this.iListItemsShown);
-         this.SetEntry(_loc5_, this.EntriesA[_loc2_]);
-         this.EntriesA[_loc2_].clipIndex = this.iListItemsShown;
-         _loc5_.itemIndex = _loc2_;
-         _loc5_._y = _loc8_ + _loc6_;
-         _loc5_._visible = true;
-         _loc6_ += _loc5_._height;
-         if(_loc6_ <= this.fListHeight && this.iListItemsShown < this.iMaxItemsShown) { this.iListItemsShown++; }
-         _loc2_ = _loc2_ + 1;
-      }
+  /* INITIALIZATION */ 
 
-      var _loc7_ = this.iListItemsShown;
-      while(_loc7_ < this.iMaxItemsShown)
-      {
-         this.GetClipByIndex(_loc7_)._visible = false;
-         this.GetClipByIndex(_loc7_).itemIndex = undefined;
-         _loc7_ = _loc7_ + 1;
-      }
+    public function DialogueCenteredList()
+    {
+        super();
+        
+        var centerClip = this.GetClipByIndex(this.iNumTopHalfEntries);
+        this.fCenterY = centerClip._y + (centerClip._height / 2);
+    }
 
-      if(!this.bPointerHighlight && !this.bRecenterSelection)
-      {
-         for (var i = 0; i < this.iMaxItemsShown; i++) {
-            var clip = this.GetClipByIndex(i);
-            if (clip && clip._visible && clip.itemIndex != undefined && clip.hitTest(_root._xmouse, _root._ymouse, true) && clip.itemIndex != this.iSelectedIndex) {
-               this.doSetSelectedIndex(clip.itemIndex, 0);
-               break;
+
+  /* PUBLIC FUNCTIONS */ 
+
+    // @override CenteredScrollingList
+    public function SetEntryText(aEntryClip: MovieClip, aEntryObject: Object)
+    {
+        super.SetEntryText(aEntryClip, aEntryObject);
+        
+        if (aEntryClip.textField != undefined) {
+            var isNew = aEntryObject.topicIsNew == undefined || aEntryObject.topicIsNew;
+            aEntryClip.textField.textColor = isNew ? 0xFFFFFF : 0x606060;
+        }
+    }
+
+    // @override CenteredScrollingList
+    function UpdateList()
+    {
+        
+        if (this.bPointerHighlight)
+            this.iSelectedIndex = this.iScrollPosition;
+
+        var currentY: Number = 0;
+        
+        var dataIdx: Number = Math.max(0, this.iScrollPosition - this.iNumTopHalfEntries);
+        
+        this.iListItemsShown = 0;
+        
+        for (var i: Number = 0; i < this.iNumTopHalfEntries; i++) {
+            var entryClip = this.GetClipByIndex(i);
+            
+            if ((this.iScrollPosition - this.iNumTopHalfEntries + i) >= 0) {
+                this.SetEntry(entryClip, this.EntriesA[dataIdx]);
+                entryClip._visible = true;
+                entryClip.itemIndex = dataIdx;
+                this.EntriesA[dataIdx].clipIndex = i;
+                dataIdx++;
+            } else {
+                this.SetEntry(entryClip, {text: " "});
+                entryClip._visible = false;
+                entryClip.itemIndex = undefined;
             }
-         }
-      }
-      
-      this.bRecenterSelection = false;
-      this.RepositionEntries();
+            
+            entryClip._y = currentY;
+            currentY += entryClip._height;
+            this.iListItemsShown++;
+        }
+        
+        if (this.bPointerHighlight)
+            this.iSelectedIndex = dataIdx;
+        
+        while (dataIdx < this.EntriesA.length && this.iListItemsShown < this.iMaxItemsShown && currentY <= this.fListHeight) {
+            var entryClip = this.GetClipByIndex(this.iListItemsShown);
+            
+            this.SetEntry(entryClip, this.EntriesA[dataIdx]);
+            this.EntriesA[dataIdx].clipIndex = this.iListItemsShown;
+            entryClip.itemIndex = dataIdx;
+            entryClip._y = currentY;
+            entryClip._visible = true;
+            
+            currentY += entryClip._height;
+            
+            if (currentY <= this.fListHeight && this.iListItemsShown < this.iMaxItemsShown)
+                this.iListItemsShown++;
+                
+            dataIdx++;
+        }
 
-      var _locIndicatorLimit = 3;
-      this._parent.ScrollIndicators.Up._visible = this.scrollPosition > this.iNumTopHalfEntries;
-      this._parent.ScrollIndicators.Down._visible = this.EntriesA.length - this.scrollPosition - 1 > _locIndicatorLimit || _loc6_ > this.fListHeight;
+        for (var j: Number = this.iListItemsShown; j < this.iMaxItemsShown; j++) {
+            var unusedClip = this.GetClipByIndex(j);
+            unusedClip._visible = false;
+            unusedClip.itemIndex = undefined;
+        }
 
-   }
+        if (!this.bPointerHighlight && !this.bRecenterSelection) {
+            for (var k: Number = 0; k < this.iMaxItemsShown; k++) {
+                var clip = this.GetClipByIndex(k);
+                if (clip && clip._visible && clip.itemIndex != undefined) {
+                    if (clip.hitTest(_root._xmouse, _root._ymouse, true) && clip.itemIndex != this.iSelectedIndex) {
+                        this.doSetSelectedIndex(clip.itemIndex, 0);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        this.bRecenterSelection = false;
+        
+        this.RepositionEntries();
 
-   function RepositionEntries()
-   {
-      var _loc4_ = this.GetClipByIndex(this.iNumTopHalfEntries)._y + this.GetClipByIndex(this.iNumTopHalfEntries)._height / 2;
-      var _loc3_ = this.fCenterY - _loc4_;
-      var _loc2_ = 0;
-      while(_loc2_ < this.iMaxItemsShown)
-      {
-         this.GetClipByIndex(_loc2_)._y = this.GetClipByIndex(_loc2_)._y + _loc3_;
-         _loc2_ = _loc2_ + 1;
-      }
-   }
+        var INDICATOR_LIMIT: Number = 3;
+        this._parent.ScrollIndicators.Up._visible = (this.scrollPosition > this.iNumTopHalfEntries);
+        
+        var isDownVisible = (this.EntriesA.length - this.scrollPosition - 1 > INDICATOR_LIMIT) || (currentY > this.fListHeight);
+        this._parent.ScrollIndicators.Down._visible = isDownVisible;
+    }
 
-   function onMouseWheel(delta)
-   {
-      if(!this.bDisableInput)
-      {
-         this.bPointerHighlight = true;
+    // @override CenteredScrollingList
+    public function onMouseWheel(delta: Number)
+    {
+        if (!this.bDisableInput) {
+            this.bPointerHighlight = true;
 
-         if(delta < 0)
-         {
-            var _next_ = this.GetClipByIndex(this.iNumTopHalfEntries + 1);
-            if(_next_._visible == true) this.scrollPosition += 1;
-         }
-         else if(delta > 0)
-         {
-            var _prev_ = this.GetClipByIndex(this.iNumTopHalfEntries - 1);
-            if(_prev_._visible == true) this.scrollPosition -= 1;
-         }
+            if (delta < 0) {
+                var nextClip = this.GetClipByIndex(this.iNumTopHalfEntries + 1);
+                if (nextClip._visible) this.scrollPosition += 1;
+            } else if (delta > 0) {
+                var prevClip = this.GetClipByIndex(this.iNumTopHalfEntries - 1);
+                if (prevClip._visible) this.scrollPosition -= 1;
+            }
 
-         this.iSelectedIndex = this.iScrollPosition;
-         this.UpdateList();
-      }
-   }
+            this.iSelectedIndex = this.iScrollPosition;
+            this.UpdateList();
+        }
+    }
 
-   function SetSelectedTopic(aiTopicIndex)
-   {
-      this.bPointerHighlight = true;
-      this.iSelectedIndex = 0;
-      this.iScrollPosition = 0;
-      var _loc2_ = 0;
-      while(_loc2_ < this.EntriesA.length)
-      {
-         if(this.EntriesA[_loc2_].topicIndex == aiTopicIndex)
-         {
-            this.iScrollPosition = _loc2_;
-            this.iSelectedIndex = _loc2_;
-         }
-         _loc2_ = _loc2_ + 1;
-      }
-      this.UpdateList();
-   }
+    public function RepositionEntries()
+    {
+        var centerClip = this.GetClipByIndex(this.iNumTopHalfEntries);
+        var currentVisualCenter = centerClip._y + (centerClip._height / 2);
+        var offset: Number = this.fCenterY - currentVisualCenter;
+
+        for (var i: Number = 0; i < this.iMaxItemsShown; i++) {
+            var clip = this.GetClipByIndex(i);
+            clip._y += offset;
+        }
+    }
+    
+    public function SetSelectedTopic(aiTopicIndex: Number)
+    {
+        this.bPointerHighlight = true;
+        this.iSelectedIndex = 0;
+        this.iScrollPosition = 0;
+        
+        for (var i: Number = 0; i < this.EntriesA.length; i++) {
+            if (this.EntriesA[i].topicIndex == aiTopicIndex) {
+                this.iScrollPosition = i;
+                this.iSelectedIndex = i;
+                break;
+            }
+        }
+        this.UpdateList();
+    }
 }
