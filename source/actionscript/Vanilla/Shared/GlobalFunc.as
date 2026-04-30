@@ -330,8 +330,6 @@ class Shared.GlobalFunc
 
         tf.htmlText = best;
         tf.setTextFormat(fmt);
-      tf.htmlText = best;
-      tf.setTextFormat(fmt);
    }
 
     /**
