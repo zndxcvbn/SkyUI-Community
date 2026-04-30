@@ -116,6 +116,9 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
     {
         var config = event.config;
         
+        if (config.ScrollingList.selection.animation != undefined)
+            this.enableAnimation = config.ScrollingList.selection.animation;
+        
         if (config.ItemList.itemCount.mode != undefined) {
             var mode = Number(config.ItemList.itemCount.mode);
             
