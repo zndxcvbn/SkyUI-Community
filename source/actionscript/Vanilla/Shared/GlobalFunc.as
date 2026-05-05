@@ -479,17 +479,28 @@ class Shared.GlobalFunc
         return {x: x, y: y};
     }
 
-    /**
-     * Extends MovieClip with Layout functions.
-     */
     static function SetExtendedLayoutFunctions()
     {
         /**
-         * Aligns an array of MovieClips along the horizontal axis of this MovieClip.
-         * Analogous to CSS justify-content.
-         *
-         * @param {String} aMode - "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly".
-         * @param {Array} aChildren - Array of MovieClips to be aligned.
+         * Horizontally aligns and distributes a set of child MovieClips within the bounds of this MovieClip.
+         * This method acts as a layout engine inspired by the CSS Flexbox 'justify-content' property.
+         * 
+         * Positioning is calculated based on the current width (`_width`) and horizontal position (`_x`) 
+         * of the container MovieClip.
+         * 
+         * @param aChildren  {Array}  An array of MovieClips to be aligned. Only clips where `_visible == true` are included in calculations.
+         * @param aMode      {String} The distribution algorithm to use:
+         *                            - "flex-start":    Clips are packed toward the left edge.
+         *                            - "flex-end":      Clips are packed toward the right edge.
+         *                            - "center":        Clips are centered horizontally.
+         *                            - "space-between": Clips are evenly distributed; first clip is at the left, last is at the right.
+         *                            - "space-around":  Clips are evenly distributed with half-size spaces on the ends.
+         *                            - "space-evenly":  Clips are distributed so that all gaps (including edges) are equal.
+         * @param aGap       {Number} The fixed spacing (in pixels) to apply between items for "flex" modes, 
+         *                            or the fallback gap value.
+         * 
+         * @example
+         * myContainer.JustifyContent(iconsArray, "flex-start", 10);
          */
         MovieClip.prototype.JustifyContent = function(aChildren: Array, aMode: String, aGap: Number)
         {
