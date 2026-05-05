@@ -1,5 +1,11 @@
 class skyui.components.list.ScrollingList extends skyui.components.list.BasicList
 {
+  /* CONSTANTS & CONFIGURATION */
+
+    public var keyRepeatDelay: Number = 300;
+    public var keyRepeatInterval: Number = 25;
+
+
   /* PRIVATE VARIABLES */ 
 
     // This serves as the actual size of the list as its incremented during updating
@@ -10,10 +16,16 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // The maximum allowed size. Actual size might be smaller if the list is not filled completely.
     private var _maxListIndex: Number;
 
+    // Timers for fast key repetition
+    private var _keyRepeatTimeout: Number;
+    private var _keyRepeatInterval: Number;
+    private var _heldNavDirection: Number = -1;
+
     // Flag that allows list Entry to disable their animation
     public var bDisableAnim: Boolean = false;
     public var lastSelectionAnimY: Number = -1;
     public var enableAnimation: Boolean = false; 
+
 
   /* STAGE ELEMENTS */
 
@@ -69,6 +81,7 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     public function set listHeight(a_height: Number)
     {
         this._listHeight = this.background._height = a_height;
+        this._maxListIndex = Math.floor(this._listHeight / this.entryHeight);
         
         if (this.scrollbar != undefined)
             this.scrollbar.height = this._listHeight;
@@ -82,8 +95,19 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         super();
         
         this._listHeight = this.background._height - this.topBorder - this.bottomBorder;
-        
+
         this._maxListIndex = Math.floor(this._listHeight / this.entryHeight);
+    }
+    
+    public function applyScrollConfig(a_config: Object)
+    {
+        if (a_config == undefined) return;
+
+        if (a_config.keyRepeatDelay != undefined)
+            this.keyRepeatDelay = Math.max(0, Number(a_config.keyRepeatDelay));
+            
+        if (a_config.keyRepeatInterval != undefined)
+            this.keyRepeatInterval = Math.max(1, Number(a_config.keyRepeatInterval));
     }
 
 
@@ -106,6 +130,11 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         super.setPlatform(a_platform,a_bPS3Switch);
     }
 
+    public function onUnload()
+    {
+        this.stopKeyRepeat();
+    }
+
     // @GFx
     public function handleInput(details: InputDetails, pathToFocus: Array)
     {
@@ -118,14 +147,28 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         if (bHandled)
             return true;
 
+        var nav = details.navEquivalent;
+        var isNavKey = (nav == gfx.ui.NavigationCode.UP || nav == gfx.ui.NavigationCode.DOWN || 
+                        nav == gfx.ui.NavigationCode.PAGE_UP || nav == gfx.ui.NavigationCode.PAGE_DOWN);
+
+        if (isNavKey) {
+            if (details.value == "keyDown") {
+                this.executeNavDirection(nav);
+                this.startKeyRepeat(nav);
+                return true;
+            }
+            if (details.value == "keyUp") {
+                if (this._heldNavDirection == nav) 
+                    this.stopKeyRepeat();
+                return true;
+            }
+            if (details.value == "keyHold") {
+                return true; 
+            }
+        }
+
         if (Shared.GlobalFunc.IsKeyPressed(details)) {
-            if (details.navEquivalent == gfx.ui.NavigationCode.UP || details.navEquivalent == gfx.ui.NavigationCode.PAGE_UP) {
-                this.moveSelectionUp(details.navEquivalent == gfx.ui.NavigationCode.PAGE_UP);
-                return true;
-            } else if (details.navEquivalent == gfx.ui.NavigationCode.DOWN || details.navEquivalent == gfx.ui.NavigationCode.PAGE_DOWN) {
-                this.moveSelectionDown(details.navEquivalent == gfx.ui.NavigationCode.PAGE_DOWN);
-                return true;
-            } else if (!this.disableSelection && details.navEquivalent == gfx.ui.NavigationCode.ENTER) {
+            if (!this.disableSelection && details.navEquivalent == gfx.ui.NavigationCode.ENTER) {
                 // TODO: See gfx.managers.InputDelegate.inputToNav(); stop it from converting numberpad -> navEquivalent
                 // Fix for numberpad 0 being handled as ENTER
                 if (details.code == 96 && this._platform == skyui.components.list.BasicList.PLATFORM_PC)
@@ -133,7 +176,6 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
                 this.onItemPress();
                 return true;
-
             }
         }
         return false;
@@ -252,15 +294,10 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             } else if (this.getSelectedListEnumIndex() >= this.scrollDelta) {
                 this.doSetSelectedIndex(this.getListEnumRelativeIndex(-this.scrollDelta), skyui.components.list.BasicList.SELECT_KEYBOARD);
                 this.isMouseDrivenNav = false;
-                
-                if (this.isPressOnMove)
-                    this.onItemPress();
+                if (this.isPressOnMove) this.onItemPress();
             } else if (this.getListEnumSize() > 0) {
                 this.doSetSelectedIndex(this.getListEnumEntry(this.getListEnumSize() - 1).itemIndex, skyui.components.list.BasicList.SELECT_KEYBOARD);
                 this.isMouseDrivenNav = false;
-                
-                if (this.isPressOnMove)
-                    this.onItemPress();
             }
         } else if (a_bScrollPage) {
             var t = this.scrollPosition - this._listIndex;
@@ -279,15 +316,10 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             } else if (this.getSelectedListEnumIndex() < this.getListEnumSize() - this.scrollDelta) {
                 this.doSetSelectedIndex(this.getListEnumRelativeIndex(this.scrollDelta), skyui.components.list.BasicList.SELECT_KEYBOARD);
                 this.isMouseDrivenNav = false;
-                
-                if (this.isPressOnMove)
-                    this.onItemPress();
+                if (this.isPressOnMove) this.onItemPress();
             } else if (this.getListEnumSize() > 0) {
                 this.doSetSelectedIndex(this.getListEnumEntry(0).itemIndex, skyui.components.list.BasicList.SELECT_KEYBOARD);
                 this.isMouseDrivenNav = false;
-                
-                if (this.isPressOnMove)
-                    this.onItemPress();
             }
         } else if (a_bScrollPage) {
             var t = this.scrollPosition + this._listIndex;
@@ -316,6 +348,47 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
 
   /* PRIVATE FUNCTIONS */
+
+    private function executeNavDirection(navCode: Number)
+    {
+        if (navCode == gfx.ui.NavigationCode.UP || navCode == gfx.ui.NavigationCode.PAGE_UP) {
+            this.moveSelectionUp(navCode == gfx.ui.NavigationCode.PAGE_UP);
+        } else if (navCode == gfx.ui.NavigationCode.DOWN || navCode == gfx.ui.NavigationCode.PAGE_DOWN) {
+            this.moveSelectionDown(navCode == gfx.ui.NavigationCode.PAGE_DOWN);
+        }
+    }
+
+    private function startKeyRepeat(navCode: Number)
+    {
+        this.stopKeyRepeat();  
+        this._heldNavDirection = navCode;
+        this._keyRepeatTimeout = setInterval(this, "onKeyRepeatStart", this.keyRepeatDelay);
+    }
+
+    private function onKeyRepeatStart()
+    {
+        clearInterval(this._keyRepeatTimeout);
+        delete this._keyRepeatTimeout;
+        this._keyRepeatInterval = setInterval(this, "onKeyRepeatTick", this.keyRepeatInterval);
+    }
+
+    private function onKeyRepeatTick()
+    {
+        if (this._heldNavDirection == -1) {
+            this.stopKeyRepeat();
+            return;
+        }
+        this.executeNavDirection(this._heldNavDirection);
+    }
+
+    private function stopKeyRepeat()
+    {
+        clearInterval(this._keyRepeatTimeout);
+        delete this._keyRepeatTimeout;
+        clearInterval(this._keyRepeatInterval);
+        delete this._keyRepeatInterval;
+        this._heldNavDirection = -1;
+    }
 
     // @GFx
     private function onMouseWheel(a_delta: Number)
