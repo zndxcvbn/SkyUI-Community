@@ -662,6 +662,7 @@ Add_SWF(skyui_inventorylists
         NameFilter.as
         SortFilter.as
     }
+    Common/skyui/util/GlobalFunctions.as
     Common/skyui/components/list {
         BasicListEntry.as
         TabularList.as
