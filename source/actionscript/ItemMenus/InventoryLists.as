@@ -34,6 +34,7 @@ class InventoryLists extends MovieClip
    {
       super();
       skyui.util.GlobalFunctions.addArrayFunctions();
+      Shared.GlobalFunc.SetExtendedLayoutFunctions();
       gfx.events.EventDispatcher.initialize(this);
       this.gotoAndStop("NoPanels");
       gfx.io.GameDelegate.addCallBack("SetCategoriesList",this,"SetCategoriesList");
@@ -98,6 +99,7 @@ class InventoryLists extends MovieClip
       this.columnSelectButton.addEventListener("press",this,"onColumnSelectButtonPress");
       this.categoryList.suspended = true;
       this.itemList.suspended = true;
+      this.panelContainer.ListBackground.Lock("TB", true, true);
    }
    function showPanel(a_bPlayBladeSound)
    {
