@@ -400,6 +400,8 @@ class ItemMenu extends MovieClip
       var marginBottomBar = 17;
 
       this.bottomBar.Lock("B");
+      this.bottomBar.background.Lock("LR", false, true);
+
       this.bottomBar._y += Stage.safeRect.y - this.bottomBar._height + marginBottomBar;
       this.bottomBar.positionElements(leftOffset, rightOffset);
       
