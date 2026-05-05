@@ -47,6 +47,7 @@ class CategoryList extends skyui.components.list.BasicList
       {
          this.iconSize = 32;
       }
+      Shared.GlobalFunc.SetExtendedLayoutFunctions();
    }
    function set activeSegment(a_segment)
    {
@@ -96,39 +97,36 @@ class CategoryList extends skyui.components.list.BasicList
    }
    function UpdateList()
    {
-      if(this._bSuspended)
-      {
+      if(this._bSuspended) {
          this._bRequestUpdate = true;
-         return undefined;
+         return;
       }
+      
       this.setClipCount(this._segmentLength);
-      var _loc5_ = 0;
-      var _loc2_ = 0;
-      var _loc3_;
-      while(_loc2_ < this._segmentLength)
-      {
-         _loc3_ = this.getClipByIndex(_loc2_);
-         _loc3_.setEntry(this.listEnumeration.at(_loc2_ + this._segmentOffset),this.listState);
-         _loc3_.background._width = _loc3_.background._height = this.iconSize;
-         this.listEnumeration.at(_loc2_ + this._segmentOffset).clipIndex = _loc2_;
-         _loc3_.itemIndex = _loc2_ + this._segmentOffset;
-         _loc5_ += this.iconSize;
-         _loc2_ = _loc2_ + 1;
+      
+      var visibleClips: Array = [];
+      
+      for(var i: Number = 0; i < this._segmentLength; i++) {
+         var clip = this.getClipByIndex(i);
+         var entryData = this.listEnumeration.at(i + this._segmentOffset);
+         
+         clip.setEntry(entryData, this.listState);
+         clip.background._width = clip.background._height = this.iconSize;
+         entryData.clipIndex = i;
+         clip.itemIndex = i + this._segmentOffset;
+         clip._visible = true;
+         
+         visibleClips.push(clip);
       }
-      this._contentWidth = _loc5_;
-      this._totalWidth = this.background._width;
-      var _loc6_ = (this._totalWidth - this._contentWidth) / (this._segmentLength + 1);
-      var _loc4_ = this.background._x + _loc6_;
-      _loc2_ = 0;
-      while(_loc2_ < this._segmentLength)
-      {
-         _loc3_ = this.getClipByIndex(_loc2_);
-         _loc3_._x = _loc4_;
-         _loc4_ = _loc4_ + this.iconSize + _loc6_;
-         _loc3_._visible = true;
-         _loc2_ = _loc2_ + 1;
-      }
+      
+      this.background.JustifyContent(visibleClips, "space-evenly");
+
       this.updateSelector();
+
+      if (this._selectedIndex != -1) {
+         this._selectorPos = this._targetSelectorPos;
+         this.drawSelector(this._selectorPos);
+      }
    }
    function moveSelectionLeft()
    {
@@ -202,30 +200,22 @@ class CategoryList extends skyui.components.list.BasicList
    function onEnterFrame()
    {
       super.onEnterFrame();
-      if(this._bFastSwitch && this._selectorPos != this._targetSelectorPos)
-      {
+
+      if (this._selectedIndex == -1) return;
+
+      if (this._bFastSwitch) {
          this._selectorPos = this._targetSelectorPos;
          this._bFastSwitch = false;
-         this.refreshSelector();
-      }
-      else if(this._selectorPos < this._targetSelectorPos)
-      {
-         this._selectorPos = this._selectorPos + (this._targetSelectorPos - this._selectorPos) * 0.2 + 1;
-         this.refreshSelector();
-         if(this._selectorPos > this._targetSelectorPos)
-         {
+      } else {
+         var diff = this._targetSelectorPos - this._selectorPos;
+         if (Math.abs(diff) < 0.5) {
             this._selectorPos = this._targetSelectorPos;
+         } else {
+            this._selectorPos += diff * 0.2;
          }
       }
-      else if(this._selectorPos > this._targetSelectorPos)
-      {
-         this._selectorPos = this._selectorPos - (this._selectorPos - this._targetSelectorPos) * 0.2 - 1;
-         this.refreshSelector();
-         if(this._selectorPos < this._targetSelectorPos)
-         {
-            this._selectorPos = this._targetSelectorPos;
-         }
-      }
+
+      this.drawSelector(this._selectorPos);
    }
    function onItemPress(a_index, a_keyboardOrMouse)
    {
@@ -298,53 +288,42 @@ class CategoryList extends skyui.components.list.BasicList
    }
    function updateSelector()
    {
-      if(this.selectorCenter == undefined)
-      {
-         return undefined;
+      if (this.selectorCenter == undefined) return;
+
+      if (this._selectedIndex == -1) {
+         this.selectorCenter._visible = this.selectorLeft._visible = this.selectorRight._visible = false;
+         return;
       }
-      if(this._selectedIndex == -1)
-      {
-         this.selectorCenter._visible = false;
-         if(this.selectorLeft != undefined)
-         {
-            this.selectorLeft._visible = false;
-         }
-         if(this.selectorRight != undefined)
-         {
-            this.selectorRight._visible = false;
-         }
-         return undefined;
-      }
-      var _loc2_ = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
-      this._targetSelectorPos = _loc2_._x + (_loc2_.background._width - this.selectorCenter._width) / 2;
-      this.selectorCenter._visible = true;
-      this.selectorCenter._y = _loc2_._y + _loc2_.background._height;
-      if(this.selectorLeft != undefined)
-      {
-         this.selectorLeft._visible = true;
-         this.selectorLeft._x = 0;
-         this.selectorLeft._y = this.selectorCenter._y;
-      }
-      if(this.selectorRight != undefined)
-      {
-         this.selectorRight._visible = true;
-         this.selectorRight._y = this.selectorCenter._y;
-         this.selectorRight._width = this._totalWidth - this.selectorRight._x;
-      }
+      
+      var targetClip = this.getClipByIndex(this._selectedIndex - this._segmentOffset);
+      if (targetClip == undefined) return;
+      
+      this._targetSelectorPos = targetClip._x + (targetClip.background._width - this.selectorCenter._width) / 2;
+      
+      var targetY = targetClip._y + targetClip.background._height;
+      this.selectorCenter._y = this.selectorLeft._y = this.selectorRight._y = targetY;
+
+      this.selectorCenter._visible = this.selectorLeft._visible = this.selectorRight._visible = true;
    }
-   function refreshSelector()
+   
+   private function drawSelector(a_x: Number)
    {
-      this.selectorCenter._visible = true;
-      var _loc2_ = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
-      this.selectorCenter._x = this._selectorPos;
-      if(this.selectorLeft != undefined)
-      {
-         this.selectorLeft._width = this.selectorCenter._x;
+      if (this.selectorCenter == undefined) return;
+
+      var bgX: Number = this.background._x;
+      var bgMaxX: Number = bgX + this.background._width;
+      
+      this.selectorCenter._x = a_x;
+      
+      if (this.selectorLeft != undefined) {
+         this.selectorLeft._x = bgX;
+         this.selectorLeft._width = Math.max(0, a_x - bgX);
       }
-      if(this.selectorRight != undefined)
-      {
-         this.selectorRight._x = this.selectorCenter._x + this.selectorCenter._width;
-         this.selectorRight._width = this._totalWidth - this.selectorRight._x;
+      
+      if (this.selectorRight != undefined) {
+         var rightStart: Number = a_x + this.selectorCenter._width;
+         this.selectorRight._x = rightStart;
+         this.selectorRight._width = Math.max(0, bgMaxX - rightStart);
       }
    }
 }
