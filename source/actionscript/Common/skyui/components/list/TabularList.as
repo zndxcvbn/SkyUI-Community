@@ -133,6 +133,8 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
             this._itemCountMode = 0;
         }
 
+        this.applyScrollConfig(config.ScrollingList);
+
         if (this._platform != 0) {
             this._previousColumnKey = config["Input"].controls.gamepad.prevColumn;
             this._nextColumnKey = config["Input"].controls.gamepad.nextColumn;
