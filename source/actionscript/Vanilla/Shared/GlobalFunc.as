@@ -84,7 +84,7 @@ class Shared.GlobalFunc
 
   // MOVIECLIP HELPERS
 
-        static function SetLockFunction()
+    static function SetLockFunction()
     {
         /**
          * Anchors or stretches a MovieClip.
