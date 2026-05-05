@@ -519,6 +519,8 @@ class Shared.GlobalFunc
 
             var freeSpace: Number = this._width - totalItemsWidth;
             var currentX: Number = this._x;
+            
+            if (aGap == undefined) aGap = 0;
             var gap: Number = aGap;
 
             switch (aMode) {
