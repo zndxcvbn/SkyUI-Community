@@ -478,4 +478,67 @@ class Shared.GlobalFunc
         
         return {x: x, y: y};
     }
+
+    /**
+     * Extends MovieClip with Layout functions.
+     */
+    static function SetExtendedLayoutFunctions()
+    {
+        /**
+         * Aligns an array of MovieClips along the horizontal axis of this MovieClip.
+         * Analogous to CSS justify-content.
+         *
+         * @param {String} aMode - "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly".
+         * @param {Array} aChildren - Array of MovieClips to be aligned.
+         */
+        MovieClip.prototype.JustifyContent = function(aChildren: Array, aMode: String, aGap: Number)
+        {
+            var items: Array = [];
+            var totalItemsWidth: Number = 0;
+            
+            for (var i: Number = 0; i < aChildren.length; i++) {
+                if (aChildren[i]._visible) {
+                    items.push(aChildren[i]);
+                    totalItemsWidth += aChildren[i]._width;
+                }
+            }
+
+            var n: Number = items.length;
+            if (n == 0) return;
+
+            var freeSpace: Number = this._width - totalItemsWidth;
+            var currentX: Number = this._x;
+            var gap: Number = aGap;
+
+            switch (aMode) {
+                case "flex-start":
+                    gap = aGap;
+                    break;
+                case "flex-end":
+                    gap = aGap;
+                    currentX += freeSpace;
+                    break;
+                case "center":
+                    gap = aGap;
+                    currentX += freeSpace / 2;
+                    break;
+                case "space-between":
+                    gap = (n > 1) ? freeSpace / (n - 1) : aGap;
+                    break;
+                case "space-around":
+                    gap = freeSpace / n;
+                    currentX += gap / 2;
+                    break;
+                case "space-evenly":
+                    gap = freeSpace / (n + 1);
+                    currentX += gap;
+                    break;
+            }
+
+            for (var j: Number = 0; j < n; j++) {
+                items[j]._x = currentX;
+                currentX += items[j]._width + gap;
+            }
+        };
+    }
 }
