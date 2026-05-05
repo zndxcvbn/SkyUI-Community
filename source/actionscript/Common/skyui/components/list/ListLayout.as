@@ -221,7 +221,7 @@ class skyui.components.list.ListLayout
             // Wrap in array for single category
             var categories = ((this._viewList[i].category) instanceof Array) ? this._viewList[i].category : [this._viewList[i].category];
             
-            if (categories.indexOf(a_flag) != undefined || i == this._viewList.length - 1) {
+            if (categories.indexOf(a_flag) != -1 || i == this._viewList.length - 1) {
                 this._activeViewIndex = i;
                 break;
             }
@@ -238,7 +238,7 @@ class skyui.components.list.ListLayout
         // Restoring a previous state was not necessary or failed? Then use default
         if (!this.restorePrefState()) {
             this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
-            if (this._activeColumnIndex == undefined)
+            if (this._activeColumnIndex == -1)
                 this._activeColumnIndex = 0;
                 
             this._activeColumnState = 1;
@@ -336,7 +336,7 @@ class skyui.components.list.ListLayout
     {
         this._forceReverse = false;
         this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
-        if (this._activeColumnIndex == undefined || this._activeColumnIndex < 0)
+        if (this._activeColumnIndex == -1 || this._activeColumnIndex < 0)
             this._activeColumnIndex = 0;
             
         this._activeColumnState = 1;

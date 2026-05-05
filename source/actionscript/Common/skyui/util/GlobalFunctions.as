@@ -44,12 +44,50 @@ class skyui.util.GlobalFunctions
         
         skyui.util.GlobalFunctions._arrayExtended = true;
 
-        Array.prototype.indexOf = function(a_element: Object)
+        Array.prototype.indexOf = function(searchElement: Object, fromIndex: Number)
         {
-            for (var i: Number = 0; i < this.length; i++) {
-                if (this[i] == a_element) return i;
+            // 1. Let obj be ToObject(this)
+            // 2. Let len be LengthOfArrayLike(obj)
+            var len: Number = this.length;
+
+            // 3. If len = 0, return -1
+            if (len === 0 || len === undefined) return -1;
+
+            // 4. Let n be ToInteger(fromIndex)
+            // 5. If fromIndex is undefined, n is 0
+            var n: Number = Number(fromIndex);
+            if (isNaN(n)) {
+                n = 0;
             }
-            return undefined;
+
+            // 6. If n = +Infinity, return -1
+            if (n === Number.POSITIVE_INFINITY) return -1;
+            // 7. If n = -Infinity, set n to 0
+            if (n === Number.NEGATIVE_INFINITY) n = 0;
+
+            // 8. If n >= len, return -1
+            if (n >= len) return -1;
+
+            var k: Number;
+
+            // 8.a & 9.a-b Calculation of start index k
+            if (n >= 0) {
+                k = n;
+            } else {
+                k = len + n;
+                if (k < 0) k = 0;
+            }
+
+            // 10. Repeat, while k < len
+            while (k < len) {
+                if (this.hasOwnProperty(String(k)) && this[k] === searchElement) {
+                    return k;
+                }
+                k++;
+            }
+
+            // 11. Return -1
+            return -1;
         };
 
         Array.prototype.equals = function(a_other: Array)
@@ -62,11 +100,54 @@ class skyui.util.GlobalFunctions
             return true;
         };
 
-        Array.prototype.contains = function(a_element: Object)
+        Array.prototype.contains = function(searchElement: Object, fromIndex: Number)
         {
-            for (var i: Number = 0; i < this.length; i++) {
-                if (this[i] == a_element) return true;
+            // 1. Let obj be ToObject(this)
+            // 2. Let len be LengthOfArrayLike(obj)
+            var len: Number = this.length;
+
+            // 3. If len = 0, return false
+            if (len === 0 || len === undefined) return false;
+
+            // 4. Let n be ToInteger(fromIndex)
+            // 5. If fromIndex is undefined, n is 0
+            var n: Number = Number(fromIndex);
+            if (isNaN(n)) {
+                n = 0;
             }
+
+            // 6. If n = +Infinity, return false
+            if (n === Number.POSITIVE_INFINITY) return false;
+            // 7. If n = -Infinity, set n to 0
+            if (n === Number.NEGATIVE_INFINITY) n = 0;
+
+            // 8. If n >= len, return false
+            if (n >= len) return false;
+
+            var k: Number;
+
+            // 8.a & 9.a-b Calculation of start index k
+            if (n >= 0) {
+                k = n;
+            } else {
+                k = len + n;
+                if (k < 0) k = 0;
+            }
+
+            // 10. Repeat, while k < len
+            while (k < len) {
+                var elementK = this[k];
+
+                if (searchElement === elementK) {
+                    return true;
+                } else if (searchElement !== searchElement && elementK !== elementK) {
+                    return true;
+                }
+
+                k++;
+            }
+
+            // 11. Return false
             return false;
         };
 
