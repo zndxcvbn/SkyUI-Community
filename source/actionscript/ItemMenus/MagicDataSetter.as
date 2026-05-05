@@ -18,6 +18,7 @@ class MagicDataSetter extends ItemcardDataExtender
       var h;
       var d;
       var spellCost;
+      a_entryObject.displayName = a_entryObject.text;
       switch (a_entryObject.type)
       {
          case skyui.defines.Inventory.ICT_SHOUT:

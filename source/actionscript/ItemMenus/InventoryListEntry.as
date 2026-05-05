@@ -90,10 +90,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     // @override TabularListEntry
     public function formatName(a_entryField: Object, a_entryObject: Object, a_state: ListState)
     {
-        var nameText: String = a_entryObject.text;
-
-        if (a_entryObject.soulLVL != undefined) nameText += " (" + a_entryObject.soulLVL + ")";
-        if (a_entryObject.count > 1) nameText += " (" + a_entryObject.count + ")";
+        var nameText: String = a_entryObject.displayName != undefined ? a_entryObject.displayName : " ";
 
         a_entryField.autoSize = "left";
         a_entryField.SetText(nameText);
