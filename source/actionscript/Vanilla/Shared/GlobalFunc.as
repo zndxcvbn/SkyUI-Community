@@ -86,25 +86,57 @@ class Shared.GlobalFunc
 
     static function SetLockFunction()
     {
-        MovieClip.prototype.Lock = function(aPosition)
+        /**
+         * Anchors or stretches a MovieClip.
+         * @param aPosition: Flags "T", "B", "L", "R".
+         * @param aRelative: If true, locks relative to parent's bounds instead of Stage.
+         * @param abIgnoreSafe: If true, ignores Stage.safeRect (safe area margins).
+         */
+        MovieClip.prototype.Lock = function(aPosition: String, aRelative: Boolean, abIgnoreSafe: Boolean)
         {
-            var min = {
-                x: Stage.visibleRect.x + Stage.safeRect.x,
-                y: Stage.visibleRect.y + Stage.safeRect.y
-            };
+            if (abIgnoreSafe == undefined) abIgnoreSafe = false;
 
-            var max = {
-                x: Stage.visibleRect.x + Stage.visibleRect.width - Stage.safeRect.x,
-                y: Stage.visibleRect.y + Stage.visibleRect.height - Stage.safeRect.y
-            };
+            var min: Object;
+            var max: Object;
 
-            this._parent.globalToLocal(min);
-            this._parent.globalToLocal(max);
+            if (aRelative) {
+                min = {x: 0, y: 0};
+                max = {x: this._parent._width, y: this._parent._height};
+            } else {
+                var safeX: Number = abIgnoreSafe ? 0 : Stage.safeRect.x;
+                var safeY: Number = abIgnoreSafe ? 0 : Stage.safeRect.y;
+                
+                min = {x: Stage.visibleRect.x + safeX,
+                       y: Stage.visibleRect.y + safeY};
+                max = {x: Stage.visibleRect.x + Stage.visibleRect.width - safeX,
+                       y: Stage.visibleRect.y + Stage.visibleRect.height - safeY};
 
-            if (aPosition.indexOf("T") != -1) this._y = min.y;
-            if (aPosition.indexOf("B") != -1) this._y = max.y;
-            if (aPosition.indexOf("L") != -1) this._x = min.x;
-            if (aPosition.indexOf("R") != -1) this._x = max.x;
+                this._parent.globalToLocal(min);
+                this._parent.globalToLocal(max);
+            }
+
+            var hasT: Boolean = aPosition.indexOf("T") != -1;
+            var hasB: Boolean = aPosition.indexOf("B") != -1;
+            var hasL: Boolean = aPosition.indexOf("L") != -1;
+            var hasR: Boolean = aPosition.indexOf("R") != -1;
+
+            // Vertical
+            if (hasT && hasB) { 
+                this._y = min.y; 
+                this._height = max.y - min.y; 
+            } else { 
+                if (hasT) this._y = min.y; 
+                if (hasB) this._y = max.y; 
+            }
+            
+            // Horiontal
+            if (hasL && hasR) { 
+                this._x = min.x; 
+                this._width = max.x - min.x; 
+            } else { 
+                if (hasL) this._x = min.x; 
+                if (hasR) this._x = max.x; 
+            }
         };
     }
 
