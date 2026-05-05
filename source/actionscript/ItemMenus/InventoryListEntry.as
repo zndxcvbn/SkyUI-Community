@@ -4,22 +4,19 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
 
     private static var STATES = ["None", "Equipped", "LeftEquip", "RightEquip", "LeftAndRightEquip"];
 
+
   /* PRIVATE VARIABLES */
 
     private var _iconLabel: String;
     private var _iconColor: Number;
+
 
   /* STAGE ELMENTS */
 
     public var itemIcon: MovieClip;
     public var equipIcon: MovieClip;
 
-    public var bestIcon: MovieClip;
-    public var favoriteIcon: MovieClip;
-    public var poisonIcon: MovieClip;
-    public var stolenIcon: MovieClip;
-    public var enchIcon: MovieClip;
-    public var readIcon: MovieClip;
+    public var statusIconBar: MovieClip;
     
 
   /* CONSTRUCTOR */
@@ -43,6 +40,14 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
       
       this.itemIcon._visible = false;
       this.equipIcon._visible = false;
+        
+        this.statusIconBar = skyui.components.list.StatusIconBar(
+            this.attachMovie(
+                "StatusIconBar",
+                "statusIconBar",
+                this.getNextHighestDepth()
+            )
+        );
       
       for (var i = 0; this["textField" + i] != undefined; i++)
          this["textField" + i]._visible = false;
@@ -54,22 +59,11 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     // @override TabularListEntry
     public function setSpecificEntryLayout(a_entryObject: Object, a_state: ListState)
     {
-        var iconY = skyui.components.list.TabularList(a_state.list).layout.entryHeight * 0.25;
-        var iconSize = skyui.components.list.TabularList(a_state.list).layout.entryHeight * 0.5;
+        var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
+        
+        var iconSize = entryH * 0.5; 
             
-        this.bestIcon._height = this.bestIcon._width = iconSize;
-        this.favoriteIcon._height = this.favoriteIcon._width = iconSize;
-        this.poisonIcon._height = this.poisonIcon._width = iconSize;
-        this.stolenIcon._height = this.stolenIcon._width = iconSize;
-        this.enchIcon._height = this.enchIcon._width = iconSize;
-        this.readIcon._height = this.readIcon._width = iconSize;
-            
-        this.bestIcon._y = iconY;
-        this.favoriteIcon._y = iconY;
-        this.poisonIcon._y = iconY;
-        this.stolenIcon._y = iconY;
-        this.enchIcon._y = iconY;
-        this.readIcon._y = iconY;
+        this.statusIconBar._y = (entryH - iconSize) / 2;
     }
 
     // @override TabularListEntry
@@ -96,90 +90,20 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     // @override TabularListEntry
     public function formatName(a_entryField: Object, a_entryObject: Object, a_state: ListState)
     {
-        if (a_entryObject.text == undefined) {
-            a_entryField.SetText(" ");
-            return;
-        }
+        var nameText: String = a_entryObject.text;
 
-        // Text
-        var text = a_entryObject.text;
-
-        if (a_entryObject.soulLVL != undefined) {
-            text = text + " (" + a_entryObject.soulLVL + ")";
-        }
-
-        if (a_entryObject.count > 1) {
-            text = text + " (" + a_entryObject.count.toString() + ")";
-        }
-
-        if (text.length > a_state.maxTextLength) {
-            text = text.substr(0, a_state.maxTextLength - 3) + "...";
-        }
+        if (a_entryObject.soulLVL != undefined) nameText += " (" + a_entryObject.soulLVL + ")";
+        if (a_entryObject.count > 1) nameText += " (" + a_entryObject.count + ")";
 
         a_entryField.autoSize = "left";
-        a_entryField.SetText(text);
-        
+        a_entryField.SetText(nameText);
         this.formatColor(a_entryField, a_entryObject, a_state);
 
-        // BestInClass icon
-        var iconPos = a_entryField._x + a_entryField._width + 5;
-
-        // All icons have the same size
-        var iconSpace = this.bestIcon._width * 1.25;
-
-        if (a_entryObject.bestInClass == true) {
-            this.bestIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-
-            this.bestIcon.gotoAndStop("show");
-        } else {
-            this.bestIcon.gotoAndStop("hide");
-        }
-
-        // Fav icon
-        if (a_entryObject.favorite == true) {
-            this.favoriteIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-            this.favoriteIcon.gotoAndStop("show");
-        } else {
-            this.favoriteIcon.gotoAndStop("hide");
-        }
-
-        // Poisoned Icon
-        if (a_entryObject.isPoisoned == true) {
-            this.poisonIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-            this.poisonIcon.gotoAndStop("show");
-        } else {
-            this.poisonIcon.gotoAndStop("hide");
-        }
-
-        // Stolen Icon
-        if ((a_entryObject.isStolen == true || a_entryObject.isStealing == true) && a_state.showStolenIcon == true) {
-            this.stolenIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-            this.stolenIcon.gotoAndStop("show");
-        } else {
-            this.stolenIcon.gotoAndStop("hide");
-        }
-
-        // Enchanted Icon
-        if (a_entryObject.isEnchanted == true) {
-            this.enchIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-            this.enchIcon.gotoAndStop("show");
-        } else {
-            this.enchIcon.gotoAndStop("hide");
-        }
-
-        // Enchanted Icon
-        if (a_entryObject.isRead == true) {
-            this.readIcon._x = iconPos;
-            iconPos = iconPos + iconSpace;
-            this.readIcon.gotoAndStop("show");
-        } else {
-            this.readIcon.gotoAndStop("hide");
-        }
+        var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
+        var iconSize = entryH * 0.5;
+        this.statusIconBar.background._height = entryH;
+        this.statusIconBar.updateStatuses(a_entryObject, a_state.showStolenIcon, iconSize);
+        this.statusIconBar._x = a_entryField._x + a_entryField.textWidth + 10;
     }
 
     // @override TabularEntry
