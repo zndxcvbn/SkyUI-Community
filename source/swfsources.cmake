@@ -669,6 +669,7 @@ Add_SWF(skyui_inventorylists
         TabularListEntry.as
         ListLayout.as
         SortedListHeader.as
+        StatusIconBar.as
         ScrollingList.as
     }
     ItemMenus {
