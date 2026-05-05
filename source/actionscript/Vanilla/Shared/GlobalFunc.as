@@ -478,4 +478,80 @@ class Shared.GlobalFunc
         
         return {x: x, y: y};
     }
+
+    static function SetExtendedLayoutFunctions()
+    {
+        /**
+         * Horizontally aligns and distributes a set of child MovieClips within the bounds of this MovieClip.
+         * This method acts as a layout engine inspired by the CSS Flexbox 'justify-content' property.
+         * 
+         * Positioning is calculated based on the current width (`_width`) and horizontal position (`_x`) 
+         * of the container MovieClip.
+         * 
+         * @param aChildren  {Array}  An array of MovieClips to be aligned. Only clips where `_visible == true` are included in calculations.
+         * @param aMode      {String} The distribution algorithm to use:
+         *                            - "flex-start":    Clips are packed toward the left edge.
+         *                            - "flex-end":      Clips are packed toward the right edge.
+         *                            - "center":        Clips are centered horizontally.
+         *                            - "space-between": Clips are evenly distributed; first clip is at the left, last is at the right.
+         *                            - "space-around":  Clips are evenly distributed with half-size spaces on the ends.
+         *                            - "space-evenly":  Clips are distributed so that all gaps (including edges) are equal.
+         * @param aGap       {Number} The fixed spacing (in pixels) to apply between items for "flex" modes, 
+         *                            or the fallback gap value.
+         * 
+         * @example
+         * myContainer.JustifyContent(iconsArray, "flex-start", 10);
+         */
+        MovieClip.prototype.JustifyContent = function(aChildren: Array, aMode: String, aGap: Number)
+        {
+            var items: Array = [];
+            var totalItemsWidth: Number = 0;
+            
+            for (var i: Number = 0; i < aChildren.length; i++) {
+                if (aChildren[i]._visible) {
+                    items.push(aChildren[i]);
+                    totalItemsWidth += aChildren[i]._width;
+                }
+            }
+
+            var n: Number = items.length;
+            if (n == 0) return;
+
+            var freeSpace: Number = this._width - totalItemsWidth;
+            var currentX: Number = this._x;
+            
+            if (aGap == undefined) aGap = 0;
+            var gap: Number = aGap;
+
+            switch (aMode) {
+                case "flex-start":
+                    gap = aGap;
+                    break;
+                case "flex-end":
+                    gap = aGap;
+                    currentX += freeSpace;
+                    break;
+                case "center":
+                    gap = aGap;
+                    currentX += freeSpace / 2;
+                    break;
+                case "space-between":
+                    gap = (n > 1) ? freeSpace / (n - 1) : aGap;
+                    break;
+                case "space-around":
+                    gap = freeSpace / n;
+                    currentX += gap / 2;
+                    break;
+                case "space-evenly":
+                    gap = freeSpace / (n + 1);
+                    currentX += gap;
+                    break;
+            }
+
+            for (var j: Number = 0; j < n; j++) {
+                items[j]._x = currentX;
+                currentX += items[j]._width + gap;
+            }
+        };
+    }
 }
