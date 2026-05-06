@@ -266,6 +266,7 @@ Add_SWF(exported_skyui_widgetloader
     exported/skyui/widgetloader.swf
     exported/skyui/widgetloader.xml
     Common/skyui/defines/Input.as
+    Common/skyui/util/GlobalFunctions.as
     HUDWidgets/WidgetLoader.as
 )
 
@@ -277,6 +278,7 @@ Add_SWF(exported_skyui_icons_effect_psychosteve
 Add_SWF(exported_widgets_skyui_activeeffects
     exported/widgets/skyui/activeeffects.swf
     exported/widgets/skyui/activeeffects.xml
+    Common/skyui/util/GlobalFunctions.as
     Common/skyui/defines {
         Actor.as
         Magic.as
@@ -410,6 +412,7 @@ Add_SWF(inventorymenu
         NameFilter.as
         SortFilter.as
     }
+    Common/skyui/util/GlobalFunctions.as
     ItemMenus {
         BottomBar.as
         CategoryList.as

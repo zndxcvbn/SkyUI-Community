@@ -10,7 +10,7 @@ class WidgetLoader extends MovieClip
       super();
       this._mcLoader = new MovieClipLoader();
       this._mcLoader.addListener(this);
-      Shared.GlobalFunc.AddArrayExtensions();
+      skyui.util.GlobalFunctions.addArrayFunctions();
    }
    function onLoad()
    {
