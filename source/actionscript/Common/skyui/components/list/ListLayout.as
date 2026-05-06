@@ -153,7 +153,7 @@ class skyui.components.list.ListLayout
 
     public function ListLayout(a_layoutData: Object, a_viewData: Object, a_columnData: Object, a_defaultsData: Object)
     {
-        skyui.util.GlobalFunctions.addArrayFunctions();
+        Shared.GlobalFunc.AddArrayExtensions();
         
         gfx.events.EventDispatcher.initialize(this);
         
