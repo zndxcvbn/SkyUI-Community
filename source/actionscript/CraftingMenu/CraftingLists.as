@@ -30,7 +30,7 @@ class CraftingLists extends MovieClip
    function CraftingLists()
    {
       super();
-      skyui.util.GlobalFunctions.addArrayFunctions();
+      Shared.GlobalFunc.AddArrayExtensions();
       gfx.events.EventDispatcher.initialize(this);
       this.gotoAndStop("NoPanels");
       gfx.io.GameDelegate.addCallBack("SetCategoriesList",this,"SetCategoriesList");
