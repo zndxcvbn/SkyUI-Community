@@ -33,7 +33,7 @@ class InventoryLists extends MovieClip
    function InventoryLists()
    {
       super();
-      skyui.util.GlobalFunctions.addArrayFunctions();
+      Shared.GlobalFunc.AddArrayExtensions();
       Shared.GlobalFunc.SetExtendedLayoutFunctions();
       gfx.events.EventDispatcher.initialize(this);
       this.gotoAndStop("NoPanels");
