@@ -4,6 +4,7 @@ class Shared.GlobalFunc
     static var RegisteredMovieClips = new Object();
 
     private static var _arrayExtended: Boolean = false;
+    private static var _textFormatExtended: Boolean = false;
 
     function GlobalFunc() {}
 
@@ -704,5 +705,26 @@ class Shared.GlobalFunc
         };
 
         _global.ASSetPropFlags(Array.prototype, ["indexOf", "equals", "contains"], 1, 0);
+    }
+
+    public static function AddTextFormatExtensions()
+    {
+        if (Shared.GlobalFunc._textFormatExtended)
+            return;
+        Shared.GlobalFunc._textFormatExtended = true;
+
+        TextFormat.prototype.clone = function() {
+            var tf = new TextFormat();
+
+            for (var prop in this) {
+                if (this.hasOwnProperty(prop)) {
+                    tf[prop] = this[prop];
+                }
+            }
+
+            return tf;
+        };
+
+        _global.ASSetPropFlags(TextFormat.prototype, ["clone"], 1, 0);
     }
 }
