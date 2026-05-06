@@ -3,6 +3,8 @@ class Shared.GlobalFunc
     static var RegisteredTextFields = new Object();
     static var RegisteredMovieClips = new Object();
 
+    private static var _arrayExtended: Boolean = false;
+
     function GlobalFunc() {}
 
   // MATH / UTILS
@@ -282,6 +284,7 @@ class Shared.GlobalFunc
 
 
     /* ─── SkyUI Extensions ─── */
+
     static function ApplyTextOverflow(tf:TextField) {
         if (tf.text == "" || tf.text == undefined) return;
 
@@ -585,5 +588,121 @@ class Shared.GlobalFunc
                 currentX += items[j]._width + gap;
             }
         };
+    }
+
+    public static function AddArrayExtensions()
+    {
+        if (Shared.GlobalFunc._arrayExtended)
+            return;
+        Shared.GlobalFunc._arrayExtended = true;
+
+        Array.prototype.indexOf = function(searchElement: Object, fromIndex: Number)
+        {
+            // 1. Let obj be ToObject(this)
+            // 2. Let len be LengthOfArrayLike(obj)
+            var len: Number = this.length;
+
+            // 3. If len = 0, return -1
+            if (len === 0 || len === undefined) return -1;
+
+            // 4. Let n be ToInteger(fromIndex)
+            // 5. If fromIndex is undefined, n is 0
+            var n: Number = Number(fromIndex);
+            if (isNaN(n)) {
+                n = 0;
+            }
+
+            // 6. If n = +Infinity, return -1
+            if (n === Number.POSITIVE_INFINITY) return -1;
+            // 7. If n = -Infinity, set n to 0
+            if (n === Number.NEGATIVE_INFINITY) n = 0;
+
+            // 8. If n >= len, return -1
+            if (n >= len) return -1;
+
+            var k: Number;
+
+            // 8.a & 9.a-b Calculation of start index k
+            if (n >= 0) {
+                k = n;
+            } else {
+                k = len + n;
+                if (k < 0) k = 0;
+            }
+
+            // 10. Repeat, while k < len
+            while (k < len) {
+                if (this.hasOwnProperty(String(k)) && this[k] === searchElement) {
+                    return k;
+                }
+                k++;
+            }
+
+            // 11. Return -1
+            return -1;
+        };
+
+        Array.prototype.equals = function(a_other: Array)
+        {
+            if (a_other == undefined || this.length != a_other.length) return false;
+            
+            for (var i: Number = 0; i < a_other.length; i++) {
+                if (a_other[i] !== this[i]) return false;
+            }
+            return true;
+        };
+
+        Array.prototype.contains = function(searchElement: Object, fromIndex: Number)
+        {
+            // 1. Let obj be ToObject(this)
+            // 2. Let len be LengthOfArrayLike(obj)
+            var len: Number = this.length;
+
+            // 3. If len = 0, return false
+            if (len === 0 || len === undefined) return false;
+
+            // 4. Let n be ToInteger(fromIndex)
+            // 5. If fromIndex is undefined, n is 0
+            var n: Number = Number(fromIndex);
+            if (isNaN(n)) {
+                n = 0;
+            }
+
+            // 6. If n = +Infinity, return false
+            if (n === Number.POSITIVE_INFINITY) return false;
+            // 7. If n = -Infinity, set n to 0
+            if (n === Number.NEGATIVE_INFINITY) n = 0;
+
+            // 8. If n >= len, return false
+            if (n >= len) return false;
+
+            var k: Number;
+
+            // 8.a & 9.a-b Calculation of start index k
+            if (n >= 0) {
+                k = n;
+            } else {
+                k = len + n;
+                if (k < 0) k = 0;
+            }
+
+            // 10. Repeat, while k < len
+            while (k < len) {
+                var elementK = this[k];
+
+                if (searchElement === elementK) {
+                    return true;
+                } else if (searchElement !== searchElement && elementK !== elementK) {
+                    return true;
+                }
+
+                k++;
+            }
+
+            // 11. Return false
+            return false;
+        };
+
+        _global.ASSetPropFlags(Array.prototype, ["indexOf", "equals", "contains"], 1, 0);
     }
 }
