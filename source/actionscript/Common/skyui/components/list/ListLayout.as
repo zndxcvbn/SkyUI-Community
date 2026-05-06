@@ -154,6 +154,7 @@ class skyui.components.list.ListLayout
     public function ListLayout(a_layoutData: Object, a_viewData: Object, a_columnData: Object, a_defaultsData: Object)
     {
         Shared.GlobalFunc.AddArrayExtensions();
+        Shared.GlobalFunc.AddTextFormatExtensions();
         
         gfx.events.EventDispatcher.initialize(this);
         
@@ -336,7 +337,7 @@ class skyui.components.list.ListLayout
     {
         this._forceReverse = false;
         this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
-        if (this._activeColumnIndex == -1 || this._activeColumnIndex < 0)
+        if (this._activeColumnIndex == -1)
             this._activeColumnIndex = 0;
             
         this._activeColumnState = 1;
@@ -485,17 +486,14 @@ class skyui.components.list.ListLayout
                     }
                     
                     if (col.label.textFormat != undefined) {
-                        var customTextFormat = new TextFormat();
-
                         // First clone default format
-                        for (var prop in this._defaultLabelTextFormat)
-                            customTextFormat[prop] = this._defaultLabelTextFormat[prop];
-                    
+                        var customTextFormat = this._defaultLabelTextFormat.clone();
+
                         // Then override if necessary
                         for (var prop in col.label.textFormat)
                             if (customTextFormat.hasOwnProperty(prop))
                                 customTextFormat[prop] = col.label.textFormat[prop];
-                                
+                        
                         columnLayoutData.labelTextFormat = customTextFormat;
                     } else {
                         columnLayoutData.labelTextFormat = this._defaultLabelTextFormat;
@@ -572,8 +570,8 @@ class skyui.components.list.ListLayout
             }
         }
         
-        while (textFieldIndex < skyui.components.list.ListLayout.MAX_TEXTFIELD_INDEX)
-            this._hiddenStageNames.push("textField" + textFieldIndex++);
+        for (var i = textFieldIndex; i < skyui.components.list.ListLayout.MAX_TEXTFIELD_INDEX; i++)
+            this._hiddenStageNames.push("textField" + i);
         
         if (!bEnableItemIcon)
             this._hiddenStageNames.push("itemIcon");
