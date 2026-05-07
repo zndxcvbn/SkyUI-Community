@@ -47,6 +47,10 @@ class skyui.components.list.ListLayout
 
     private var _forceReverse: Boolean = false;
 
+    private var _categoryToViewIndex: Object;
+    private var _columnIndexById: Object;
+    private var _layoutIndexByColumnList: Array;
+
 
   /* PROPERTIES */
 
@@ -158,6 +162,9 @@ class skyui.components.list.ListLayout
         
         gfx.events.EventDispatcher.initialize(this);
         
+        this._columnIndexById = {};
+        this._layoutIndexByColumnList = [];
+        
         this._prefData = {column: null, stateIndex: 1};
         this._viewList = [];
         this._columnList = [];
@@ -216,32 +223,24 @@ class skyui.components.list.ListLayout
     {
         this._lastFilterFlag = a_flag;
         
-        // Find a matching view, or use last index
-        for (var i = 0; i < this._viewList.length; i++) {
-            
-            // Wrap in array for single category
-            var categories = ((this._viewList[i].category) instanceof Array) ? this._viewList[i].category : [this._viewList[i].category];
-            
-            if (categories.indexOf(a_flag) != -1 || i == this._viewList.length - 1) {
-                this._activeViewIndex = i;
-                break;
-            }
+        var activeIndex: Number = this._categoryToViewIndex[a_flag];
+        
+        if (activeIndex == undefined) {
+            activeIndex = this._viewList.length - 1;
         }
-        
-        if (this._activeViewIndex == -1 || this._lastViewIndex == this._activeViewIndex)
+
+        if (activeIndex == -1 || this._lastViewIndex == activeIndex)
             return;
-        
-        this._lastViewIndex = this._activeViewIndex;
-        
-        // Do this before restoring the pref state!
+
+        this._lastViewIndex = activeIndex;
+        this._activeViewIndex = activeIndex;
+
         this.updateColumnList();
-        
-        // Restoring a previous state was not necessary or failed? Then use default
+
         if (!this.restorePrefState()) {
-            this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
-            if (this._activeColumnIndex == -1)
-                this._activeColumnIndex = 0;
-                
+            var primaryColName = this.currentView.primaryColumn;
+            var visibleIdx = this._columnIndexById[primaryColName];
+            this._activeColumnIndex = (visibleIdx != undefined) ? visibleIdx : 0;
             this._activeColumnState = 1;
         }
 
@@ -250,8 +249,7 @@ class skyui.components.list.ListLayout
 
     public function selectColumn(a_index: Number, a_bShift: Boolean)
     {
-        var listIndex = this.toColumnListIndex(a_index);
-        var col = this._columnList[listIndex];
+        var col = this._columnList[a_index];
         
         // Invalid column
         if (col == null || col.passive)
@@ -282,8 +280,7 @@ class skyui.components.list.ListLayout
 
     public function selectColumnPrev(a_index: Number, a_bShift: Boolean)
     {
-        var listIndex = this.toColumnListIndex(a_index);
-        var col = this._columnList[listIndex];
+        var col = this._columnList[a_index];
         
         // Invalid column
         if (col == null || col.passive)
@@ -313,8 +310,7 @@ class skyui.components.list.ListLayout
 
     public function restoreColumnState(a_activeIndex: Number, a_activeState: Number)
     {
-        var listIndex = this.toColumnListIndex(a_activeIndex);
-        var col = this._columnList[listIndex];
+        var col = this._columnList[a_activeIndex];
         
         // Invalid column
         if (col == null || col.passive)
@@ -341,80 +337,136 @@ class skyui.components.list.ListLayout
             this._activeColumnIndex = 0;
             
         this._activeColumnState = 1;
-        this._prefData.column = this._columnList[this.toColumnListIndex(this._activeColumnIndex)];
+        this._prefData.column = this._columnList[this._activeColumnIndex];
         this._prefData.stateIndex = 1;
         this.updateLayout();
     }
 
 
-    /* PRIVATE FUNCTIONS */
+  /* PRIVATE FUNCTIONS */
+
+    private function preprocessColumn(col: Object)
+    {
+        col._isProcessed = true;
+        
+        col.statesData = [];
+        
+        var numStates = col.states != undefined ? col.states : 1;
+        
+        for (var s = 1; s <= numStates; s++) {
+            var stateData = col["state" + s];
+            if (!stateData) continue;
+            
+            if (col.entry != undefined && col.entry.textFormat != undefined) {
+                var entryTF = new TextFormat();
+                this._mergeTextFormats(entryTF, this._defaultEntryTextFormat);
+                this._mergeTextFormats(entryTF, col.entry.textFormat);
+                stateData._cachedEntryTF = entryTF;
+            } else {
+                stateData._cachedEntryTF = this._defaultEntryTextFormat;
+            }
+            
+            if (col.label != undefined && col.label.textFormat != undefined) {
+                var labelTF = this._defaultLabelTextFormat.clone();
+                this._mergeTextFormats(labelTF, col.label.textFormat);
+                stateData._cachedLabelTF = labelTF;
+            } else {
+                stateData._cachedLabelTF = this._defaultLabelTextFormat;
+            }
+            
+            var sortAttributes = stateData.sortAttributes;
+            if (!sortAttributes && stateData.entry.text.charAt(0) == "@") {
+                sortAttributes = [ stateData.entry.text.slice(1) ];
+            }
+            
+            if (sortAttributes) {
+                stateData._cachedSortAttributes = (sortAttributes.length !== undefined && typeof sortAttributes !== "string") ? sortAttributes : [sortAttributes];
+            } else {
+                stateData._cachedSortAttributes = null;
+            }
+            
+            var sortOptions = stateData.sortOptions;
+            if (sortOptions) {
+                var baseOpts = (sortOptions.length !== undefined && typeof sortOptions !== "string") ? sortOptions.concat() : [sortOptions];
+                stateData._cachedSortOptions = baseOpts;
+                
+                var revOpts =[];
+                for (var i = 0; i < baseOpts.length; i++) {
+                    revOpts[i] = baseOpts[i] ^ 2; // DESCENDING = 2
+                }
+                stateData._cachedSortOptionsRev = revOpts;
+            } else {
+                stateData._cachedSortOptions = null;
+                stateData._cachedSortOptionsRev = null;
+            }
+            
+            stateData._cachedArrowDown = stateData.label.arrowDown ? true : false;
+            
+            col.statesData[s] = stateData;
+        }
+        
+        col._borderLeft = col.border != undefined ? col.border[skyui.components.list.ListLayout.LEFT] : 0;
+        col._borderRight = col.border != undefined ? col.border[skyui.components.list.ListLayout.RIGHT] : 0;
+        col._borderTop = col.border != undefined ? col.border[skyui.components.list.ListLayout.TOP] : 0;
+        col._borderBottom = col.border != undefined ? col.border[skyui.components.list.ListLayout.BOTTOM] : 0;
+        col._hasBorder = col.border != undefined;
+    }
+
+    private function _mergeTextFormats(target: TextFormat, source: Object)
+    {
+        for (var prop in source) {
+            if (prop != "hasOwnProperty" && prop != "clone") {
+                target[prop] = source[prop];
+            }
+        }
+    }
 
     private function updateLayout()
     {
         this._layoutUpdateCount++;
 
+        var colCount = this._columnList.length;
         var maxHeight = 0;
         var textFieldIndex = 0;
-
-        this._hiddenStageNames.splice(0);
-        this._columnLayoutData.splice(0);
-        
-        // Set bit at position i if column is weighted
-        var weightedFlags = 0;
-        
-        var c = 0;
-        // Move some data from current state to root of the column so we can access single- and multi-state columns in the same manner.
-        // So this is a merge of defaults, column root and current state.
-        for (var i = 0; i < this._columnList.length; i++) {			
-            var col = this._columnList[i];
-            // Skip
-            if (col.hidden == true)
-                continue;
-                
-            var columnLayoutData = new skyui.components.list.ColumnLayoutData();
-            this._columnLayoutData[c] = columnLayoutData;
-                
-            // Non-active columns always use state 1
-            var stateData: Object;
-            if (c == this._activeColumnIndex) {
-                stateData = col["state" + this._activeColumnState];
-                this.updateSortParams(stateData);
-                
-                var defaultArrow: Boolean = stateData.label.arrowDown ? true : false;
-                if (col.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse)
-                    columnLayoutData.labelArrowDown = !defaultArrow;
-                else
-                    columnLayoutData.labelArrowDown = defaultArrow;
-            } else {
-                stateData = col["state1"];
-                columnLayoutData.labelArrowDown = stateData.label.arrowDown ? true : false;
-            }
-                
-            columnLayoutData.type = col.type;
-
-            columnLayoutData.labelValue = stateData.label.text;
-            columnLayoutData.entryValue = stateData.entry.text;
-            columnLayoutData.colorAttribute = stateData.colorAttribute;
-            
-            c++;
-        }
-        
-        // Subtract arrow tip width
-        var weightedWidth = this._entryWidth - 12;
-        
-        var weightSum = 0;
-
         var bEnableItemIcon = false;
         var bEnableEquipIcon = false;
-
-        c = 0;
-        for (var i = 0; i < this._columnList.length; i++) {
+        
+        var weightedFlags = 0;
+        
+        // FIRST PASS: Collecting basic data
+        for (var i = 0; i < colCount; i++) {
             var col = this._columnList[i];
-            // Skip
-            if (col.hidden == true)
-                continue;
-                
-            var columnLayoutData = this._columnLayoutData[c++];
+            
+            var cData = this._columnLayoutData[i];
+            if (cData == undefined) {
+                cData = new skyui.components.list.ColumnLayoutData();
+                this._columnLayoutData[i] = cData;
+            }
+
+            var isActive = (i == this._activeColumnIndex);
+            var stateData = isActive ? col.statesData[this._activeColumnState] : col.statesData[1];
+            
+            if (isActive) this.updateSortParams(stateData, col.type);
+            
+            cData.type = col.type;
+            cData.labelValue = stateData.label.text;
+            cData.entryValue = stateData.entry.text;
+            cData.colorAttribute = stateData.colorAttribute;
+            
+            // Sort arrow
+            if (isActive && col.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse)
+                cData.labelArrowDown = !stateData._cachedArrowDown;
+            else
+                cData.labelArrowDown = stateData._cachedArrowDown;
+        }
+
+        // WIDTH CALCULATION
+        var weightedWidth = this._entryWidth - 12;
+        var weightSum = 0;
+
+        for (var i = 0; i < colCount; i++) {
+            var col = this._columnList[i];
+            var cData = this._columnLayoutData[i];
 
             // Calc total weighted width and set weighted flags
             if (col.weight != undefined) {
@@ -434,186 +486,125 @@ class skyui.components.list.ListLayout
                 // ITEM ICON + EQUIP ICON
                 case skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON:
                 case skyui.components.list.ListLayout.COL_TYPE_EQUIP_ICON:
-                                
                     if (col.type == skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON) {
-                        columnLayoutData.stageName = "itemIcon";
+                        cData.stageName = "itemIcon";
                         bEnableItemIcon = true;
                     } else {
-                        columnLayoutData.stageName = "equipIcon";
+                        cData.stageName = "equipIcon";
                         bEnableEquipIcon = true;
                     }
-                    
-                    columnLayoutData.width = this._columnLayoutData[i].height = col.icon.size;
+                    cData.width = cData.height = col.icon.size;
                     weightedWidth -= col.icon.size;
-                        
                     curHeight += col.icon.size;
-                    
                     break;
 
-                // REST
                 default:
-                    columnLayoutData.stageName = "textField" + textFieldIndex++;
-                    
+                    cData.stageName = "textField" + textFieldIndex++;
                     if (col.width != undefined) {
-                        // Width >= 1 for absolute width, < 1 for percentage width
-                        columnLayoutData.width = col.width < 1 ? (col.width * this._entryWidth) : col.width;
-                        weightedWidth -= columnLayoutData.width;
+                        cData.width = col.width < 1 ? (col.width * this._entryWidth) : col.width;
+                        weightedWidth -= cData.width;
                     } else {
-                        columnLayoutData.width = 0;
+                        cData.width = 0;
                     }
                     
-                    if (col.height != undefined)
-                        // Height >= 1 for absolute height, < 1 for percentage height
-                        columnLayoutData.height = col.height < 1 ? (col.height * this._entryWidth) : col.height;
-                    else
-                        columnLayoutData.height = 0;
+                    cData.height = col.height != undefined ? (col.height < 1 ? (col.height * this._entryWidth) : col.height) : 0;
                     
-                    if (col.entry.textFormat != undefined) {
-                        var customTextFormat = new TextFormat();
-
-                        // First clone default format
-                        for (var prop in this._defaultEntryTextFormat)
-                            customTextFormat[prop] = this._defaultEntryTextFormat[prop];
-                        
-                        // Then override if necessary
-                        for (var prop in col.entry.textFormat)
-                            if (customTextFormat.hasOwnProperty(prop))
-                                customTextFormat[prop] = col.entry.textFormat[prop];
-                        
-                        columnLayoutData.textFormat = customTextFormat;
-                    } else {
-                        columnLayoutData.textFormat = this._defaultEntryTextFormat;
-                    }
-                    
-                    if (col.label.textFormat != undefined) {
-                        // First clone default format
-                        var customTextFormat = this._defaultLabelTextFormat.clone();
-
-                        // Then override if necessary
-                        for (var prop in col.label.textFormat)
-                            if (customTextFormat.hasOwnProperty(prop))
-                                customTextFormat[prop] = col.label.textFormat[prop];
-                        
-                        columnLayoutData.labelTextFormat = customTextFormat;
-                    } else {
-                        columnLayoutData.labelTextFormat = this._defaultLabelTextFormat;
-                    }
+                    var stateData = (i == this._activeColumnIndex) ? col.statesData[this._activeColumnState] : col.statesData[1];
+                    cData.textFormat = stateData._cachedEntryTF;
+                    cData.labelTextFormat = stateData._cachedLabelTF;
             }
             
-            if (col.border != undefined) {
-                weightedWidth -= col.border[skyui.components.list.ListLayout.LEFT] + col.border[skyui.components.list.ListLayout.RIGHT];
-                curHeight += col.border[skyui.components.list.ListLayout.TOP] + col.border[skyui.components.list.ListLayout.BOTTOM];
-                columnLayoutData.y = col.border[skyui.components.list.ListLayout.TOP];
+            if (col._hasBorder) {
+                weightedWidth -= (col._borderLeft + col._borderRight);
+                curHeight += (col._borderTop + col._borderBottom);
+                cData.y = col._borderTop;
             } else {
-                columnLayoutData.y = 0;
+                cData.y = 0;
             }
             
-            if (curHeight > maxHeight)
-                maxHeight = curHeight;
+            if (curHeight > maxHeight) maxHeight = curHeight;
         }
         
-        // Calculate the widths
+        // WEIGHT DISTRIBUTION
         if (weightSum > 0 && weightedWidth > 0 && weightedFlags != 0) {
-            c = this._columnLayoutData.length - 1;
-            for (var i = this._columnList.length - 1; i >= 0; i--) {
+            var tempFlags = weightedFlags;
+            for (var i = colCount - 1; i >= 0; i--) {
                 var col = this._columnList[i];
-                // Skip
-                if (col.hidden == true)
-                    continue;
-                    
-                var columnLayoutData = this._columnLayoutData[c--];
+                var cData = this._columnLayoutData[i];
                 
-                if ((weightedFlags >>>= 1) & 1) {
-                    if (col.border != undefined)
-                        columnLayoutData.width += ((col.weight / weightSum) * weightedWidth) - col.border[skyui.components.list.ListLayout.LEFT] - col.border[skyui.components.list.ListLayout.RIGHT];
+                if ((tempFlags >>>= 1) & 1) {
+                    var share = (col.weight / weightSum) * weightedWidth;
+                    if (col._hasBorder)
+                        cData.width += share - col._borderLeft - col._borderRight;
                     else
-                        columnLayoutData.width += (col.weight / weightSum) * weightedWidth;
+                        cData.width += share;
                 }
             }
         }
         
-        var visibleColumnCount = this._columnLayoutData.length;
-
-        // Set x positions based on calculated widths, and set label data
+        // CALCULATION OF X POSITIONS
         var xPos = 0;
-        c = 0;
-        for (var i = 0; i < this._columnList.length; i++) {
+        var visibleColumnCount = colCount;
+        for (var i = 0; i < colCount; i++) {
             var col = this._columnList[i];
-            // Skip
-            if (col.hidden == true)
-                continue;
-                
-            var currentVisibleIdx = c;
-            var columnLayoutData = this._columnLayoutData[c++];
+            var cData = this._columnLayoutData[i];
             
             if (col.indent != undefined)
                 xPos += col.indent;
 
             var offset = 0;
-            if (columnLayoutData.type == skyui.components.list.ListLayout.COL_TYPE_TEXT) {
-                var multiplier = (visibleColumnCount - 1) - currentVisibleIdx;
+            if (cData.type == skyui.components.list.ListLayout.COL_TYPE_TEXT) {
+                var multiplier = (visibleColumnCount - 1) - i;
                 offset = this.columnMargin * multiplier;
             }
 
-            columnLayoutData.labelX = xPos - offset;
+            cData.labelX = xPos - offset;
 
-            if (col.border != undefined) {
-                columnLayoutData.labelWidth = columnLayoutData.width + col.border[skyui.components.list.ListLayout.LEFT] + col.border[skyui.components.list.ListLayout.RIGHT];
-                columnLayoutData.x = xPos - offset;
-                xPos += col.border[skyui.components.list.ListLayout.LEFT];
-                columnLayoutData.x = xPos - offset;
-                xPos += col.border[skyui.components.list.ListLayout.RIGHT] + columnLayoutData.width;
+            if (col._hasBorder) {
+                cData.labelWidth = cData.width + col._borderLeft + col._borderRight;
+                cData.x = xPos - offset;
+                xPos += col._borderLeft;
+                cData.x = xPos - offset;
+                xPos += col._borderRight + cData.width;
             } else {
-                columnLayoutData.labelWidth = columnLayoutData.width;
-                columnLayoutData.x = xPos - offset;
-                xPos += columnLayoutData.width;
+                cData.labelWidth = cData.width;
+                cData.x = xPos - offset;
+                xPos += cData.width;
             }
         }
         
+        this._columnLayoutData.length = colCount;
+        
+        var hIdx = 0;
         for (var i = textFieldIndex; i < skyui.components.list.ListLayout.MAX_TEXTFIELD_INDEX; i++)
-            this._hiddenStageNames.push("textField" + i);
+            this._hiddenStageNames[hIdx++] = "textField" + i;
         
-        if (!bEnableItemIcon)
-            this._hiddenStageNames.push("itemIcon");
-        
-        if (!bEnableEquipIcon)
-            this._hiddenStageNames.push("equipIcon");
+        if (!bEnableItemIcon) this._hiddenStageNames[hIdx++] = "itemIcon";
+        if (!bEnableEquipIcon) this._hiddenStageNames[hIdx++] = "equipIcon";
+        this._hiddenStageNames.length = hIdx;
         
         this._entryHeight = maxHeight;
-        
+
         // sortChange might not always trigger an update, so we have to make sure the list is updated,
         // even if that means we update it twice.
         this.dispatchEvent({type: "layoutChange"});
     }
-
-    private function updateSortParams(stateData: Object)
+    
+    private function updateSortParams(stateData: Object, colType: Number)
     {
-        var sortAttributes = stateData.sortAttributes;
-        var sortOptions = stateData.sortOptions;
-        
-        // No attribute(s) set? Try to use entry value
-        if (!sortAttributes && stateData.entry.text.charAt(0) == "@")
-            sortAttributes = [ stateData.entry.text.slice(1) ];
-
-        if (!sortOptions || !sortAttributes) {
+        if (!stateData._cachedSortAttributes) {
             this._sortOptions = null;
             this._sortAttributes = null;
             return;
         }
         
-        // Wrap single attribute in array
-        this._sortAttributes = (sortAttributes instanceof Array) ? sortAttributes : [sortAttributes];
-        var optionsCopy = (sortOptions instanceof Array) ? sortOptions.concat() : [sortOptions];
+        this._sortAttributes = stateData._cachedSortAttributes;
 
-        var col = this._columnList[this.toColumnListIndex(this._activeColumnIndex)];
-        if (col.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse) {
-            var DESCENDING = 2;
-            for (var i = 0; i < optionsCopy.length; i++) {
-                optionsCopy[i] = optionsCopy[i] ^ DESCENDING; 
-            }
+        if (colType == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse) {
+            this._sortOptions = stateData._cachedSortOptionsRev;
+        } else {
+            this._sortOptions = stateData._cachedSortOptions;
         }
-        
-        this._sortOptions = optionsCopy;
     }
 
     private function restorePrefState()
@@ -622,76 +613,96 @@ class skyui.components.list.ListLayout
         if (!this._prefData.column)
             return false;
 
-        var listIndex = this._columnList.indexOf(this._prefData.column);
-        var layoutDataIndex = this.toColumnLayoutDataIndex(listIndex);
+        var listIndex = this._columnIndexById[this._prefData.column.identifier];
 
-        if (listIndex > -1 && layoutDataIndex > -1) {
-            this._activeColumnIndex = layoutDataIndex;
-            this._activeColumnState = this._prefData.stateIndex;
-            return true;
-        }
-        
-        // Found no match, reset prefData and return false
-        this._prefData.column = null;
-        this._prefData.stateIndex = 1;
-        return false;
-    }
+        if (listIndex == undefined)
+            return false;
 
-    // columnLayoutData index (no hidden columns) -> columnList index (all columns for this view)
-    private function toColumnListIndex(a_index)
-    {
-        var c = 0;
-        for (var i = 0; i < this._columnList.length; i++) {
-            if (this._columnList[i].hidden == true)
-                continue;
-            if (c == a_index)
-                return i;
-            c++;
-        }
-        
-        return -1;
-    }
+        this._activeColumnIndex = listIndex;
+        this._activeColumnState = this._prefData.stateIndex;
 
-    // columnList index (all columns for this view) -> columnLayoutData index (no hidden columns)
-    private function toColumnLayoutDataIndex(a_index)
-    {
-        var c = 0;
-        for (var i = 0; i < this._columnList.length; i++) {
-            if (this._columnList[i].hidden == true)
-                continue;
-            if (i == a_index)
-                return c;
-            c++;
-        }
-        
-        return -1;
+        return true;
     }
 
     private function updateViewList()
     {
-        this._viewList.splice(0);
+        var viewList = this._viewList;
+        var viewData = this._viewData;
         var viewNames = this._layoutData.views;
-        for (var i = 0; i < viewNames.length; i++)
-            this._viewList.push(this._viewData[viewNames[i]]);
+
+        viewList.length = 0;
+
+        this._categoryToViewIndex = {};
+
+        var len = viewNames.length;
+        var c = 0;
+
+        for (var i = 0; i < len; i++) {
+            var view = viewData[viewNames[i]];
+
+            if (view == undefined)
+                continue;
+
+            viewList[c] = view;
+            
+            var cats = view.category;
+            if (!(cats instanceof Array))
+                cats = [cats];
+
+            for (var j = 0; j < cats.length; j++) {
+                var cat = cats[j];
+                
+                if (this._categoryToViewIndex[cat] == undefined)
+                    this._categoryToViewIndex[cat] = c;
+            }
+
+            c++;
+        }
     }
 
     private function updateColumnList()
     {
-        this._columnList.splice(0);
-        this._columnDescriptors.splice(0);
-        
         var columnNames = this.currentView.columns;
+        var columnData = this._columnData;
+
+        var columnList = this._columnList;
+        var columnDescriptors = this._columnDescriptors;
+
+        columnList.length = 0;
+        columnDescriptors.length = 0;
         
-        for (var i = 0; i < columnNames.length; i++) {
-            var col = this._columnData[columnNames[i]];
-            var cd : ColumnDescriptor = new skyui.components.list.ColumnDescriptor();
-            cd.hidden = col.hidden;
-            cd.identifier = columnNames[i];
-            cd.longName = col.name;
-            cd.type = col.type;
-            
-            this._columnList.push(col);
-            this._columnDescriptors.push(cd);
+        var indexMap = this._columnIndexById = {};
+        var layoutIndexMap = this._layoutIndexByColumnList;
+        layoutIndexMap.length = 0;
+
+        var len = columnNames.length;
+        var c = 0;
+
+        for (var i = 0; i < len; i++)
+        {
+            var name = columnNames[i];
+            var col = columnData[name];
+
+            if (col.hidden)
+                continue;
+
+            col.identifier = name;
+
+            if (!col._isProcessed)
+                this.preprocessColumn(col);
+
+            columnList[c] = col;
+
+            columnDescriptors[c] = {
+                identifier: name,
+                longName: col.name,
+                type: col.type
+            };
+
+            indexMap[name] = c;
+            layoutIndexMap[i] = c;
+
+            c++;
         }
     }
 }
