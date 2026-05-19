@@ -1,329 +1,379 @@
 class CategoryList extends skyui.components.list.BasicList
 {
-   var selectedEntry;
-   var _activeSegment;
-   var _bFastSwitch;
-   var _bRequestInvalidate;
-   var _bRequestUpdate;
-   var _bSuspended;
-   var _contentWidth;
-   var _entryClipManager;
-   var _entryList;
-   var _segmentLength;
-   var _segmentOffset;
-   var _selectedIndex;
-   var _selectorPos;
-   var _targetSelectorPos;
-   var _totalWidth;
-   var background;
-   var disableInput;
-   var disableSelection;
-   var dispatchEvent;
-   var dividerIndex;
-   var doSetSelectedIndex;
-   var getClipByIndex;
-   var iconSize;
-   var isMouseDrivenNav;
-   var listEnumeration;
-   var listState;
-   var onInvalidate;
-   var selectorCenter;
-   var selectorLeft;
-   var selectorRight;
-   var setClipCount;
-   static var LEFT_SEGMENT = 0;
-   static var RIGHT_SEGMENT = 1;
-   function CategoryList()
-   {
-      super();
-      this._selectorPos = 0;
-      this._targetSelectorPos = 0;
-      this._bFastSwitch = false;
-      this._activeSegment = CategoryList.LEFT_SEGMENT;
-      this.dividerIndex = -1;
-      this._segmentOffset = 0;
-      this._segmentLength = 0;
-      if(this.iconSize == undefined)
-      {
-         this.iconSize = 32;
-      }
-      Shared.GlobalFunc.SetExtendedLayoutFunctions();
-   }
-   function set activeSegment(a_segment)
-   {
-      if(a_segment == this._activeSegment)
-      {
-         return;
-      }
-      this._activeSegment = a_segment;
-      this.calculateSegmentParams();
-      if(a_segment == CategoryList.LEFT_SEGMENT && this._selectedIndex > this.dividerIndex)
-      {
-         this.doSetSelectedIndex(this._selectedIndex - this.dividerIndex - 1,skyui.components.list.BasicList.SELECT_MOUSE);
-      }
-      else if(a_segment == CategoryList.RIGHT_SEGMENT && this._selectedIndex < this.dividerIndex)
-      {
-         this.doSetSelectedIndex(this._selectedIndex + this.dividerIndex + 1,skyui.components.list.BasicList.SELECT_MOUSE);
-      }
-      this.UpdateList();
-   }
-   function get activeSegment()
-   {
-      return this._activeSegment;
-   }
-   function clearList()
-   {
-      this.dividerIndex = -1;
-      this._entryList.splice(0);
-   }
-   function InvalidateData()
-   {
-      if(this._bSuspended)
-      {
-         this._bRequestInvalidate = true;
-         return undefined;
-      }
-      this.listEnumeration.invalidate();
-      this.calculateSegmentParams();
-      if(this._selectedIndex >= this.listEnumeration.size())
-      {
-         this._selectedIndex = this.listEnumeration.size() - 1;
-      }
-      this.UpdateList();
-      if(this.onInvalidate)
-      {
-         this.onInvalidate();
-      }
-   }
-   function UpdateList()
-   {
-      if(this._bSuspended) {
-         this._bRequestUpdate = true;
-         return;
-      }
-      
-      this.setClipCount(this._segmentLength);
-      
-      var visibleClips: Array = [];
-      
-      for(var i: Number = 0; i < this._segmentLength; i++) {
-         var clip = this.getClipByIndex(i);
-         var entryData = this.listEnumeration.at(i + this._segmentOffset);
-         
-         clip.setEntry(entryData, this.listState);
-         clip.background._width = clip.background._height = this.iconSize;
-         entryData.clipIndex = i;
-         clip.itemIndex = i + this._segmentOffset;
-         clip._visible = true;
-         
-         visibleClips.push(clip);
-      }
-      
-      this.background.JustifyContent(visibleClips, "space-evenly");
+  /* CONSTANTS */
+    
+    public static var LEFT_SEGMENT = 0;
+    public static var RIGHT_SEGMENT = 1;
+    
+    
+  /* STAGE ELEMENTS */
+    
+    public var selectorCenter: MovieClip;
+    public var selectorLeft: MovieClip;
+    public var selectorRight: MovieClip;
+    public var background: MovieClip;
+    
+    
+  /* PRIVATE VARIABLES */
+    
+    private var _xOffset: Number;
+    private var _contentWidth: Number;
+    private var _totalWidth: Number;
+    private var _selectorPos: Number;
+    private var _targetSelectorPos: Number;
+    private var _bFastSwitch: Boolean;
+    private var _segmentOffset: Number;
+    private var _segmentLength: Number;
 
-      this.updateSelector();
 
-      if (this._selectedIndex != -1) {
-         this._selectorPos = this._targetSelectorPos;
-         this.drawSelector(this._selectorPos);
-      }
-   }
-   function moveSelectionLeft()
-   {
-      if(this.disableSelection)
-      {
-         return undefined;
-      }
-      var _loc2_ = this._selectedIndex;
-      var _loc3_ = this._selectedIndex;
-      do
-      {
-         if(_loc2_ > this._segmentOffset)
-         {
-            _loc2_ = _loc2_ - 1;
-         }
-         else
-         {
-            this._bFastSwitch = true;
-            _loc2_ = this._segmentOffset + this._segmentLength - 1;
-         }
-      }
-      while(_loc2_ != _loc3_ && this.listEnumeration.at(_loc2_).filterFlag == 0 && !this.listEnumeration.at(_loc2_).bDontHide);
-      
-      this.onItemPress(_loc2_,0);
-   }
-   function moveSelectionRight()
-   {
-      if(this.disableSelection)
-      {
-         return undefined;
-      }
-      var _loc2_ = this._selectedIndex;
-      var _loc3_ = this._selectedIndex;
-      do
-      {
-         if(_loc2_ < this._segmentOffset + this._segmentLength - 1)
-         {
-            _loc2_ = _loc2_ + 1;
-         }
-         else
-         {
-            this._bFastSwitch = true;
-            _loc2_ = this._segmentOffset;
-         }
-      }
-      while(_loc2_ != _loc3_ && this.listEnumeration.at(_loc2_).filterFlag == 0 && !this.listEnumeration.at(_loc2_).bDontHide);
-      
-      this.onItemPress(_loc2_,0);
-   }
-   function handleInput(details, pathToFocus)
-   {
-      if(this.disableInput)
-      {
-         return false;
-      }
-      if(Shared.GlobalFunc.IsKeyPressed(details))
-      {
-         if(details.navEquivalent == gfx.ui.NavigationCode.LEFT)
-         {
-            this.moveSelectionLeft();
-            return true;
-         }
-         if(details.navEquivalent == gfx.ui.NavigationCode.RIGHT)
-         {
-            this.moveSelectionRight();
-            return true;
-         }
-      }
-      return false;
-   }
-   function onEnterFrame()
-   {
-      super.onEnterFrame();
+  /* PROPERTIES */
+    
+    // Distance from border to start icon.
+    public var iconIndent: Number;
+    
+    // Size of the icon.
+    public var iconSize: Number;
+    
+    // Array that contains the icon label for category at position i.
+    // The category list uses fixed lengths/icons, so this is assigned statically.
+    public var iconArt: Array;
+    
+    // For segmented lists, this is in the index of the divider that seperates player and container/vendor inventory.
+    public var dividerIndex: Number;
+    
+    // The active segment for divided lists (left or right).
+    private var _activeSegment: Number;
+    
+    public function set activeSegment(a_segment: Number)
+    {
+        if (a_segment == this._activeSegment)
+            return;
+        
+        this._activeSegment = a_segment;
+        
+        this.calculateSegmentParams();
+        
+        if (a_segment == CategoryList.LEFT_SEGMENT && this._selectedIndex > this.dividerIndex)
+            this.doSetSelectedIndex(this._selectedIndex - this.dividerIndex - 1, skyui.components.list.BasicList.SELECT_MOUSE);
+        else if (a_segment == CategoryList.RIGHT_SEGMENT && this._selectedIndex < this.dividerIndex)
+            this.doSetSelectedIndex(this._selectedIndex + this.dividerIndex + 1, skyui.components.list.BasicList.SELECT_MOUSE);
+        
+        this.UpdateList();
+    }
+    
+    public function get activeSegment()
+    {
+        return this._activeSegment;
+    }
+    
+    
+  /* INITIALIZATION */
+    
+    public function CategoryList()
+    {
+        super();
+        
+        this._selectorPos = 0;
+        this._targetSelectorPos = 0;
+        this._bFastSwitch = false;
 
-      if (this._selectedIndex == -1) return;
+        this._activeSegment = CategoryList.LEFT_SEGMENT;
+        this.dividerIndex = -1;
+        this._segmentOffset = 0;
+        this._segmentLength = 0;
+        
+        if (this.iconSize == undefined)
+            this.iconSize = 32;
+    }
+    
+    
+  /* PUBLIC FUNCTIONS */
 
-      if (this._bFastSwitch) {
-         this._selectorPos = this._targetSelectorPos;
-         this._bFastSwitch = false;
-      } else {
-         var diff = this._targetSelectorPos - this._selectorPos;
-         if (Math.abs(diff) < 0.5) {
+    // Clears the list. For the category list, that's ok since the entryList isn't manipulated directly.
+    // @override BasicList
+    public function clearList()
+    {
+        this.dividerIndex = -1;
+        this._entryList.splice(0);
+    }
+    
+    // @override BasicList
+    public function InvalidateData()
+    {
+        if (this._bSuspended) {
+            this._bRequestInvalidate = true;
+            return;
+        }
+        
+        this.listEnumeration.invalidate();
+
+        this.calculateSegmentParams();
+        
+        if (this._selectedIndex >= this.listEnumeration.size())
+            this._selectedIndex = this.listEnumeration.size() - 1;
+
+        this.UpdateList();
+        
+        if (this.onInvalidate)
+            this.onInvalidate();
+    }
+    
+    // @override BasicList
+    public function UpdateList()
+    {
+        if (this._bSuspended) {
+            this._bRequestUpdate = true;
+            return;
+        }
+        
+        this.setClipCount(this._segmentLength);
+
+        var cw = 0;
+
+        for (var i = 0; i < this._segmentLength; i++) {
+            var entryClip = this.getClipByIndex(i);
+
+            entryClip.setEntry(this.listEnumeration.at(i + this._segmentOffset), this.listState);
+
+            entryClip.background._width = entryClip.background._height = this.iconSize;
+
+            this.listEnumeration.at(i + this._segmentOffset).clipIndex = i;
+            entryClip.itemIndex = i + this._segmentOffset;
+
+            cw = cw + this.iconSize;
+        }
+
+        this._contentWidth = cw;
+        this._totalWidth = this.background._width;
+
+        var spacing = (this._totalWidth - this._contentWidth) / (this._segmentLength + 1);
+
+        var xPos = this.background._x + spacing;
+
+        for (var i = 0; i < this._segmentLength; i++) {
+            var entryClip = this.getClipByIndex(i);
+            entryClip._x = xPos;
+
+            xPos = xPos + this.iconSize + spacing;
+            entryClip._visible = true;
+        }
+        
+        this.updateSelector();
+    }
+    
+    // Moves the selection left to the next element. Wraps around.
+    public function moveSelectionLeft()
+    {
+        if (this.disableSelection)
+            return;
+
+        var curIndex = this._selectedIndex;
+        var startIndex = this._selectedIndex;
+            
+        do {
+            if (curIndex > this._segmentOffset) {
+                curIndex--;
+            } else {
+                this._bFastSwitch = true;
+                curIndex = this._segmentOffset + this._segmentLength - 1;					
+            }
+        } while (curIndex != startIndex && this.listEnumeration.at(curIndex).filterFlag == 0 && !this.listEnumeration.at(curIndex).bDontHide);
+            
+        this.onItemPress(curIndex, 0);
+    }
+
+    // Moves the selection right to the next element. Wraps around.
+    public function moveSelectionRight()
+    {
+        if (this.disableSelection)
+            return;
+            
+        var curIndex = this._selectedIndex;
+        var startIndex = this._selectedIndex;
+            
+        do {
+            if (curIndex < this._segmentOffset + this._segmentLength - 1) {
+                curIndex++;
+            } else {
+                this._bFastSwitch = true;
+                curIndex = this._segmentOffset;
+            }
+        } while (curIndex != startIndex && this.listEnumeration.at(curIndex).filterFlag == 0 && !this.listEnumeration.at(curIndex).bDontHide);
+            
+        this.onItemPress(curIndex, 0);
+    }
+    
+    // @GFx
+    public function handleInput(details: InputDetails, pathToFocus: Array)
+    {
+        if (this.disableInput)
+            return false;
+            
+        if (Shared.GlobalFunc.IsKeyPressed(details)) {
+            if (details.navEquivalent == gfx.ui.NavigationCode.LEFT) {
+                this.moveSelectionLeft();
+                return true;
+            } else if (details.navEquivalent == gfx.ui.NavigationCode.RIGHT) {
+                this.moveSelectionRight();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // @override BasicList
+    public function onEnterFrame()
+    {
+        super.onEnterFrame();
+        
+        if (this._bFastSwitch && this._selectorPos != this._targetSelectorPos) {
             this._selectorPos = this._targetSelectorPos;
-         } else {
-            this._selectorPos += diff * 0.2;
-         }
-      }
+            this._bFastSwitch = false;
+            this.refreshSelector();
+            
+        } else if (this._selectorPos < this._targetSelectorPos) {
+            this._selectorPos = this._selectorPos + (this._targetSelectorPos - this._selectorPos) * 0.2 + 1;
+            
+            this.refreshSelector();
+            
+            if (this._selectorPos > this._targetSelectorPos)
+                this._selectorPos = this._targetSelectorPos;
+            
+        } else if (this._selectorPos > this._targetSelectorPos) {
+            this._selectorPos = this._selectorPos - (this._selectorPos - this._targetSelectorPos) * 0.2 - 1;
+            
+            this.refreshSelector();
+            
+            if (this._selectorPos < this._targetSelectorPos)
+                this._selectorPos = this._targetSelectorPos;
+        }
+    }
+    
+    // @override BasicList
+    public function onItemPress(a_index: Number, a_keyboardOrMouse: Number)
+    {
+        if (this.disableInput || this.disableSelection || a_index == -1)
+            return;
+            
+        this.doSetSelectedIndex(a_index, a_keyboardOrMouse);
+        this.updateSelector();
+        this.dispatchEvent({type: "itemPress", index: this._selectedIndex, entry: this.selectedEntry, keyboardOrMouse: a_keyboardOrMouse});
+    }
+    
+    // @override BasicList
+    private function onItemPressAux(a_index: Number, a_keyboardOrMouse: Number, a_buttonIndex: Number)
+    {
+        if (this.disableInput || this.disableSelection || a_index == -1 || a_buttonIndex != 1)
+            return;
+        
+        this.doSetSelectedIndex(a_index, a_keyboardOrMouse);
+        this.updateSelector();
+        this.dispatchEvent({type: "itemPressAux", index: this._selectedIndex, entry: this.selectedEntry, keyboardOrMouse: a_keyboardOrMouse});
+    }
+    
+    // @override BasicList
+    public function onItemRollOver(a_index: Number)
+    {
+        if (this.disableInput || this.disableSelection)
+            return;
+            
+        this.isMouseDrivenNav = true;
+        
+        if (a_index == this._selectedIndex)
+            return;
+            
+        var entryClip = this.getClipByIndex(a_index);
+        entryClip._alpha = 75;
+    }
 
-      this.drawSelector(this._selectorPos);
-   }
-   function onItemPress(a_index, a_keyboardOrMouse)
-   {
-      if(this.disableInput || this.disableSelection || a_index == -1)
-      {
-         return undefined;
-      }
-      this.doSetSelectedIndex(a_index,a_keyboardOrMouse);
-      this.updateSelector();
-      this.dispatchEvent({type:"itemPress",index:this._selectedIndex,entry:this.selectedEntry,keyboardOrMouse:a_keyboardOrMouse});
-   }
-   function onItemPressAux(a_index, a_keyboardOrMouse, a_buttonIndex)
-   {
-      if(this.disableInput || this.disableSelection || a_index == -1 || a_buttonIndex != 1)
-      {
-         return undefined;
-      }
-      this.doSetSelectedIndex(a_index,a_keyboardOrMouse);
-      this.updateSelector();
-      this.dispatchEvent({type:"itemPressAux",index:this._selectedIndex,entry:this.selectedEntry,keyboardOrMouse:a_keyboardOrMouse});
-   }
-   function onItemRollOver(a_index)
-   {
-      if(this.disableInput || this.disableSelection)
-      {
-         return undefined;
-      }
-      this.isMouseDrivenNav = true;
-      if(a_index == this._selectedIndex)
-      {
-         return undefined;
-      }
-      var _loc2_ = this.getClipByIndex(a_index);
-      _loc2_._alpha = 75;
-   }
-   function onItemRollOut(a_index)
-   {
-      if(this.disableInput || this.disableSelection)
-      {
-         return undefined;
-      }
-      this.isMouseDrivenNav = true;
-      if(a_index == this._selectedIndex)
-      {
-         return undefined;
-      }
-      var _loc2_ = this.getClipByIndex(a_index);
-      _loc2_._alpha = 50;
-   }
-   function calculateSegmentParams()
-   {
-      if(this.dividerIndex != undefined && this.dividerIndex != -1)
-      {
-         if(this._activeSegment == CategoryList.LEFT_SEGMENT)
-         {
+    // @override BasicList
+    public function onItemRollOut(a_index: Number)
+    {
+        if (this.disableInput || this.disableSelection)
+            return;
+            
+        this.isMouseDrivenNav = true;
+        
+        if (a_index == this._selectedIndex)
+            return;
+            
+        var entryClip = this.getClipByIndex(a_index);
+        entryClip._alpha = 50;
+    }
+
+
+/* PRIVATE FUNCTIONS */
+    
+    private function calculateSegmentParams()
+    {
+        // Divided
+        if (this.dividerIndex != undefined && this.dividerIndex != -1) {
+            if (this._activeSegment == CategoryList.LEFT_SEGMENT) {
+                this._segmentOffset = 0;
+                this._segmentLength = this.dividerIndex;
+            } else {
+                this._segmentOffset = this.dividerIndex + 1;
+                this._segmentLength = this.listEnumeration.size() - this._segmentOffset;
+            }
+        
+        // Default for non-divided lists
+        } else {
             this._segmentOffset = 0;
-            this._segmentLength = this.dividerIndex;
-         }
-         else
-         {
-            this._segmentOffset = this.dividerIndex + 1;
-            this._segmentLength = this.listEnumeration.size() - this._segmentOffset;
-         }
-      }
-      else
-      {
-         this._segmentOffset = 0;
-         this._segmentLength = this.listEnumeration.size();
-      }
-   }
-   function updateSelector()
-   {
-      if (this.selectorCenter == undefined) return;
+            this._segmentLength = this.listEnumeration.size();
+        }
+    }
+    
+    private function updateSelector()
+    {
+        if (this.selectorCenter == undefined) {
+            return;
+        }
+            
+        if (this._selectedIndex == -1) {
+            this.selectorCenter._visible = false;
 
-      if (this._selectedIndex == -1) {
-         this.selectorCenter._visible = this.selectorLeft._visible = this.selectorRight._visible = false;
-         return;
-      }
-      
-      var targetClip = this.getClipByIndex(this._selectedIndex - this._segmentOffset);
-      if (targetClip == undefined) return;
-      
-      this._targetSelectorPos = targetClip._x + (targetClip.background._width - this.selectorCenter._width) / 2;
-      
-      var targetY = targetClip._y + targetClip.background._height;
-      this.selectorCenter._y = this.selectorLeft._y = this.selectorRight._y = targetY;
+            if (this.selectorLeft != undefined)
+                this.selectorLeft._visible = false;
+                
+            if (this.selectorRight != undefined)
+                this.selectorRight._visible = false;
 
-      this.selectorCenter._visible = this.selectorLeft._visible = this.selectorRight._visible = true;
-   }
-   
-   private function drawSelector(a_x: Number)
-   {
-      if (this.selectorCenter == undefined) return;
+            return;
+        }
 
-      var bgX: Number = this.background._x;
-      var bgMaxX: Number = bgX + this.background._width;
-      
-      this.selectorCenter._x = a_x;
-      
-      if (this.selectorLeft != undefined) {
-         this.selectorLeft._x = bgX;
-         this.selectorLeft._width = Math.max(0, a_x - bgX);
-      }
-      
-      if (this.selectorRight != undefined) {
-         var rightStart: Number = a_x + this.selectorCenter._width;
-         this.selectorRight._x = rightStart;
-         this.selectorRight._width = Math.max(0, bgMaxX - rightStart);
-      }
-   }
+        var selectedClip = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
+
+        this._targetSelectorPos = selectedClip._x + (selectedClip.background._width - this.selectorCenter._width) / 2;
+        
+        this.selectorCenter._visible = true;
+        this.selectorCenter._y = selectedClip._y + selectedClip.background._height;
+        
+        if (this.selectorLeft != undefined) {
+            this.selectorLeft._visible = true;
+            this.selectorLeft._x = 0;
+            this.selectorLeft._y = this.selectorCenter._y;
+        }
+
+        if (this.selectorRight != undefined) {
+            this.selectorRight._visible = true;
+            this.selectorRight._y = this.selectorCenter._y;
+            this.selectorRight._width = this._totalWidth - this.selectorRight._x;
+        }
+    }
+
+    private function refreshSelector()
+    {
+        this.selectorCenter._visible = true;
+        var selectedClip = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
+
+        this.selectorCenter._x = this._selectorPos;
+
+        if (this.selectorLeft != undefined)
+            this.selectorLeft._width = this.selectorCenter._x;
+
+        if (this.selectorRight != undefined) {
+            this.selectorRight._x = this.selectorCenter._x + this.selectorCenter._width;
+            this.selectorRight._width = this._totalWidth - this.selectorRight._x;
+        }
+    }
 }

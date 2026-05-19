@@ -251,7 +251,6 @@ class skyui.components.list.ListLayout
     public function selectColumn(a_index: Number, a_bShift: Boolean)
     {
         var col = this._columnList[a_index];
-
         // Invalid column
         if (col == null || col.passive)
             return;
@@ -312,6 +311,36 @@ class skyui.components.list.ListLayout
         this._prefData.column = col;
         this._prefData.stateIndex = this._activeColumnState;
         this._prefData.reverse = this._forceReverse;
+            
+        this.updateLayout();
+    }
+
+    public function selectColumnPrev(a_index: Number, a_bShift: Boolean)
+    {
+        var col = this._columnList[a_index];
+        
+        // Invalid column
+        if (col == null || col.passive)
+            return;
+
+        if (this._activeColumnIndex == a_index) {
+            if (a_bShift) {
+                this._forceReverse = !this._forceReverse;
+            } else {
+                this._forceReverse = false;
+                if (this._activeColumnState > 1)
+                    this._activeColumnState--;
+                else
+                    this._activeColumnState = col.states;
+            }
+        } else {
+            this._activeColumnIndex = a_index;
+            this._activeColumnState = col.states;
+            this._forceReverse = (a_bShift == true);
+        }
+        // Save as preferred state
+        this._prefData.column = col;
+        this._prefData.stateIndex = this._activeColumnState;
             
         this.updateLayout();
     }
@@ -618,10 +647,12 @@ class skyui.components.list.ListLayout
 
     private function restorePrefState()
     {
+        // No preference to restore yet
         if (!this._prefData.column)
             return false;
 
         var listIndex = this._columnIndexById[this._prefData.column.identifier];
+        
         if (listIndex == undefined)
             return false;
 
