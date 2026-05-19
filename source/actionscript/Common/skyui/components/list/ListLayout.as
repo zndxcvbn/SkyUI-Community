@@ -165,7 +165,7 @@ class skyui.components.list.ListLayout
         this._columnIndexById = {};
         this._layoutIndexByColumnList = [];
         
-        this._prefData = {column: null, stateIndex: 1};
+        this._prefData = {column: null, stateIndex: 1, reverse: false};
         this._viewList = [];
         this._columnList = [];
         this._columnLayoutData = [];
@@ -242,6 +242,7 @@ class skyui.components.list.ListLayout
             var visibleIdx = this._columnIndexById[primaryColName];
             this._activeColumnIndex = (visibleIdx != undefined) ? visibleIdx : 0;
             this._activeColumnState = 1;
+            this._forceReverse = false;
         }
 
         this.updateLayout();
@@ -250,30 +251,66 @@ class skyui.components.list.ListLayout
     public function selectColumn(a_index: Number, a_bShift: Boolean)
     {
         var col = this._columnList[a_index];
-        
         // Invalid column
         if (col == null || col.passive)
             return;
 
         if (this._activeColumnIndex == a_index) {
-            if (a_bShift) {
-                this._forceReverse = !this._forceReverse;
+            if (col.states > 1) {
+                if (a_bShift) {
+                    this._forceReverse = !this._forceReverse;
+                } else {
+                    if (this._activeColumnState < col.states)
+                        this._activeColumnState++;
+                    else
+                        this._activeColumnState = 1;
+                }
             } else {
-                this._forceReverse = false;
-                if (this._activeColumnState < col.states)
-                    this._activeColumnState++;
-                else
-                    this._activeColumnState = 1;
+                this._forceReverse = !this._forceReverse;
             }
         } else {
             this._activeColumnIndex = a_index;
             this._activeColumnState = 1;
-            this._forceReverse = (a_bShift == true);
+            this._forceReverse = a_bShift;
         }
         
         // Save as preferred state
         this._prefData.column = col;
         this._prefData.stateIndex = this._activeColumnState;
+        this._prefData.reverse = this._forceReverse;
+            
+        this.updateLayout();
+    }
+
+    public function selectColumnPrev(a_index: Number, a_bShift: Boolean)
+    {
+        var col = this._columnList[a_index];
+        // Invalid column
+        if (col == null || col.passive)
+            return;
+
+        if (this._activeColumnIndex == a_index) {
+            if (col.states > 1) {
+                if (a_bShift) {
+                    this._forceReverse = !this._forceReverse;
+                } else {
+                    if (this._activeColumnState > 1)
+                        this._activeColumnState--;
+                    else
+                        this._activeColumnState = col.states;
+                }
+            } else {
+                this._forceReverse = !this._forceReverse;
+            }
+        } else {
+            this._activeColumnIndex = a_index;
+            this._activeColumnState = col.states;
+            this._forceReverse = a_bShift;
+        }
+        // Save as preferred state
+        this._prefData.column = col;
+        this._prefData.stateIndex = this._activeColumnState;
+        this._prefData.reverse = this._forceReverse;
             
         this.updateLayout();
     }
@@ -339,6 +376,7 @@ class skyui.components.list.ListLayout
         this._activeColumnState = 1;
         this._prefData.column = this._columnList[this._activeColumnIndex];
         this._prefData.stateIndex = 1;
+        this._prefData.reverse = false;
         this.updateLayout();
     }
 
@@ -454,7 +492,7 @@ class skyui.components.list.ListLayout
             cData.colorAttribute = stateData.colorAttribute;
             
             // Sort arrow
-            if (isActive && col.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse)
+            if (isActive && this._forceReverse)
                 cData.labelArrowDown = !stateData._cachedArrowDown;
             else
                 cData.labelArrowDown = stateData._cachedArrowDown;
@@ -599,8 +637,8 @@ class skyui.components.list.ListLayout
         }
         
         this._sortAttributes = stateData._cachedSortAttributes;
-
-        if (colType == skyui.components.list.ListLayout.COL_TYPE_NAME && this._forceReverse) {
+        
+        if (this._forceReverse) {
             this._sortOptions = stateData._cachedSortOptionsRev;
         } else {
             this._sortOptions = stateData._cachedSortOptions;
@@ -614,12 +652,14 @@ class skyui.components.list.ListLayout
             return false;
 
         var listIndex = this._columnIndexById[this._prefData.column.identifier];
-
+        
         if (listIndex == undefined)
             return false;
 
         this._activeColumnIndex = listIndex;
         this._activeColumnState = this._prefData.stateIndex;
+        
+        this._forceReverse = (this._prefData.reverse == true);
 
         return true;
     }
