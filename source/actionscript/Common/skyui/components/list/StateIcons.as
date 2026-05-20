@@ -1,4 +1,4 @@
-class skyui.components.list.StatusIconBar extends MovieClip
+class skyui.components.list.StateIcons extends MovieClip
 {
     public var background: MovieClip;
     public var poisonIcon: MovieClip;
@@ -9,14 +9,23 @@ class skyui.components.list.StatusIconBar extends MovieClip
     public var readIcon: MovieClip;
 
     private var _icons: Array;
+    private var _initialized: Boolean = false;
 
-    function StatusIconBar()
+    function StateIcons()
     {
         super();
     }
 
     public function onLoad()
     {
+        this.ensureInitialized();
+    }
+
+    private function ensureInitialized()
+    {
+        if (this._initialized)
+            return;
+
         this._icons = [
             this.bestIcon,
             this.favoriteIcon,
@@ -25,7 +34,7 @@ class skyui.components.list.StatusIconBar extends MovieClip
             this.enchIcon,
             this.readIcon
         ];
-        this.background.JustifyContent(this._icons, "flex-start", 5);
+        this._initialized = true;
     }
 
     private function setIconState(a_icon: MovieClip, a_show: Boolean, a_size: Number)
@@ -49,6 +58,8 @@ class skyui.components.list.StatusIconBar extends MovieClip
 
     public function updateStatuses(a_entryObject: Object, a_showStolen: Boolean, a_iconSize: Number)
     {
+        this.ensureInitialized();
+
         this.setIconState(this.bestIcon,     (a_entryObject.bestInClass == true), a_iconSize);
         this.setIconState(this.favoriteIcon, (a_entryObject.favorite == true), a_iconSize);
         this.setIconState(this.poisonIcon,   (a_entryObject.isPoisoned == true), a_iconSize);

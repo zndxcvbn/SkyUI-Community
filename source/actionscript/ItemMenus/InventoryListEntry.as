@@ -16,42 +16,37 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     public var itemIcon: MovieClip;
     public var equipIcon: MovieClip;
 
-    public var statusIconBar: MovieClip;
-    
+    public var stateIcons: MovieClip;
+
 
   /* CONSTRUCTOR */
 
     function InventoryListEntry()
     {
         super();
+        this.stateIcons = skyui.components.list.StateIcons(
+            this.attachMovie("StateIcons", "stateIcons", this.getNextHighestDepth())
+        );
     }
 
 
   /* INITIALIZATION */
    
-   // @override TabularListEntry
-   public function initialize(a_index: Number, a_state: ListState)
-   {
-      super.initialize(a_index);
-      
-      var iconLoader = new MovieClipLoader();
-      iconLoader.addListener(this);
-      iconLoader.loadClip(a_state.iconSource, this.itemIcon);
-      
-      this.itemIcon._visible = false;
-      this.equipIcon._visible = false;
-        
-        this.statusIconBar = skyui.components.list.StatusIconBar(
-            this.attachMovie(
-                "StatusIconBar",
-                "statusIconBar",
-                this.getNextHighestDepth()
-            )
-        );
-      
-      for (var i = 0; this["textField" + i] != undefined; i++)
-         this["textField" + i]._visible = false;
-   }
+    // @override TabularListEntry
+    public function initialize(a_index: Number, a_state: ListState)
+    {
+        super.initialize(a_index);
+
+        var iconLoader = new MovieClipLoader();
+        iconLoader.addListener(this);
+        iconLoader.loadClip(a_state.iconSource, this.itemIcon);
+
+        this.itemIcon._visible = false;
+        this.equipIcon._visible = false;        
+
+        for (var i = 0; this["textField" + i] != undefined; i++)
+            this["textField" + i]._visible = false;
+    }
    
    
   /* PUBLIC FUNCTIONS */
@@ -60,10 +55,10 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     public function setSpecificEntryLayout(a_entryObject: Object, a_state: ListState)
     {
         var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
-        
-        var iconSize = entryH * 0.5; 
-            
-        this.statusIconBar._y = (entryH - iconSize) / 2;
+        var iconSize = entryH * 0.5;
+
+        this.stateIcons.background._height = entryH;
+        this.stateIcons._y = (entryH - iconSize) / 2;
     }
 
     // @override TabularListEntry
@@ -98,9 +93,8 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
 
         var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
         var iconSize = entryH * 0.5;
-        this.statusIconBar.background._height = entryH;
-        this.statusIconBar.updateStatuses(a_entryObject, a_state.showStolenIcon, iconSize);
-        this.statusIconBar._x = a_entryField._x + a_entryField.textWidth + 10;
+        this.stateIcons.updateStatuses(a_entryObject, a_state.showStolenIcon, iconSize);
+        this.stateIcons._x = a_entryField._x + a_entryField.textWidth + 10;
     }
 
     // @override TabularEntry
@@ -111,7 +105,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     }
 
 
-    /* PRIVATE FUNCTIONS */
+  /* PRIVATE FUNCTIONS */
 
     // @implements MovieClipLoader
     private function onLoadInit(a_icon: MovieClip)

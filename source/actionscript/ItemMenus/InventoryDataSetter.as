@@ -24,6 +24,15 @@ class InventoryDataSetter extends ItemcardDataExtender
         a_entryObject.infoWeight =(a_itemInfo.weight > 0) ? (Math.round(a_itemInfo.weight * 100) / 100) : null;
         
         a_entryObject.infoValueWeight = (a_itemInfo.weight > 0 && a_itemInfo.value > 0) ? Math.round(a_itemInfo.value / a_itemInfo.weight) : null;
+        var nameText: String = a_entryObject.text;
+      
+        if (a_entryObject.soulLVL != undefined)
+            nameText += " (" + a_entryObject.soulLVL + ")";
+        
+        if (a_entryObject.count > 1)
+            nameText += " (" + a_entryObject.count + ")";
+        
+        a_entryObject.displayName = nameText;
 
         switch (a_entryObject.formType) {
             case skyui.defines.Form.TYPE_SCROLLITEM:
