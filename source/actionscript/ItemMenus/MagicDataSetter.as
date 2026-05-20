@@ -23,7 +23,7 @@ class MagicDataSetter extends ItemcardDataExtender
     {
         a_entryObject.baseId = a_entryObject.formId & 0x00FFFFFF;
         a_entryObject.type = a_itemInfo.type;
-
+        a_entryObject.displayName = a_entryObject.text;
         switch (a_entryObject.type) {
             
             // Shout
