@@ -28,6 +28,9 @@ class skyui.components.list.ColumnLayoutData
 
     public var labelArrowDown: Boolean = false;
 
+    // True when this column participates in the (multi-column) sort.
+    public var sorted: Boolean = false;
+
     public var labelValue: String;
 
     public var labelTextFormat: TextFormat;
@@ -39,5 +42,6 @@ class skyui.components.list.ColumnLayoutData
         this.stageName = this.entryValue = this.labelValue = this.colorAttribute = null;
         this.textFormat = this.labelTextFormat = null;
         this.labelArrowDown = false;
+        this.sorted = false;
     }
 }

@@ -704,6 +704,7 @@ Add_SWF(skyui_inventorylists
     Common/skyui/util/GlobalFunctions.as
     Common/skyui/components/list {
         BasicListEntry.as
+        ColumnLayoutData.as
         TabularList.as
         TabularListEntry.as
         ListLayout.as

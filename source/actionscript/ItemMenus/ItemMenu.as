@@ -2,6 +2,10 @@ class ItemMenu extends MovieClip
 {
   /* PRIVATE VARIABLES */
 
+    // Key under which this menu persists its category/selection/scroll/sort
+    // chain via skse.StoreIndices. Left unset -> this menu does not persist.
+    var _indicesKey: String;
+
     private var _platform: Number;
     private var _bItemCardFadedIn: Boolean = false;
     private var _bItemCardPositioned: Boolean = false;
@@ -252,29 +256,34 @@ class ItemMenu extends MovieClip
         var categoryList = this.inventoryLists.categoryList;
         var itemList = this.inventoryLists.itemList;
         
-        if (arguments[0] != undefined && arguments[0] != -1 && arguments.length == 5) {
-            categoryList.listState.restoredItem = arguments[0];
+        var data = new Array();
+        if (this._indicesKey != undefined)
+            skse.LoadIndices(this._indicesKey, data);
+
+        if (data.length >= 3 && data[0] != undefined && data[0] != -1) {
+            categoryList.listState.restoredItem = data[0];
             categoryList.onUnsuspend = function()
             {
                 this.onItemPress(this.listState.restoredItem, 0);
                 delete this.onUnsuspend;
             };
-            
-            itemList.listState.restoredScrollPosition = arguments[2];
-            itemList.listState.restoredSelectedIndex = arguments[1];
-            itemList.listState.restoredActiveColumnIndex = arguments[3];
-            itemList.listState.restoredActiveColumnState = arguments[4];
+
+            itemList.listState.restoredScrollPosition = data[2];
+            itemList.listState.restoredSelectedIndex = data[1];
+            itemList.listState.restoredSortChain = this.decodeSortChain(data);
 
             itemList.onUnsuspend = function()
             {
                 this.onInvalidate = function()
                 {
-                    this.scrollPosition = this.listState.restoredScrollPosition;
+                    // Restore selection first: setting selectedIndex re-scrolls to reveal the
+                    // entry, so the saved scroll position must be applied last to win.
                     this.selectedIndex = this.listState.restoredSelectedIndex;
+                    this.scrollPosition = this.listState.restoredScrollPosition;
                     delete this.onInvalidate;
                 };
-                
-                this.layout.restoreColumnState(this.listState.restoredActiveColumnIndex, this.listState.restoredActiveColumnState);
+
+                this.layout.restoreSortChain(this.listState.restoredSortChain);
                 delete this.onUnsuspend;
             };
         } else {
@@ -410,16 +419,36 @@ class ItemMenu extends MovieClip
 
     private function saveIndices()
     {
+        if (this._indicesKey == undefined)
+            return;
+
         var a = new Array();
         
         // Save selected category, selected item and relative scroll position
         a.push(this.inventoryLists.categoryList.selectedIndex);
         a.push(this.inventoryLists.itemList.selectedIndex);
         a.push(this.inventoryLists.itemList.scrollPosition);
-        a.push(this.inventoryLists.itemList.layout.activeColumnIndex);
-        a.push(this.inventoryLists.itemList.layout.activeColumnState);
-        
-        gfx.io.GameDelegate.call("SaveIndices", [a]);
+
+        // [3..] the sort chain: three values per entry -- columnIndex, state, reverse.
+        var chain = this.inventoryLists.itemList.layout.sortChain;
+        for (var i = 0; i < chain.length; i++) {
+            a.push(chain[i].columnIndex);
+            a.push(chain[i].columnState);
+            a.push(chain[i].reverse ? 1 : 0);
+        }
+
+        skse.StoreIndices(this._indicesKey, a);
+    }
+
+    // Rebuilds the sort chain from a persisted index array (entries start at [3]).
+    private function decodeSortChain(a_data: Array)
+    {
+        var chain = [];
+
+        for (var i = 3; i + 2 < a_data.length; i += 3)
+            chain.push({columnIndex: a_data[i], columnState: a_data[i + 1], reverse: a_data[i + 2] == 1});
+
+        return chain;
     }
 
     function updateDynamicListHeight()

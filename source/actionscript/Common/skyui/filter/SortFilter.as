@@ -50,18 +50,10 @@ class skyui.filter.SortFilter implements skyui.filter.IFilter
                 a_filteredList[i]._sortFlag = 0;
         }
 
-        this._sortAttributes.unshift("enabled");
-        this._sortOptions.unshift(Array.NUMERIC | Array.DESCENDING);
+        // Build working arrays so the caller's sort config is never mutated.
+        var attributes = ["_sortFlag", "enabled"].concat(this._sortAttributes);
+        var options = [Array.NUMERIC, Array.NUMERIC | Array.DESCENDING].concat(this._sortOptions);
 
-        this._sortAttributes.unshift("_sortFlag");
-        this._sortOptions.unshift(Array.NUMERIC);
-        
-        a_filteredList.sortOn(this._sortAttributes, this._sortOptions);
-        
-        this._sortAttributes.shift();
-        this._sortOptions.shift();
-        
-        this._sortAttributes.shift();
-        this._sortOptions.shift();
+        a_filteredList.sortOn(attributes, options);
     }
 }

@@ -20,6 +20,8 @@ class MagicMenu extends ItemMenu
     {
         super();
         
+        this._indicesKey = "SkyUI.MagicMenu";
+
         this._categoryListIconArt = ["cat_favorites", "mag_all", "mag_alteration", "mag_illusion",
                             "mag_destruction", "mag_conjuration", "mag_restoration", "mag_shouts",
                             "mag_powers", "mag_activeeffects"];

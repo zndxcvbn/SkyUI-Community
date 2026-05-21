@@ -21,7 +21,7 @@ class skyui.components.list.ListLayout
   /* PRIVATE VARIABLES */
 
     private var _activeViewIndex: Number = -1;
-        
+
     private var _layoutData: Object;
     private var _viewData: Object;
     private var _columnData: Object;
@@ -29,8 +29,12 @@ class skyui.components.list.ListLayout
 
     private var _lastViewIndex: Number = -1;
 
-    // viewIndex, columnIndex, stateIndex
-    private var _prefData: Object;
+    // Active sort as an ordered chain of {columnIndex, columnState, reverse,
+    // columnId}. [0] is the primary key; later entries are secondary keys added
+    // via Shift+click. columnId is the column's stable identifier, so the chain
+    // survives view (category) changes even though columnIndex does not. The
+    // chain always holds at least one entry.
+    private var _sortChain: Array;
 
     private var _stateData: Object;
 
@@ -45,13 +49,6 @@ class skyui.components.list.ListLayout
 
     private var _lastFilterFlag: Number = -1;
 
-    private var _forceReverse: Boolean = false;
-
-    public function get forceReverse()
-    {
-        return this._forceReverse;
-    }
-
     private var _categoryToViewIndex: Object;
     private var _columnIndexById: Object;
     private var _layoutIndexByColumnList: Array;
@@ -64,23 +61,30 @@ class skyui.components.list.ListLayout
         return this._viewList[this._activeViewIndex];
     }
 
-    private var _activeColumnIndex: Number = -1;
-
+    // Primary (first) sort column. Kept for the single-sort callers and the header.
     public function get activeColumnIndex()
     {
-        return this._activeColumnIndex;
+        return this._sortChain[0].columnIndex;
+    }
+
+    public function get activeColumnState()
+    {
+        return this._sortChain[0].columnState;
+    }
+
+    public function get forceReverse()
+    {
+        return this._sortChain[0].reverse;
+    }
+
+    public function get sortChain()
+    {
+        return this._sortChain;
     }
 
     public function get columnCount()
     {
         return this._columnLayoutData.length;
-    }
-
-    private var _activeColumnState: Number = 1;
-
-    public function get activeColumnState()
-    {
-        return this._activeColumnState;
     }
 
     private var _columnLayoutData: Array;
@@ -164,19 +168,19 @@ class skyui.components.list.ListLayout
     {
         Shared.GlobalFunc.AddArrayExtensions();
         Shared.GlobalFunc.AddTextFormatExtensions();
-        
+
         gfx.events.EventDispatcher.initialize(this);
-        
+
         this._columnIndexById = {};
         this._layoutIndexByColumnList = [];
-        
-        this._prefData = {column: null, stateIndex: 1, reverse: false};
+
+        this._sortChain = [ {columnIndex: -1, columnState: 1, reverse: false, columnId: null} ];
         this._viewList = [];
         this._columnList = [];
         this._columnLayoutData = [];
         this._hiddenStageNames = [];
         this._columnDescriptors = [];
-        
+
         this._layoutData = a_layoutData;
         this._viewData = a_viewData;
         this._columnData = a_columnData;
@@ -187,19 +191,19 @@ class skyui.components.list.ListLayout
 
         if (this._columnMargin == undefined)
             this._columnMargin = this._defaultsData.columnMargin;
-        
+
         this.updateViewList();
         this.updateColumnList();
-        
+
         // Initial textformats
-        this._defaultEntryTextFormat = new TextFormat(); 
+        this._defaultEntryTextFormat = new TextFormat();
         this._defaultLabelTextFormat = new TextFormat();
-        
+
         // Copy default textformat values from config
         for (var prop in this._defaultsData.entry.textFormat)
             if (this._defaultEntryTextFormat.hasOwnProperty(prop))
                 this._defaultEntryTextFormat[prop] = this._defaultsData.entry.textFormat[prop];
-        
+
         for (var prop in this._defaultsData.label.textFormat)
             if (this._defaultLabelTextFormat.hasOwnProperty(prop))
                 this._defaultLabelTextFormat[prop] = this._defaultsData.label.textFormat[prop];
@@ -227,12 +231,11 @@ class skyui.components.list.ListLayout
     public function changeFilterFlag(a_flag: Number)
     {
         this._lastFilterFlag = a_flag;
-        
+
         var activeIndex: Number = this._categoryToViewIndex[a_flag];
-        
-        if (activeIndex == undefined) {
+
+        if (activeIndex == undefined)
             activeIndex = this._viewList.length - 1;
-        }
 
         if (activeIndex == -1 || this._lastViewIndex == activeIndex)
             return;
@@ -241,137 +244,236 @@ class skyui.components.list.ListLayout
         this._activeViewIndex = activeIndex;
 
         this.updateColumnList();
-
-        if (!this.restorePrefState()) {
-            var primaryColName = this.currentView.primaryColumn;
-            var visibleIdx = this._columnIndexById[primaryColName];
-            this._activeColumnIndex = (visibleIdx != undefined) ? visibleIdx : 0;
-            this._activeColumnState = 1;
-            this._forceReverse = false;
-        }
-
+        this.resolveSortChain();
         this.updateLayout();
     }
 
+    // Cycles the column at a_index forward (next state / ascending).
     public function selectColumn(a_index: Number, a_bShift: Boolean)
     {
-        var col = this._columnList[a_index];
-        // Invalid column
-        if (col == null || col.passive)
-            return;
-
-        if (this._activeColumnIndex == a_index) {
-            if (col.states > 1) {
-                if (a_bShift) {
-                    this._forceReverse = !this._forceReverse;
-                } else {
-                    if (this._activeColumnState < col.states)
-                        this._activeColumnState++;
-                    else
-                        this._activeColumnState = 1;
-                }
-            } else {
-                this._forceReverse = !this._forceReverse;
-            }
-        } else {
-            this._activeColumnIndex = a_index;
-            this._activeColumnState = 1;
-            this._forceReverse = a_bShift;
-        }
-        
-        // Save as preferred state
-        this._prefData.column = col;
-        this._prefData.stateIndex = this._activeColumnState;
-        this._prefData.reverse = this._forceReverse;
-            
-        this.updateLayout();
+        this.cycleColumn(a_index, a_bShift, 1);
     }
 
+    // Cycles the column at a_index backward (previous state / descending).
     public function selectColumnPrev(a_index: Number, a_bShift: Boolean)
     {
-        var col = this._columnList[a_index];
-        // Invalid column
-        if (col == null || col.passive)
+        this.cycleColumn(a_index, a_bShift, -1);
+    }
+
+    // Restores a saved sort chain (array of {columnIndex, columnState, reverse}).
+    // Entries that no longer map to a valid column are dropped.
+    public function restoreSortChain(a_chain: Array)
+    {
+        if (a_chain == undefined)
             return;
 
-        if (this._activeColumnIndex == a_index) {
-            if (col.states > 1) {
-                if (a_bShift) {
-                    this._forceReverse = !this._forceReverse;
-                } else {
-                    if (this._activeColumnState > 1)
-                        this._activeColumnState--;
-                    else
-                        this._activeColumnState = col.states;
-                }
-            } else {
-                this._forceReverse = !this._forceReverse;
-            }
-        } else {
-            this._activeColumnIndex = a_index;
-            this._activeColumnState = col.states;
-            this._forceReverse = a_bShift;
+        var chain = [];
+
+        for (var i = 0; i < a_chain.length; i++) {
+            var src = a_chain[i];
+            var col = this._columnList[src.columnIndex];
+
+            if (col == null || col.passive)
+                continue;
+
+            if (src.columnState < 1 || src.columnState > col.states)
+                continue;
+
+            chain.push(this.makeSortEntry(src.columnIndex, src.columnState, (src.reverse == true)));
         }
-        // Save as preferred state
-        this._prefData.column = col;
-        this._prefData.stateIndex = this._activeColumnState;
-        this._prefData.reverse = this._forceReverse;
-            
+
+        if (chain.length == 0)
+            return;
+
+        this._sortChain = chain;
         this.updateLayout();
     }
 
+    // Single-column restore; kept for callers that only deal with one column.
     public function restoreColumnState(a_activeIndex: Number, a_activeState: Number, a_reverse: Boolean)
     {
-        var col = this._columnList[a_activeIndex];
-
-        // Invalid column
-        if (col == null || col.passive)
-            return;
-
-        if (a_activeState < 1 || a_activeState > col.states)
-            return;
-
-        this._activeColumnIndex = a_activeIndex;
-        this._activeColumnState = a_activeState;
-        this._forceReverse = (a_reverse == true);
-
-        // Save as preferred state
-        this._prefData.column = col;
-        this._prefData.stateIndex = this._activeColumnState;
-        this._prefData.reverse = this._forceReverse;
-
-        this.updateLayout();
+        this.restoreSortChain([ {columnIndex: a_activeIndex, columnState: a_activeState, reverse: (a_reverse == true)} ]);
     }
 
     public function clearSorting()
     {
-        this._forceReverse = false;
-        this._activeColumnIndex = this.currentView.columns.indexOf(this.currentView.primaryColumn);
-        if (this._activeColumnIndex == -1)
-            this._activeColumnIndex = 0;
-            
-        this._activeColumnState = 1;
-        this._prefData.column = this._columnList[this._activeColumnIndex];
-        this._prefData.stateIndex = 1;
-        this._prefData.reverse = false;
+        var primaryIndex = this._columnIndexById[this.currentView.primaryColumn];
+        this._sortChain = [ this.makeSortEntry((primaryIndex != undefined) ? primaryIndex : 0, 1, false) ];
         this.updateLayout();
     }
 
 
   /* PRIVATE FUNCTIONS */
 
+    // Handles a header click. a_direction is +1 (selectColumn) or -1
+    // (selectColumnPrev) and controls which way multi-state columns cycle.
+    private function cycleColumn(a_index: Number, a_bShift: Boolean, a_direction: Number)
+    {
+        var col = this._columnList[a_index];
+
+        // Invalid column
+        if (col == null || col.passive)
+            return;
+
+        if (a_bShift)
+            this.shiftColumn(a_index);
+        else
+            this.replaceSort(a_index, col, a_direction);
+
+        this.updateLayout();
+    }
+
+    // Shift+click: flips the direction of a column already in the chain, or
+    // appends it as a new (ascending) secondary sort key.
+    private function shiftColumn(a_index: Number)
+    {
+        var pos = this.sortChainPos(a_index);
+
+        if (pos != -1)
+            this._sortChain[pos].reverse = !this._sortChain[pos].reverse;
+        else
+            this._sortChain.push(this.makeSortEntry(a_index, 1, false));
+    }
+
+    // Plain click: cycles a column that is already part of the sort in place
+    // (so multi-state columns can be stepped without losing the chain); a click
+    // on an unsorted column resets to a single-column sort.
+    private function replaceSort(a_index: Number, col: Object, a_direction: Number)
+    {
+        var pos = this.sortChainPos(a_index);
+
+        if (pos == -1) {
+            this._sortChain = [ this.makeSortEntry(a_index, (a_direction > 0) ? 1 : col.states, false) ];
+            return;
+        }
+
+        var entry = this._sortChain[pos];
+
+        if (col.states > 1) {
+            var state = entry.columnState + a_direction;
+            if (state < 1)
+                state = col.states;
+            else if (state > col.states)
+                state = 1;
+            entry.columnState = state;
+        } else {
+            entry.reverse = !entry.reverse;
+        }
+    }
+
+    private function makeSortEntry(a_index: Number, a_state: Number, a_reverse: Boolean)
+    {
+        var col = this._columnList[a_index];
+        return {columnIndex: a_index, columnState: a_state, reverse: a_reverse, columnId: (col != null) ? col.identifier : null};
+    }
+
+    // Position of the column within the sort chain, or -1 if it is not sorted.
+    private function sortChainPos(a_index: Number)
+    {
+        for (var i = 0; i < this._sortChain.length; i++)
+            if (this._sortChain[i].columnIndex == a_index)
+                return i;
+
+        return -1;
+    }
+
+    // Re-resolves the sort chain after a view change. Columns are remembered by
+    // stable id; entries absent from the new view are dropped, and if nothing
+    // remains the view's primary column becomes the sole sort.
+    private function resolveSortChain()
+    {
+        var resolved = [];
+
+        for (var i = 0; i < this._sortChain.length; i++) {
+            var entry = this._sortChain[i];
+            var idx = (entry.columnId != null) ? this._columnIndexById[entry.columnId] : undefined;
+
+            if (idx != undefined) {
+                entry.columnIndex = idx;
+                resolved.push(entry);
+            }
+        }
+
+        if (resolved.length == 0) {
+            var primaryIndex = this._columnIndexById[this.currentView.primaryColumn];
+            resolved.push(this.makeSortEntry((primaryIndex != undefined) ? primaryIndex : 0, 1, false));
+        }
+
+        this._sortChain = resolved;
+    }
+
+    // Builds the multi-key sort attribute/option arrays from the whole chain.
+    // Each column's attribute list conventionally ends with "text" (a generic
+    // item-name tiebreaker). In a multi-column sort that tiebreaker must run
+    // only once, after every column's real key -- otherwise the first column's
+    // trailing "text" leaves no ties for the later columns to break.
+    private function rebuildSortParams()
+    {
+        var attributes = [];
+        var options = [];
+        var hasTextTail = false;
+        var textTailOption = 0;
+
+        for (var i = 0; i < this._sortChain.length; i++) {
+            var entry = this._sortChain[i];
+            var col = this._columnList[entry.columnIndex];
+
+            if (col == null)
+                continue;
+
+            var stateData = col.statesData[entry.columnState];
+
+            if (stateData == undefined || !stateData._cachedSortAttributes)
+                continue;
+
+            var entryAttributes = stateData._cachedSortAttributes;
+            var entryOptions = entry.reverse ? stateData._cachedSortOptionsRev : stateData._cachedSortOptions;
+
+            if (entryOptions == null)
+                continue;
+
+            var count = entryAttributes.length;
+
+            // Peel a trailing "text" tiebreaker, but only when the column has a
+            // real key of its own (more than one attribute).
+            if (count > 1 && entryAttributes[count - 1] == "text") {
+                hasTextTail = true;
+                textTailOption = entryOptions[count - 1];
+                count--;
+            }
+
+            for (var j = 0; j < count; j++) {
+                attributes.push(entryAttributes[j]);
+                options.push(entryOptions[j]);
+            }
+        }
+
+        if (hasTextTail) {
+            attributes.push("text");
+            options.push(textTailOption);
+        }
+
+        if (attributes.length > 0) {
+            this._sortAttributes = attributes;
+            this._sortOptions = options;
+        } else {
+            this._sortAttributes = null;
+            this._sortOptions = null;
+        }
+    }
+
     private function preprocessColumn(col: Object)
     {
         col._isProcessed = true;
-        
+
         col.statesData = [];
-        
+
         var numStates = col.states != undefined ? col.states : 1;
-        
+
         for (var s = 1; s <= numStates; s++) {
             var stateData = col["state" + s];
             if (!stateData) continue;
-            
+
             if (col.entry != undefined && col.entry.textFormat != undefined) {
                 var entryTF = new TextFormat();
                 this._mergeTextFormats(entryTF, this._defaultEntryTextFormat);
@@ -380,7 +482,7 @@ class skyui.components.list.ListLayout
             } else {
                 stateData._cachedEntryTF = this._defaultEntryTextFormat;
             }
-            
+
             if (col.label != undefined && col.label.textFormat != undefined) {
                 var labelTF = this._defaultLabelTextFormat.clone();
                 this._mergeTextFormats(labelTF, col.label.textFormat);
@@ -388,23 +490,23 @@ class skyui.components.list.ListLayout
             } else {
                 stateData._cachedLabelTF = this._defaultLabelTextFormat;
             }
-            
+
             var sortAttributes = stateData.sortAttributes;
             if (!sortAttributes && stateData.entry.text.charAt(0) == "@") {
                 sortAttributes = [ stateData.entry.text.slice(1) ];
             }
-            
+
             if (sortAttributes) {
                 stateData._cachedSortAttributes = (sortAttributes.length !== undefined && typeof sortAttributes !== "string") ? sortAttributes : [sortAttributes];
             } else {
                 stateData._cachedSortAttributes = null;
             }
-            
+
             var sortOptions = stateData.sortOptions;
             if (sortOptions) {
                 var baseOpts = (sortOptions.length !== undefined && typeof sortOptions !== "string") ? sortOptions.concat() : [sortOptions];
                 stateData._cachedSortOptions = baseOpts;
-                
+
                 var revOpts =[];
                 for (var i = 0; i < baseOpts.length; i++) {
                     revOpts[i] = baseOpts[i] ^ 2; // DESCENDING = 2
@@ -414,12 +516,12 @@ class skyui.components.list.ListLayout
                 stateData._cachedSortOptions = null;
                 stateData._cachedSortOptionsRev = null;
             }
-            
+
             stateData._cachedArrowDown = stateData.label.arrowDown ? true : false;
-            
+
             col.statesData[s] = stateData;
         }
-        
+
         col._borderLeft = col.border != undefined ? col.border[skyui.components.list.ListLayout.LEFT] : 0;
         col._borderRight = col.border != undefined ? col.border[skyui.components.list.ListLayout.RIGHT] : 0;
         col._borderTop = col.border != undefined ? col.border[skyui.components.list.ListLayout.TOP] : 0;
@@ -440,36 +542,43 @@ class skyui.components.list.ListLayout
     {
         this._layoutUpdateCount++;
 
+        this.rebuildSortParams();
+
         var colCount = this._columnList.length;
         var maxHeight = 0;
         var textFieldIndex = 0;
         var bEnableItemIcon = false;
         var bEnableEquipIcon = false;
-        
+
         var weightedFlags = 0;
-        
+
+        // Map columnIndex -> sort chain entry, for sort arrows and per-column state.
+        var sortByIndex = {};
+        for (var s = 0; s < this._sortChain.length; s++)
+            sortByIndex[this._sortChain[s].columnIndex] = this._sortChain[s];
+
         // FIRST PASS: Collecting basic data
         for (var i = 0; i < colCount; i++) {
             var col = this._columnList[i];
-            
+
             var cData = this._columnLayoutData[i];
             if (cData == undefined) {
                 cData = new skyui.components.list.ColumnLayoutData();
                 this._columnLayoutData[i] = cData;
             }
 
-            var isActive = (i == this._activeColumnIndex);
-            var stateData = isActive ? col.statesData[this._activeColumnState] : col.statesData[1];
-            
-            if (isActive) this.updateSortParams(stateData, col.type);
-            
+            var sortEntry = sortByIndex[i];
+            var sorted = (sortEntry != undefined);
+            var stateData = sorted ? col.statesData[sortEntry.columnState] : col.statesData[1];
+
             cData.type = col.type;
+            cData.sorted = sorted;
             cData.labelValue = stateData.label.text;
             cData.entryValue = stateData.entry.text;
             cData.colorAttribute = stateData.colorAttribute;
-            
+
             // Sort arrow
-            if (isActive && this._forceReverse)
+            if (sorted && sortEntry.reverse)
                 cData.labelArrowDown = !stateData._cachedArrowDown;
             else
                 cData.labelArrowDown = stateData._cachedArrowDown;
@@ -490,13 +599,13 @@ class skyui.components.list.ListLayout
             } else {
                 weightedFlags = (weightedFlags | 0) << 1;
             }
-            
+
             if (col.indent != undefined)
                 weightedWidth -= col.indent;
-            
+
             // Height including borders for maxHeight
             var curHeight = 0;
-            
+
             switch (col.type) {
                 // ITEM ICON + EQUIP ICON
                 case skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON:
@@ -521,14 +630,15 @@ class skyui.components.list.ListLayout
                     } else {
                         cData.width = 0;
                     }
-                    
+
                     cData.height = col.height != undefined ? (col.height < 1 ? (col.height * this._entryWidth) : col.height) : 0;
-                    
-                    var stateData = (i == this._activeColumnIndex) ? col.statesData[this._activeColumnState] : col.statesData[1];
+
+                    var sortEntry = sortByIndex[i];
+                    var stateData = (sortEntry != undefined) ? col.statesData[sortEntry.columnState] : col.statesData[1];
                     cData.textFormat = stateData._cachedEntryTF;
                     cData.labelTextFormat = stateData._cachedLabelTF;
             }
-            
+
             if (col._hasBorder) {
                 weightedWidth -= (col._borderLeft + col._borderRight);
                 curHeight += (col._borderTop + col._borderBottom);
@@ -536,17 +646,17 @@ class skyui.components.list.ListLayout
             } else {
                 cData.y = 0;
             }
-            
+
             if (curHeight > maxHeight) maxHeight = curHeight;
         }
-        
+
         // WEIGHT DISTRIBUTION
         if (weightSum > 0 && weightedWidth > 0 && weightedFlags != 0) {
             var tempFlags = weightedFlags;
             for (var i = colCount - 1; i >= 0; i--) {
                 var col = this._columnList[i];
                 var cData = this._columnLayoutData[i];
-                
+
                 if ((tempFlags >>>= 1) & 1) {
                     var share = (col.weight / weightSum) * weightedWidth;
                     if (col._hasBorder)
@@ -556,14 +666,14 @@ class skyui.components.list.ListLayout
                 }
             }
         }
-        
+
         // CALCULATION OF X POSITIONS
         var xPos = 0;
         var visibleColumnCount = colCount;
         for (var i = 0; i < colCount; i++) {
             var col = this._columnList[i];
             var cData = this._columnLayoutData[i];
-            
+
             if (col.indent != undefined)
                 xPos += col.indent;
 
@@ -587,58 +697,22 @@ class skyui.components.list.ListLayout
                 xPos += cData.width;
             }
         }
-        
+
         this._columnLayoutData.length = colCount;
-        
+
         var hIdx = 0;
         for (var i = textFieldIndex; i < skyui.components.list.ListLayout.MAX_TEXTFIELD_INDEX; i++)
             this._hiddenStageNames[hIdx++] = "textField" + i;
-        
+
         if (!bEnableItemIcon) this._hiddenStageNames[hIdx++] = "itemIcon";
         if (!bEnableEquipIcon) this._hiddenStageNames[hIdx++] = "equipIcon";
         this._hiddenStageNames.length = hIdx;
-        
+
         this._entryHeight = maxHeight;
 
         // sortChange might not always trigger an update, so we have to make sure the list is updated,
         // even if that means we update it twice.
         this.dispatchEvent({type: "layoutChange"});
-    }
-    
-    private function updateSortParams(stateData: Object, colType: Number)
-    {
-        if (!stateData._cachedSortAttributes) {
-            this._sortOptions = null;
-            this._sortAttributes = null;
-            return;
-        }
-        
-        // Hand out copies: SortFilter.applyFilter() mutates the sort arrays in place
-        // (unshift/shift), so it must never receive the persistent column cache.
-        this._sortAttributes = stateData._cachedSortAttributes.concat();
-
-        var cachedOptions = this._forceReverse ? stateData._cachedSortOptionsRev : stateData._cachedSortOptions;
-
-        this._sortOptions = cachedOptions != null ? cachedOptions.concat() : null;
-    }
-
-    private function restorePrefState()
-    {
-        // No preference to restore yet
-        if (!this._prefData.column)
-            return false;
-
-        var listIndex = this._columnIndexById[this._prefData.column.identifier];
-        
-        if (listIndex == undefined)
-            return false;
-
-        this._activeColumnIndex = listIndex;
-        this._activeColumnState = this._prefData.stateIndex;
-        
-        this._forceReverse = (this._prefData.reverse == true);
-
-        return true;
     }
 
     private function updateViewList()
@@ -661,14 +735,14 @@ class skyui.components.list.ListLayout
                 continue;
 
             viewList[c] = view;
-            
+
             var cats = view.category;
             if (!(cats instanceof Array))
                 cats = [cats];
 
             for (var j = 0; j < cats.length; j++) {
                 var cat = cats[j];
-                
+
                 if (this._categoryToViewIndex[cat] == undefined)
                     this._categoryToViewIndex[cat] = c;
             }
@@ -687,7 +761,7 @@ class skyui.components.list.ListLayout
 
         columnList.length = 0;
         columnDescriptors.length = 0;
-        
+
         var indexMap = this._columnIndexById = {};
         var layoutIndexMap = this._layoutIndexByColumnList;
         layoutIndexMap.length = 0;
