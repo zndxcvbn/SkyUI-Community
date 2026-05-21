@@ -19,6 +19,8 @@ class InventoryMenu extends ItemMenu
     public function InventoryMenu()
     {
         super();
+
+        this._indicesKey = "SkyUI.InventoryMenu";
         
         this._categoryListIconArt = ["cat_favorites", "inv_all", "inv_weapons", "inv_armor",
                             "inv_potions", "inv_scrolls", "inv_food", "inv_ingredients",
@@ -70,23 +72,35 @@ class InventoryMenu extends ItemMenu
     // @GFx
     public function handleInput(details: InputDetails, pathToFocus: Array)
     {
+        // Early return if not faded in
         if (!this.bFadedIn)
             return true;
         
+        // Process focus path
         var nextClip = pathToFocus.shift();
         if (nextClip.handleInput(details, pathToFocus))
             return true;
-            
-        if (Shared.GlobalFunc.IsKeyPressed(details)) {
-            if (details.navEquivalent == gfx.ui.NavigationCode.TAB || details.navEquivalent == gfx.ui.NavigationCode.SHIFT_TAB ) {
-                this.startMenuFade();
-                gfx.io.GameDelegate.call("CloseTweenMenu", []);
-            } else if (!this.inventoryLists.itemList.disableInput) {
-                // Gamepad back || ALT (default) || 'P'
-                if (details.skseKeycode == this._switchTabKey || details.control == "Quick Magic")
-                    this.openMagicMenu(true);
-            }
+        
+        // Early return if no key press
+        if (!Shared.GlobalFunc.IsKeyPressed(details))
+            return true;
+        
+        // Handle TAB keys (always close menu)
+        if (details.navEquivalent == gfx.ui.NavigationCode.TAB
+        ||  details.navEquivalent == gfx.ui.NavigationCode.SHIFT_TAB)
+        {
+            this.startMenuFade();
+            gfx.io.GameDelegate.call("CloseTweenMenu", []);
+            return true;
         }
+        
+        // Early return if inventory list input is disabled
+        if (this.inventoryLists.itemList.disableInput)
+            return true;
+        
+        // Handle gamepad/magic menu opening
+        if (details.skseKeycode == this._switchTabKey || details.control == "Quick Magic")
+            this.openMagicMenu(true);
         
         return true;
     }

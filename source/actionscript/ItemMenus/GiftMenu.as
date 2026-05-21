@@ -13,6 +13,8 @@ class GiftMenu extends ItemMenu
     {
         super();
 
+        this._indicesKey = "SkyUI.GiftMenu";
+
         this._categoryListIconArt = ["inv_all", "inv_weapons", "inv_armor", "inv_potions", "inv_scrolls", "inv_food", "inv_ingredients", "inv_books", "inv_keys", "inv_misc"];
     }
     

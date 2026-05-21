@@ -6,6 +6,10 @@ class skyui.components.list.SortedListHeader extends MovieClip
     private var _itemCount: Number = -1;
     private var _countColumn: MovieClip;
 
+    // Pool of sort-direction icons, one per column in the sort chain.
+    // [0] is the sortIcon authored in the SWF; the rest are clones of it.
+    private var _sortIcons: Array;
+
 
   /* STAGE ELEMENTS */
 
@@ -13,7 +17,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
     public var iconColumnIndicator: MovieClip;
 
 
-  /* PROPERTIES */ 
+  /* PROPERTIES */
 
     private var _layout: ListLayout;
 
@@ -36,8 +40,9 @@ class skyui.components.list.SortedListHeader extends MovieClip
     public function SortedListHeader()
     {
         super();
-        
+
         this._columns = new Array();
+        this._sortIcons = new Array();
     }
 
 
@@ -57,11 +62,11 @@ class skyui.components.list.SortedListHeader extends MovieClip
     {
         this._layout.clearSorting();
     }
-    
+
     public function updateItemCount(a_count: Number)
     {
         this._itemCount = a_count;
-        
+
         if (a_count < 0) {
             if (this._countColumn != undefined)
                 this._countColumn._visible = false;
@@ -69,7 +74,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
                 this.positionButtons();
             return;
         }
-        
+
         this.positionButtons();
     }
 
@@ -87,7 +92,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
     {
         if (a_index < 0)
             return undefined;
-        
+
         var columnButton = this["Column" + a_index];
 
         if (columnButton != undefined) {
@@ -95,7 +100,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
             this._columns[a_index]._visible = true;
             return columnButton;
         }
-        
+
         // Create on-demand
         columnButton = this.attachMovie("HeaderColumn", "Column" + a_index, this.getNextHighestDepth());
 
@@ -123,12 +128,25 @@ class skyui.components.list.SortedListHeader extends MovieClip
         return columnButton;
     }
 
+    // Returns a pooled sort-direction icon. Index 0 is the sortIcon authored in
+    // the SWF; higher indices are clones of it, created on demand.
+    private function getSortIcon(a_index: Number)
+    {
+        if (this._sortIcons[a_index] != undefined)
+            return this._sortIcons[a_index];
+
+        var icon = (a_index == 0)
+            ? this.sortIcon
+            : this.sortIcon.duplicateMovieClip("sortIcon" + a_index, this.getNextHighestDepth());
+
+        this._sortIcons[a_index] = icon;
+        return icon;
+    }
+
     private function onLayoutChange(event)
     {
         this.clearColumns();
-        
-        var activeIndex = this._layout.activeColumnIndex;
-            
+
         for (var i = 0; i < this._layout.columnCount; i++) {
             var columnLayoutData = this._layout.columnLayoutData[i];
             var btn = this.addColumn(i);
@@ -136,67 +154,77 @@ class skyui.components.list.SortedListHeader extends MovieClip
             btn.label._x = 0;
 
             btn._x = columnLayoutData.labelX;
-            
+
             btn.label._width = columnLayoutData.labelWidth;
             btn.label.setTextFormat(columnLayoutData.labelTextFormat);
-            
+
             btn.label.SetText(columnLayoutData.labelValue);
-            
-            if (activeIndex == i)
-                this.sortIcon.gotoAndStop(columnLayoutData.labelArrowDown ? "desc" : "asc");
         }
-        
+
         this.positionButtons();
     }
 
-    // Places the buttonAreas around textfields and the sort indicator.
+    // Places the buttonAreas around textfields and the sort indicators.
     private function positionButtons()
     {
-        var activeIndex = this._layout.activeColumnIndex;
+        var sortIconIndex = 0;
+
         for (var i = 0; i < this._columns.length; i++) {
             var e = this._columns[i];
+            var cData = this._layout.columnLayoutData[i];
+
             e.label._y = -e.label._height;
-            
+
             e.buttonArea._x = e.label.getLineMetrics(0).x - 4;
             e.buttonArea._width = e.label.getLineMetrics(0).width + 8;
             e.buttonArea._y = e.label._y - 2;
             e.buttonArea._height = e.label._height + 2;
-            
-            if (this._layout.columnLayoutData[i].type == skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON) {
-                this.iconColumnIndicator._x = e._x + e.buttonArea._x + e.buttonArea._width;
+
+            var iconAnchorX = e._x + e.buttonArea._x + e.buttonArea._width;
+
+            if (cData.type == skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON) {
+                this.iconColumnIndicator._x = iconAnchorX;
                 this.iconColumnIndicator._y = -e._height + ((e._height - this.iconColumnIndicator._height) / 2);
-            }
-            
-            if (activeIndex == i) {
-                this.sortIcon._x = e._x + e.buttonArea._x + e.buttonArea._width;
-                this.sortIcon._y = -e._height + ((e._height - this.sortIcon._height) / 2) - 1;
-                
-                this.iconColumnIndicator._visible = this._layout.columnLayoutData[i].type != skyui.components.list.ListLayout.COL_TYPE_ITEM_ICON;
+                this.iconColumnIndicator._visible = !cData.sorted;
             }
 
-            if (this._layout.columnLayoutData[i].type == skyui.components.list.ListLayout.COL_TYPE_NAME  && this._itemCount >= 0) {
-                
+            // Sort-direction icon, one per column participating in the sort.
+            var icon = null;
+            if (cData.sorted) {
+                icon = this.getSortIcon(sortIconIndex++);
+                icon.gotoAndStop(cData.labelArrowDown ? "desc" : "asc");
+                icon._visible = true;
+                icon._x = iconAnchorX;
+                icon._y = -e._height + ((e._height - icon._height) / 2) - 1;
+            }
+
+            if (cData.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._itemCount >= 0) {
+
                 if (this._countColumn == undefined) {
                     this._countColumn = this.attachMovie("HeaderColumn", "CountColumn", this.getNextHighestDepth());
                     this._countColumn.buttonArea._visible = false;
                     this._countColumn.label.autoSize = "left";
                 }
-                
-                var fmt: TextFormat = this._layout.columnLayoutData[i].labelTextFormat;
+
+                var fmt: TextFormat = cData.labelTextFormat;
                 this._countColumn.label.setTextFormat(fmt);
                 this._countColumn.label.SetText("(" + this._itemCount + ")");
-                
-                if (activeIndex == i)
-                    this._countColumn._x = this.sortIcon._x + this.sortIcon._width + 4;
+
+                if (icon != null)
+                    this._countColumn._x = icon._x + icon._width + 4;
                 else
-                    this._countColumn._x = e._x + e.buttonArea._x + e.buttonArea._width + 4;
-                
+                    this._countColumn._x = iconAnchorX + 4;
+
                 this._countColumn._y = e._y;
                 this._countColumn.label._y = e.label._y;
                 this._countColumn._visible = true;
-                
+
                 e.buttonArea._width = (this._countColumn._x + this._countColumn.label._width) - (e._x + e.buttonArea._x);
             }
         }
+
+        // Hide sort icons left over from a previously longer chain.
+        for (var k = sortIconIndex; k < this._sortIcons.length; k++)
+            this._sortIcons[k]._visible = false;
     }
 }
