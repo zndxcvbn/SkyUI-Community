@@ -16,6 +16,7 @@ class skyui.components.list.BasicListEntry extends MovieClip
     function BasicListEntry()
     {
         super();
+        this.hitArea = this.background;
     }
 
 

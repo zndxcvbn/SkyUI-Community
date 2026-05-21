@@ -29,14 +29,6 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
   /* PUBLIC FUNCTIONS */
 
     // @override BasicListEntry
-    public function initialize(a_index: Number, a_list: BasicList)
-    {
-        // It is necessary that when navigating via the keyboard, when the cursor is on a list,
-        // the keyboard does not get stuck on the item that the mouse cursor is hovering over when moving down the list.
-        this.hitArea = this.background;
-    }
-
-    // @override BasicListEntry
     public function setEntry(a_entryObject: Object, a_state: ListState)
     {
         var layout: ListLayout = skyui.components.list.TabularList(a_state.list).layout;
