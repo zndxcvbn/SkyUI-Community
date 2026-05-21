@@ -11,7 +11,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     private var _iconColor: Number;
 
 
-  /* STAGE ELMENTS */
+  /* STAGE ELEMENTS */
 
     public var itemIcon: MovieClip;
     public var equipIcon: MovieClip;
@@ -24,9 +24,6 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     function InventoryListEntry()
     {
         super();
-        this.stateIcons = skyui.components.list.StateIcons(
-            this.attachMovie("StateIcons", "stateIcons", this.getNextHighestDepth())
-        );
     }
 
 
@@ -57,6 +54,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
         var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
         var iconSize = entryH * 0.5;
 
+        skyui.components.list.StateIcons.updateStatuses(this.stateIcons, a_entryObject, a_state.showStolenIcon, iconSize);
         this.stateIcons.background._height = entryH;
         this.stateIcons._y = (entryH - iconSize) / 2;
     }
@@ -90,10 +88,7 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
         a_entryField.autoSize = "left";
         a_entryField.SetText(nameText);
         this.formatColor(a_entryField, a_entryObject, a_state);
-
-        var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
-        var iconSize = entryH * 0.5;
-        this.stateIcons.updateStatuses(a_entryObject, a_state.showStolenIcon, iconSize);
+        
         this.stateIcons._x = a_entryField._x + a_entryField.textWidth + 10;
     }
 
