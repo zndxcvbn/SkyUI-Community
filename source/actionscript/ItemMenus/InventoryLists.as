@@ -246,20 +246,21 @@ class InventoryLists extends MovieClip
                     return true;
                 }
             }
-            var kc = details.code;
-            var isCtrl = details.ctrlKey || Key.isDown(Key.CONTROL);
-
-            if (isCtrl && (kc == 87 || kc == 38 || kc == 83 || kc == 40)) {
-                if (details.value == "keyDown" || details.value == "keyHold") {
-                    var dir = (kc == 83 || kc == 40) ? 1 : -1;
-                    this.selectEquippedItem(dir);
-                    return true;
-                }
-                if (details.value == "keyUp") return true;
-            }
 
             if (this._sortOrderKeyHeld) // Disable extra input while interval is active
                 return true;
+        }
+        
+        var kc = details.code;
+        var isCtrl = details.ctrlKey || Key.isDown(Key.CONTROL);
+
+        if (isCtrl && (kc == 87 || kc == 38 || kc == 83 || kc == 40)) {
+            if (details.value == "keyDown" || details.value == "keyHold") {
+                var dir = (kc == 83 || kc == 40) ? 1 : -1;
+                this.selectEquippedItem(dir);
+                return true;
+            }
+            if (details.value == "keyUp") return true;
         }
 
         if (Shared.GlobalFunc.IsKeyPressed(details)) {

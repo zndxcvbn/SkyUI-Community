@@ -1,43 +1,66 @@
-class skyui.components.list.StateIcons extends MovieClip
+class skyui.components.list.StateIcons
 {
-    public var background: MovieClip;
-    public var poisonIcon: MovieClip;
-    public var enchIcon: MovieClip;
-    public var favoriteIcon: MovieClip;
-    public var bestIcon: MovieClip;
-    public var stolenIcon: MovieClip;
-    public var readIcon: MovieClip;
+    private static var _rules: Array = [
+        { clipName: "bestIcon",     checkFunc: function(obj, showStolen) { return obj.bestInClass == true; } },
+        { clipName: "favoriteIcon", checkFunc: function(obj, showStolen) { return obj.favorite == true; } },
+        { clipName: "poisonIcon",   checkFunc: function(obj, showStolen) { return obj.isPoisoned == true; } },
+        { clipName: "stolenIcon",   checkFunc: function(obj, showStolen) { return showStolen && (obj.isStolen == true || obj.isStealing == true); } },
+        { clipName: "enchIcon",     checkFunc: function(obj, showStolen) { return obj.isEnchanted == true; } },
+        { clipName: "readIcon",     checkFunc: function(obj, showStolen) { return obj.isRead == true; } }
+    ];
 
-    private var _icons: Array;
-    private var _initialized: Boolean = false;
 
-    function StateIcons()
+  /* PUBLIC FUNCTIONS */
+
+    public static function registerRule(a_clipName: String, a_checkFunc: Function, a_linkageId: String)
     {
-        super();
+        if (skyui.components.list.StateIcons._rules == undefined)
+            skyui.components.list.StateIcons._rules = [];
+            
+        for (var i: Number = 0; i < skyui.components.list.StateIcons._rules.length; i++) {
+            if (skyui.components.list.StateIcons._rules[i].clipName == a_clipName) {
+                skyui.components.list.StateIcons._rules[i].checkFunc = a_checkFunc;
+                if (a_linkageId != undefined)
+                    skyui.components.list.StateIcons._rules[i].linkageId = a_linkageId;
+                return;
+            }
+        }
+        
+        skyui.components.list.StateIcons._rules.push({
+            clipName: a_clipName,
+            checkFunc: a_checkFunc,
+            linkageId: a_linkageId
+        });
     }
 
-    public function onLoad()
+    public static function updateStatuses(a_bar: MovieClip, a_entryObject: Object, a_showStolen: Boolean, a_iconSize: Number)
     {
-        this.ensureInitialized();
-    }
-
-    private function ensureInitialized()
-    {
-        if (this._initialized)
+        if (a_bar == undefined || a_entryObject == undefined)
             return;
 
-        this._icons = [
-            this.bestIcon,
-            this.favoriteIcon,
-            this.poisonIcon,
-            this.stolenIcon,
-            this.enchIcon,
-            this.readIcon
-        ];
-        this._initialized = true;
+        var activeIcons: Array = [];
+        
+        for (var i: Number = 0; i < skyui.components.list.StateIcons._rules.length; i++) {
+            var rule: Object = skyui.components.list.StateIcons._rules[i];
+            var clip: MovieClip = a_bar[rule.clipName];
+            
+            if (clip == undefined && rule.linkageId != undefined) {
+                var depth: Number = a_bar.getNextHighestDepth();
+                clip = a_bar.attachMovie(rule.linkageId, rule.clipName, depth);
+            }
+
+            if (clip != undefined) {
+                activeIcons.push(clip);
+                
+                var isShow: Boolean = rule.checkFunc(a_entryObject, a_showStolen);
+                skyui.components.list.StateIcons.setIconState(clip, isShow, a_iconSize);
+            }
+        }
+        
+        a_bar.background.JustifyContent(activeIcons, "flex-start", 5);
     }
 
-    private function setIconState(a_icon: MovieClip, a_show: Boolean, a_size: Number)
+    private static function setIconState(a_icon: MovieClip, a_show: Boolean, a_size: Number)
     {
         if (a_icon == undefined) return;
 
@@ -54,18 +77,5 @@ class skyui.components.list.StateIcons extends MovieClip
             a_icon.gotoAndStop("hide");
             a_icon._visible = false;
         }
-    }
-
-    public function updateStatuses(a_entryObject: Object, a_showStolen: Boolean, a_iconSize: Number)
-    {
-        this.ensureInitialized();
-
-        this.setIconState(this.bestIcon,     (a_entryObject.bestInClass == true), a_iconSize);
-        this.setIconState(this.favoriteIcon, (a_entryObject.favorite == true), a_iconSize);
-        this.setIconState(this.poisonIcon,   (a_entryObject.isPoisoned == true), a_iconSize);
-        this.setIconState(this.stolenIcon,   (a_showStolen && (a_entryObject.isStolen == true || a_entryObject.isStealing == true)), a_iconSize);
-        this.setIconState(this.enchIcon,     (a_entryObject.isEnchanted == true), a_iconSize);
-        this.setIconState(this.readIcon,     (a_entryObject.isRead == true), a_iconSize);
-        this.background.JustifyContent(this._icons, "flex-start", 5);
     }
 }
