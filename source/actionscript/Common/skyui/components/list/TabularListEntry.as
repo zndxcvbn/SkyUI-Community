@@ -51,7 +51,7 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
         // Format the actual entry contents. Do this with every upate.
         for (var i = 0; i < layout.columnCount; i++) {
             var columnLayoutData: ColumnLayoutData = layout.columnLayoutData[i];
-            var e = this[columnLayoutData.stageName];
+            var e = this.getColumnField(columnLayoutData.stageName);
 
             // Substitute @variables by entryObject properties
             var entryValue: String = columnLayoutData.entryValue;
@@ -180,28 +180,69 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
         // Set up all visible elements in this entry
         for (var i = 0; i < layout.columnCount; i++) {
             var columnLayoutData: ColumnLayoutData = layout.columnLayoutData[i];
-            var e = this[columnLayoutData.stageName];
-            
+            var e = this.getColumnField(columnLayoutData.stageName);
+
             e._visible = true;
-        
+
             e._x = columnLayoutData.x;
             e._y = columnLayoutData.y;
-        
+
             if (columnLayoutData.width > 0)
                 e._width = columnLayoutData.width;
-        
+
             if (columnLayoutData.height > 0)
                 e._height = columnLayoutData.height;
-            
+
             if (e instanceof TextField)
                 e.setTextFormat(columnLayoutData.textFormat);
         }
-        
-        // Hide any unused elements
+
+        // Hide unused icons.
         var hiddenStageNames = layout.hiddenStageNames;
-        
-        for (var i = 0; i < hiddenStageNames.length; i++)
-            this[hiddenStageNames[i]]._visible = false;
+        for (var j = 0; j < hiddenStageNames.length; j++)
+            this[hiddenStageNames[j]]._visible = false;
+
+        // Hide text fields past the current column count. They are created on
+        // demand, so the layout cannot list them in hiddenStageNames; the
+        // existing ones are contiguous, so the probe stops at the first gap.
+        var k = layout.textColumnCount;
+        while (this["textField" + k] != undefined) {
+            this["textField" + k]._visible = false;
+            k++;
+        }
+    }
+
+    // Returns the stage element backing a column, creating the text field on
+    // demand so the column count is not capped by the entry's timeline.
+    private function getColumnField(a_stageName: String)
+    {
+        var field = this[a_stageName];
+
+        if (field == undefined && a_stageName.substr(0, 9) == "textField")
+            field = this.createColumnTextField(a_stageName);
+
+        return field;
+    }
+
+    // Creates a column text field, copying the timeline textField0's styling
+    // (font embedding, html mode, filters) so dynamic columns match the rest.
+    private function createColumnTextField(a_stageName: String)
+    {
+        var tf: TextField = this.createTextField(a_stageName, this.getNextHighestDepth(), 0, 0, 100, 24);
+        var tpl = this.textField0;
+
+        if (tpl != undefined) {
+            tf.embedFonts = tpl.embedFonts;
+            tf.html = tpl.html;
+            tf.selectable = tpl.selectable;
+            tf.multiline = tpl.multiline;
+            tf.wordWrap = tpl.wordWrap;
+            tf.antiAliasType = tpl.antiAliasType;
+            tf.gridFitType = tpl.gridFitType;
+            tf.filters = tpl.filters;
+        }
+
+        return tf;
     }
 
     // HACK: specific workaround for tab-delimited translation text (e.g. BOOBIES Potions).

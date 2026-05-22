@@ -5,8 +5,6 @@ class skyui.components.list.ListLayout
 {
   /* CONSTANTS */
 
-    private static var MAX_TEXTFIELD_INDEX = 10;
-
     private static var LEFT = 0;
     private static var RIGHT = 1;
     private static var TOP = 2;
@@ -85,6 +83,15 @@ class skyui.components.list.ListLayout
     public function get columnCount()
     {
         return this._columnLayoutData.length;
+    }
+
+    private var _textColumnCount: Number = 0;
+
+    // Number of text/name columns in the current view. The entry creates that
+    // many text fields on demand and hides any extras left from a wider view.
+    public function get textColumnCount()
+    {
+        return this._textColumnCount;
     }
 
     private var _columnLayoutData: Array;
@@ -772,10 +779,11 @@ class skyui.components.list.ListLayout
 
         this._columnLayoutData.length = colCount;
 
-        var hIdx = 0;
-        for (var i = textFieldIndex; i < skyui.components.list.ListLayout.MAX_TEXTFIELD_INDEX; i++)
-            this._hiddenStageNames[hIdx++] = "textField" + i;
+        this._textColumnCount = textFieldIndex;
 
+        // Surplus text fields are hidden by the entry itself (their count is
+        // dynamic and not bounded), so only the icons are listed here.
+        var hIdx = 0;
         if (!bEnableItemIcon) this._hiddenStageNames[hIdx++] = "itemIcon";
         if (!bEnableEquipIcon) this._hiddenStageNames[hIdx++] = "equipIcon";
         this._hiddenStageNames.length = hIdx;
