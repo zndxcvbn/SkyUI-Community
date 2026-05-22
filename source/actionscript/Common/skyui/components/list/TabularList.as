@@ -118,6 +118,12 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
         
         if (config.ScrollingList.selection.animation != undefined)
             this.enableAnimation = config.ScrollingList.selection.animation;
+
+        if (config.ScrollingList.pagination.enabled != undefined)
+            this.paginationEnabled = config.ScrollingList.pagination.enabled;
+
+        if (config.ScrollingList.pagination.align != undefined)
+            this.setPagerAlign(config.ScrollingList.pagination.align);
         
         if (config.ItemList.itemCount.mode != undefined) {
             var mode = Number(config.ItemList.itemCount.mode);
@@ -148,7 +154,7 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
 
         this.header._x = this.leftBorder;
         
-        this._maxListIndex = Math.floor((this._listHeight / this.entryHeight) + 0.05);
+        this.recalcMaxListIndex();
         
         if (this._layout.sortAttributes && this._layout.sortOptions)
             this.dispatchEvent({type:"sortChange", attributes: this._layout.sortAttributes, options:  this._layout.sortOptions});

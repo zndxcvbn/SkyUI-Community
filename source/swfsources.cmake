@@ -708,6 +708,7 @@ Add_SWF(skyui_inventorylists
         TabularList.as
         TabularListEntry.as
         ListLayout.as
+        ListPager.as
         SortedListHeader.as
         StateIcons.as
         ScrollingList.as
