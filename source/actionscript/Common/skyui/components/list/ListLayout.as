@@ -305,8 +305,10 @@ class skyui.components.list.ListLayout
 
   /* PRIVATE FUNCTIONS */
 
-    // Handles a header click. a_direction is +1 (selectColumn) or -1
-    // (selectColumnPrev) and controls which way multi-state columns cycle.
+    // Handles a header click. a_direction is +1 (selectColumn / left click) or
+    // -1 (selectColumnPrev / right click): it controls which way multi-state
+    // columns cycle, and -- when Shift is held -- whether the column is added
+    // to or removed from the sort chain.
     private function cycleColumn(a_index: Number, a_bShift: Boolean, a_direction: Number)
     {
         var col = this._columnList[a_index];
@@ -315,10 +317,16 @@ class skyui.components.list.ListLayout
         if (col == null || col.passive)
             return;
 
-        if (a_bShift)
+        if (a_bShift) {
+            // Shift+left-click adds/cycles a column in the chain; Shift+right-click
+            // removes it.
+            if (a_direction > 0)
             this.shiftColumn(a_index);
         else
+                this.removeColumn(a_index);
+        } else {
             this.replaceSort(a_index, col, a_direction);
+        }
 
         this.updateLayout();
     }
@@ -333,6 +341,24 @@ class skyui.components.list.ListLayout
             this._sortChain[pos].reverse = !this._sortChain[pos].reverse;
         else
             this._sortChain.push(this.makeSortEntry(a_index, 1, false));
+    }
+
+    // Shift+right-click: removes a column from the sort chain. When the chain
+    // would be left empty the view's primary column becomes the sole sort, so
+    // the "at least one entry" invariant always holds.
+    private function removeColumn(a_index: Number)
+    {
+        var pos = this.sortChainPos(a_index);
+
+        if (pos == -1)
+            return;
+
+        this._sortChain.splice(pos, 1);
+
+        if (this._sortChain.length == 0) {
+            var primaryIndex = this._columnIndexById[this.currentView.primaryColumn];
+            this._sortChain = [ this.makeSortEntry((primaryIndex != undefined) ? primaryIndex : 0, 1, false) ];
+        }
     }
 
     // Plain click: cycles a column that is already part of the sort in place
