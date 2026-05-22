@@ -2,8 +2,16 @@ class CategoryList extends skyui.components.list.BasicList
 {
   /* CONSTANTS */
     
-    public static var LEFT_SEGMENT = 0;
-    public static var RIGHT_SEGMENT = 1;
+    public static var LEFT_SEGMENT: Number  = 0;
+    public static var RIGHT_SEGMENT: Number = 1;
+    
+    // Icon transparency settings
+    private static var ALPHA_NORMAL: Number = 50;
+    private static var ALPHA_HOVER: Number  = 75;
+    
+    // Selector animation settings
+    private static var ANIM_SPEED: Number   = 0.2;
+    private static var ANIM_SNAP: Number    = 1.0;
     
     
   /* STAGE ELEMENTS */
@@ -58,7 +66,7 @@ class CategoryList extends skyui.components.list.BasicList
         else if (a_segment == CategoryList.RIGHT_SEGMENT && this._selectedIndex < this.dividerIndex)
             this.doSetSelectedIndex(this._selectedIndex + this.dividerIndex + 1, skyui.components.list.BasicList.SELECT_MOUSE);
         
-        this.UpdateList();
+        this.requestUpdate();
     }
     
     public function get activeSegment()
@@ -82,8 +90,7 @@ class CategoryList extends skyui.components.list.BasicList
         this._segmentOffset = 0;
         this._segmentLength = 0;
         
-        if (this.iconSize == undefined)
-            this.iconSize = 32;
+        this.iconSize = 32;
     }
     
     
@@ -127,81 +134,37 @@ class CategoryList extends skyui.components.list.BasicList
         }
         
         this.setClipCount(this._segmentLength);
-
-        var cw = 0;
-
-        for (var i = 0; i < this._segmentLength; i++) {
-            var entryClip = this.getClipByIndex(i);
-
-            entryClip.setEntry(this.listEnumeration.at(i + this._segmentOffset), this.listState);
-
-            entryClip.background._width = entryClip.background._height = this.iconSize;
-
-            this.listEnumeration.at(i + this._segmentOffset).clipIndex = i;
-            entryClip.itemIndex = i + this._segmentOffset;
-
-            cw = cw + this.iconSize;
-        }
-
-        this._contentWidth = cw;
+        
+        this._contentWidth = this._segmentLength * this.iconSize;
         this._totalWidth = this.background._width;
 
-        var spacing = (this._totalWidth - this._contentWidth) / (this._segmentLength + 1);
+        var clipsArray: Array = [];
+        
+        for (var i: Number = 0; i < this._segmentLength; i++) {
+            var entryClip: MovieClip = this.getClipByIndex(i);
+            var entryData: Object = this.listEnumeration.at(i + this._segmentOffset);
 
-        var xPos = this.background._x + spacing;
+            entryData.clipIndex = i;
+            entryClip.itemIndex = i + this._segmentOffset;
+            entryClip.setEntry(entryData, this.listState);
 
-        for (var i = 0; i < this._segmentLength; i++) {
-            var entryClip = this.getClipByIndex(i);
-            entryClip._x = xPos;
-
-            xPos = xPos + this.iconSize + spacing;
+            entryClip.background._width = this.iconSize;
+            entryClip.background._height = this.iconSize;
             entryClip._visible = true;
+
+            clipsArray.push(entryClip);
         }
+        
+        this.background.JustifyContent(clipsArray, "space-evenly");
         
         this.updateSelector();
     }
     
     // Moves the selection left to the next element. Wraps around.
-    public function moveSelectionLeft()
-    {
-        if (this.disableSelection)
-            return;
-
-        var curIndex = this._selectedIndex;
-        var startIndex = this._selectedIndex;
-            
-        do {
-            if (curIndex > this._segmentOffset) {
-                curIndex--;
-            } else {
-                this._bFastSwitch = true;
-                curIndex = this._segmentOffset + this._segmentLength - 1;					
-            }
-        } while (curIndex != startIndex && this.listEnumeration.at(curIndex).filterFlag == 0 && !this.listEnumeration.at(curIndex).bDontHide);
-            
-        this.onItemPress(curIndex, 0);
-    }
+    public function moveSelectionLeft()  { this.moveSelection(-1); }
 
     // Moves the selection right to the next element. Wraps around.
-    public function moveSelectionRight()
-    {
-        if (this.disableSelection)
-            return;
-            
-        var curIndex = this._selectedIndex;
-        var startIndex = this._selectedIndex;
-            
-        do {
-            if (curIndex < this._segmentOffset + this._segmentLength - 1) {
-                curIndex++;
-            } else {
-                this._bFastSwitch = true;
-                curIndex = this._segmentOffset;
-            }
-        } while (curIndex != startIndex && this.listEnumeration.at(curIndex).filterFlag == 0 && !this.listEnumeration.at(curIndex).bDontHide);
-            
-        this.onItemPress(curIndex, 0);
-    }
+    public function moveSelectionRight() { this.moveSelection(1); }
     
     // @GFx
     public function handleInput(details: InputDetails, pathToFocus: Array)
@@ -209,15 +172,19 @@ class CategoryList extends skyui.components.list.BasicList
         if (this.disableInput)
             return false;
             
-        if (Shared.GlobalFunc.IsKeyPressed(details)) {
-            if (details.navEquivalent == gfx.ui.NavigationCode.LEFT) {
-                this.moveSelectionLeft();
-                return true;
-            } else if (details.navEquivalent == gfx.ui.NavigationCode.RIGHT) {
-                this.moveSelectionRight();
-                return true;
-            }
+        if (!Shared.GlobalFunc.IsKeyPressed(details))
+            return false;
+        
+        if (details.navEquivalent == gfx.ui.NavigationCode.LEFT) {
+            this.moveSelectionLeft();
+            return true;
         }
+        
+        if (details.navEquivalent == gfx.ui.NavigationCode.RIGHT) {
+            this.moveSelectionRight();
+            return true;
+        }
+        
         return false;
     }
     
@@ -226,27 +193,17 @@ class CategoryList extends skyui.components.list.BasicList
     {
         super.onEnterFrame();
         
-        if (this._bFastSwitch && this._selectorPos != this._targetSelectorPos) {
+        if (this._selectorPos == this._targetSelectorPos)
+            return;
+        
+        var distance: Number = this._targetSelectorPos - this._selectorPos;
+        
+        if (Math.abs(distance) < CategoryList.ANIM_SNAP)
             this._selectorPos = this._targetSelectorPos;
-            this._bFastSwitch = false;
-            this.refreshSelector();
-            
-        } else if (this._selectorPos < this._targetSelectorPos) {
-            this._selectorPos = this._selectorPos + (this._targetSelectorPos - this._selectorPos) * 0.2 + 1;
-            
-            this.refreshSelector();
-            
-            if (this._selectorPos > this._targetSelectorPos)
-                this._selectorPos = this._targetSelectorPos;
-            
-        } else if (this._selectorPos > this._targetSelectorPos) {
-            this._selectorPos = this._selectorPos - (this._selectorPos - this._targetSelectorPos) * 0.2 - 1;
-            
-            this.refreshSelector();
-            
-            if (this._selectorPos < this._targetSelectorPos)
-                this._selectorPos = this._targetSelectorPos;
-        }
+        else
+            this._selectorPos += distance * CategoryList.ANIM_SPEED;
+        
+        this.refreshSelector();
     }
     
     // @override BasicList
@@ -282,8 +239,8 @@ class CategoryList extends skyui.components.list.BasicList
         if (a_index == this._selectedIndex)
             return;
             
-        var entryClip = this.getClipByIndex(a_index);
-        entryClip._alpha = 75;
+        var entryClip: MovieClip = this.getClipByIndex(a_index);
+        entryClip._alpha = CategoryList.ALPHA_HOVER;
     }
 
     // @override BasicList
@@ -297,12 +254,12 @@ class CategoryList extends skyui.components.list.BasicList
         if (a_index == this._selectedIndex)
             return;
             
-        var entryClip = this.getClipByIndex(a_index);
-        entryClip._alpha = 50;
+        var entryClip: MovieClip = this.getClipByIndex(a_index);
+        entryClip._alpha = CategoryList.ALPHA_NORMAL;
     }
 
 
-/* PRIVATE FUNCTIONS */
+  /* PRIVATE FUNCTIONS */
     
     private function calculateSegmentParams()
     {
@@ -323,12 +280,57 @@ class CategoryList extends skyui.components.list.BasicList
         }
     }
     
+    private function isDisabledCategory(index: Number)
+    {
+        var entry: Object = this.listEnumeration.at(index);
+        return (entry.filterFlag == 0 && !entry.bDontHide);
+    }
+    
+    private function moveSelection(direction: Number)
+    {
+        if (this.disableSelection) return;
+
+        var curIndex: Number = this._selectedIndex;
+        var startIndex: Number = this._selectedIndex;
+        var minIndex: Number = this._segmentOffset;
+        var maxIndex: Number = this._segmentOffset + this._segmentLength - 1;
+
+        do {
+            curIndex += direction;
+            
+            if (curIndex < minIndex) {
+                this._bFastSwitch = true;
+                curIndex = maxIndex;
+            } else if (curIndex > maxIndex) {
+                this._bFastSwitch = true;
+                curIndex = minIndex;
+            }
+            
+        } while (curIndex != startIndex && this.isDisabledCategory(curIndex));
+
+        this.onItemPress(curIndex, 0);
+    }
+    
+    private function applySelectorLayout(centerX: Number)
+    {
+        this.selectorCenter._x = centerX;
+
+        if (this.selectorLeft != undefined) {
+            this.selectorLeft._width = centerX;
+        }
+
+        if (this.selectorRight != undefined) {
+            this.selectorRight._x = centerX + this.selectorCenter._width;
+            this.selectorRight._width = this._totalWidth - this.selectorRight._x;
+        }
+    }
+    
     private function updateSelector()
     {
         if (this.selectorCenter == undefined) {
             return;
         }
-            
+        
         if (this._selectedIndex == -1) {
             this.selectorCenter._visible = false;
 
@@ -341,7 +343,7 @@ class CategoryList extends skyui.components.list.BasicList
             return;
         }
 
-        var selectedClip = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
+        var selectedClip: MovieClip = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
 
         this._targetSelectorPos = selectedClip._x + (selectedClip.background._width - this.selectorCenter._width) / 2;
         
@@ -357,23 +359,20 @@ class CategoryList extends skyui.components.list.BasicList
         if (this.selectorRight != undefined) {
             this.selectorRight._visible = true;
             this.selectorRight._y = this.selectorCenter._y;
-            this.selectorRight._width = this._totalWidth - this.selectorRight._x;
+        }
+        
+        if (this._bFastSwitch) {
+            this._selectorPos = this._targetSelectorPos;
+            this._bFastSwitch = false;
+            this.refreshSelector();
+        } else if (this._selectorPos == this._targetSelectorPos) {
+            this.refreshSelector();
         }
     }
 
     private function refreshSelector()
     {
         this.selectorCenter._visible = true;
-        var selectedClip = this._entryClipManager.getClip(this._selectedIndex - this._segmentOffset);
-
-        this.selectorCenter._x = this._selectorPos;
-
-        if (this.selectorLeft != undefined)
-            this.selectorLeft._width = this.selectorCenter._x;
-
-        if (this.selectorRight != undefined) {
-            this.selectorRight._x = this.selectorCenter._x + this.selectorCenter._width;
-            this.selectorRight._width = this._totalWidth - this.selectorRight._x;
-        }
+        this.applySelectorLayout(this._selectorPos);
     }
 }
