@@ -701,7 +701,10 @@ Add_SWF(skyui_inventorylists
         NameFilter.as
         SortFilter.as
     }
-    Common/skyui/util/GlobalFunctions.as
+    Common/skyui/components/dialog {
+        BasicDialog.as
+        ColumnSelectDialog.as
+    }
     Common/skyui/components/list {
         BasicListEntry.as
         ColumnLayoutData.as
