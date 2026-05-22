@@ -37,6 +37,8 @@ itemCount.mode = 2        ; 0: Hide, 1: Number of items (without stacks), 2: Num
 [ScrollingList]
 ; =====================================================================================================================
 selection.animation = true ; Enable/Disable Smooth Selection Animation (Selection Indicator)
+pagination.enabled = false ; Show clickable page numbers below the list instead of the scrollbar
+pagination.align = center  ; Page-number alignment: left, center or right
 keyRepeatDelay = 300       ; Delay before fast scrolling starts (ms)
 keyRepeatInterval = 25     ; The interval between scroll steps (the shorter the value, the faster)
 

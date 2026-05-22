@@ -5,6 +5,9 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     public var keyRepeatDelay: Number = 300;
     public var keyRepeatInterval: Number = 25;
 
+    // Height reserved at the bottom of the list for the page navigator.
+    private static var PAGER_RESERVE: Number = 30;
+
 
   /* PRIVATE VARIABLES */ 
 
@@ -24,7 +27,12 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // Flag that allows list Entry to disable their animation
     public var bDisableAnim: Boolean = false;
     public var lastSelectionAnimY: Number = -1;
-    public var enableAnimation: Boolean = false; 
+    public var enableAnimation: Boolean = false;
+
+    // Pagination: clickable page numbers below the list instead of a scrollbar.
+    private var _paginationEnabled: Boolean = false;
+    private var _pager: skyui.components.list.ListPager;
+    private var _pagerAlign: Number = 0; // ListPager.ALIGN_LEFT
 
 
   /* STAGE ELEMENTS */
@@ -52,10 +60,14 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
     public function set scrollPosition(a_newPosition: Number)
     {
+        // In pagination mode the position snaps to whole pages.
+        if (this._paginationEnabled && this._maxListIndex > 0)
+            a_newPosition = Math.floor(a_newPosition / this._maxListIndex) * this._maxListIndex;
+
         if (a_newPosition == this._scrollPosition || a_newPosition < 0 || a_newPosition > this._maxScrollPosition)
             return;
-            
-        if (this.scrollbar != undefined) {
+
+        if (this.scrollbar != undefined && !this._paginationEnabled) {
             this.scrollbar.position = a_newPosition;
         } else {
             this.bDisableAnim = true;
@@ -81,10 +93,13 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     public function set listHeight(a_height: Number)
     {
         this._listHeight = this.background._height = a_height;
-        this._maxListIndex = Math.floor(this._listHeight / this.entryHeight);
-        
+        this.recalcMaxListIndex();
+
         if (this.scrollbar != undefined)
             this.scrollbar.height = this._listHeight;
+
+        if (this._pager != undefined)
+            this.positionPager();
     }
 
 
@@ -96,7 +111,7 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         
         this._listHeight = this.background._height - this.topBorder - this.bottomBorder;
 
-        this._maxListIndex = Math.floor(this._listHeight / this.entryHeight);
+        this.recalcMaxListIndex();
     }
     
     public function applyScrollConfig(a_config: Object)
@@ -237,9 +252,14 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         }
                     
         if (this.scrollUpButton != undefined)
-            this.scrollUpButton._visible = this._scrollPosition > 0;
-        if (this.scrollDownButton != undefined) 
-            this.scrollDownButton._visible = this._scrollPosition < this._maxScrollPosition;
+            this.scrollUpButton._visible = !this._paginationEnabled && this._scrollPosition > 0;
+        if (this.scrollDownButton != undefined)
+            this.scrollDownButton._visible = !this._paginationEnabled && this._scrollPosition < this._maxScrollPosition;
+
+        if (this._paginationEnabled) {
+            this.ensurePager();
+            this._pager.update(this.pageCount, this.currentPage);
+        }
     }
 
     // @override BasicList
@@ -347,6 +367,108 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     }
 
 
+  /* PAGINATION */
+
+    public function get paginationEnabled()
+    {
+        return this._paginationEnabled;
+    }
+
+    public function set paginationEnabled(a_enabled: Boolean)
+    {
+        this._paginationEnabled = a_enabled;
+
+        if (a_enabled)
+            this.ensurePager();
+
+        if (this._pager != undefined)
+            this._pager.setVisible(a_enabled);
+
+        // Row count depends on the mode (pagination reserves a strip for the pager).
+        this.recalcMaxListIndex();
+        this.updateScrollbar();
+        this.requestUpdate();
+    }
+
+    // Number of rows on a page (the visible window).
+    public function get pageSize()
+    {
+        return this._maxListIndex;
+    }
+
+    public function get pageCount()
+    {
+        if (this._maxListIndex <= 0 || this.listEnumeration == undefined)
+            return 1;
+
+        var n = Math.ceil(this.getListEnumSize() / this._maxListIndex);
+        return (n < 1) ? 1 : n;
+    }
+
+    // Zero-based index of the page currently shown.
+    public function get currentPage()
+    {
+        if (this._maxListIndex <= 0)
+            return 0;
+
+        return Math.floor(this._scrollPosition / this._maxListIndex);
+    }
+
+    public function goToPage(a_page: Number)
+    {
+        this.scrollPosition = a_page * this._maxListIndex;
+    }
+
+    // (Re)computes the visible row count. In pagination mode a strip at the
+    // bottom of the list is reserved for the page navigator.
+    private function recalcMaxListIndex()
+    {
+        var h = this._listHeight;
+
+        if (this._paginationEnabled)
+            h -= skyui.components.list.ScrollingList.PAGER_RESERVE;
+
+        this._maxListIndex = Math.floor((h / this.entryHeight) + 0.05);
+    }
+
+    // Sets the page-number alignment ("left", "center" or "right").
+    public function setPagerAlign(a_align: String)
+    {
+        if (a_align == "center")
+            this._pagerAlign = skyui.components.list.ListPager.ALIGN_CENTER;
+        else if (a_align == "right")
+            this._pagerAlign = skyui.components.list.ListPager.ALIGN_RIGHT;
+        else
+            this._pagerAlign = skyui.components.list.ListPager.ALIGN_LEFT;
+
+        if (this._pager != undefined)
+            this._pager.setAlign(this._pagerAlign);
+    }
+
+    // Creates the page navigator on first use.
+    private function ensurePager()
+    {
+        if (this._pager != undefined)
+            return;
+
+        var holder = this.createEmptyMovieClip("pagerHolder", this.getNextHighestDepth());
+        this._pager = new skyui.components.list.ListPager(holder, this);
+        this._pager.setAlign(this._pagerAlign);
+        this.positionPager();
+    }
+
+    private function positionPager()
+    {
+        if (this._pager == undefined)
+            return;
+
+        var px = this.background._x + this.leftBorder;
+        var bottomY = this.background._y + this.topBorder + this._listHeight;
+        var w = this.background._width - this.leftBorder - this.rightBorder;
+        this._pager.setArea(px, bottomY, w);
+    }
+
+
   /* PRIVATE FUNCTIONS */
 
     private function executeNavDirection(navCode: Number)
@@ -441,23 +563,33 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             
         // Select valid entry
         if (this._selectedIndex != -1) {
-            
+
             var enumIndex = this.getSelectedListEnumIndex();
-            
+
+            if (this._paginationEnabled && this._maxListIndex > 0) {
+                // Jump to the page that holds the selected entry.
+                var pagePos = Math.floor(enumIndex / this._maxListIndex) * this._maxListIndex;
+                if (pagePos != this._scrollPosition) {
+                    this.scrollPosition = pagePos;
+                } else {
+                    var pclip = this.getClipByIndex(this.selectedEntry.clipIndex);
+                    pclip.setEntry(this.selectedEntry, this.listState);
+                }
+
             // New entry before visible portion, move scroll window up
-            if (enumIndex < this._scrollPosition) {
+            } else if (enumIndex < this._scrollPosition) {
                 this.scrollPosition = enumIndex;
-                
+
             // New entry below visible portion, move scroll window down
             } else if (enumIndex >= this._scrollPosition + this._listIndex) {
                 this.scrollPosition = Math.min(enumIndex - this._listIndex + this.scrollDelta, this._maxScrollPosition);
-                
+
             // No need to change the scroll window, just select new entry
             } else {
                 var clip = this.getClipByIndex(this.selectedEntry.clipIndex);
                 clip.setEntry(this.selectedEntry, this.listState);
             }
-                
+
             this._curClipIndex = this.selectedEntry.clipIndex;
             
         // Unselect
@@ -470,8 +602,12 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
     private function calculateMaxScrollPosition()
     {
-        var t = this.getListEnumSize() - this._maxListIndex;
-        this._maxScrollPosition = (t > 0) ? t : 0;
+        if (this._paginationEnabled && this._maxListIndex > 0) {
+            this._maxScrollPosition = (this.pageCount - 1) * this._maxListIndex;
+        } else {
+            var t = this.getListEnumSize() - this._maxListIndex;
+            this._maxScrollPosition = (t > 0) ? t : 0;
+        }
 
         this.updateScrollbar();
 
@@ -488,8 +624,9 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     private function updateScrollbar()
     {
         if (this.scrollbar != undefined) {
-            this.scrollbar._visible = this._maxScrollPosition > 0;
-            this.scrollbar.setScrollProperties(this._maxListIndex,0,this._maxScrollPosition);
+            this.scrollbar._visible = !this._paginationEnabled && this._maxScrollPosition > 0;
+            if (!this._paginationEnabled)
+                this.scrollbar.setScrollProperties(this._maxListIndex, 0, this._maxScrollPosition);
         }
     }
 
