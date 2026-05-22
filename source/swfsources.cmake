@@ -104,6 +104,7 @@ Add_SWF(bartermenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -170,6 +171,7 @@ Add_SWF(containermenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -211,6 +213,7 @@ Add_SWF(craftingmenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -362,6 +365,7 @@ Add_SWF(giftmenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -432,6 +436,7 @@ Add_SWF(inventorymenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -512,6 +517,7 @@ Add_SWF(magicmenu
         Weapon.as
     }
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
@@ -697,6 +703,7 @@ Add_SWF(skyui_inventorylists
     skyui/inventorylists.xml
     Common/skyui/defines/Input.as
     Common/skyui/filter {
+        ColumnValueFilter.as
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as

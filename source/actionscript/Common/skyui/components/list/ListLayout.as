@@ -302,6 +302,52 @@ class skyui.components.list.ListLayout
         this.updateLayout();
     }
 
+    // Item attribute backing a column's displayed value: the @-property in the
+    // column's entry text. Returns null for columns without such a property
+    // (e.g. icon columns), which therefore have no values to filter by.
+    public function getColumnAttribute(a_index: Number)
+    {
+        var col = this._columnList[a_index];
+
+        if (col == null)
+            return null;
+
+        var stateData = col.statesData[1];
+
+        if (stateData == undefined || stateData.entry == undefined)
+            return null;
+
+        var text = stateData.entry.text;
+
+        if (text != undefined && text.charAt(0) == "@")
+            return text.slice(1);
+
+        return null;
+    }
+
+    // All columns of the current view, INCLUDING hidden ones, for the
+    // column-select dialog. Unlike columnDescriptors (which prunes hidden
+    // columns) this keeps them, so a hidden column can still be listed and
+    // re-shown. Each entry: {identifier, longName, type, hidden}.
+    public function getViewColumnDescriptors()
+    {
+        var result = [];
+        var columnNames = this.currentView.columns;
+        var columnData = this._columnData;
+
+        for (var i = 0; i < columnNames.length; i++) {
+            var name = columnNames[i];
+            var col = columnData[name];
+
+            if (col == undefined)
+                continue;
+
+            result.push({identifier: name, longName: col.name, type: col.type, hidden: (col.hidden == true)});
+        }
+
+        return result;
+    }
+
 
   /* PRIVATE FUNCTIONS */
 

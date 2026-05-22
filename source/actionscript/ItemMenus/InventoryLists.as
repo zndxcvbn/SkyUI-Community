@@ -19,6 +19,7 @@ class InventoryLists extends MovieClip
     private var _typeFilter: ItemTypeFilter;
     private var _nameFilter: NameFilter;
     private var _sortFilter: SortFilter;
+    private var _columnValueFilter: ColumnValueFilter;
     
     private var _platform: Number;
     
@@ -103,6 +104,7 @@ class InventoryLists extends MovieClip
         this._typeFilter = new skyui.filter.ItemTypeFilter();
         this._nameFilter = new skyui.filter.NameFilter();
         this._sortFilter = new skyui.filter.SortFilter();
+        this._columnValueFilter = new skyui.filter.ColumnValueFilter();
         
         this.categoryList = this.panelContainer.categoryList;
         this.categoryLabel = this.panelContainer.categoryLabel;
@@ -138,6 +140,7 @@ class InventoryLists extends MovieClip
         var listEnumeration = new skyui.components.list.FilteredEnumeration(this.itemList.entryList);
         listEnumeration.addFilter(this._typeFilter);
         listEnumeration.addFilter(this._nameFilter);
+        listEnumeration.addFilter(this._columnValueFilter);
         listEnumeration.addFilter(this._sortFilter);
         this.itemList.listEnumeration = listEnumeration;
         // data processors are initialized by the top-level menu since they differ in each case
@@ -147,6 +150,7 @@ class InventoryLists extends MovieClip
         this._typeFilter.addEventListener("filterChange", this, "onFilterChange");
         this._nameFilter.addEventListener("filterChange", this, "onFilterChange");
         this._sortFilter.addEventListener("filterChange", this, "onFilterChange");
+        this._columnValueFilter.addEventListener("filterChange", this, "onFilterChange");
 
         this.categoryList.addEventListener("itemPress", this, "onCategoriesItemPress");
         this.categoryList.addEventListener("itemPressAux", this, "onCategoriesItemPress");
@@ -156,6 +160,7 @@ class InventoryLists extends MovieClip
 
         this.itemList.addEventListener("selectionChange", this, "onItemsListSelectionChange");
         this.itemList.addEventListener("sortChange", this, "onSortChange");
+        this.itemList.addEventListener("columnValueRequest", this, "onColumnValueRequest");
 
         this.searchWidget.addEventListener("inputStart", this, "onSearchInputStart");
         this.searchWidget.addEventListener("inputEnd", this, "onSearchInputEnd");
@@ -293,6 +298,10 @@ class InventoryLists extends MovieClip
     public function showItemsList()
     {
         this._currCategoryIndex = this.categoryList.selectedIndex;
+
+        // Column values differ per category, so drop any active value filter.
+        // The category change below re-invalidates the list anyway.
+        this._columnValueFilter.reset();
         
         this.categoryLabel.textField.SetText(this.categoryList.selectedEntry.text);
 
@@ -450,6 +459,81 @@ class InventoryLists extends MovieClip
         this.searchWidget.isDisabled = false;
         
         this.itemList.selectedIndex = this._savedSelectionIndex;
+    }
+
+    // Middle click on a column header: open a checkbox dropdown listing the
+    // distinct values of that column and let the player show/hide each value.
+    private function onColumnValueRequest(event: Object)
+    {
+        // Only one dialog open at a time.
+        if (this._columnSelectDialog)
+            return;
+
+        var columnIndex = event.columnIndex;
+        var attribute = this.itemList.layout.getColumnAttribute(columnIndex);
+
+        // Icon columns and the like have no backing value to filter by.
+        if (attribute == undefined || attribute == null)
+            return;
+
+        this._columnValueFilter.setColumn(attribute);
+
+        var valueEntries = this.collectColumnValues(attribute);
+        if (valueEntries.length == 0)
+            return;
+
+        this._savedSelectionIndex = this.itemList.selectedIndex;
+        this.itemList.selectedIndex = -1;
+
+        this.categoryList.disableSelection = this.categoryList.disableInput = true;
+        this.itemList.disableSelection = this.itemList.disableInput = true;
+        this.searchWidget.isDisabled = true;
+
+        var dialogX = this.itemList._x + this.itemList.header._x + this.itemList.layout.columnLayoutData[columnIndex].labelX + 9;
+
+        this._columnSelectDialog = skyui.util.DialogManager.open(this.panelContainer, "ColumnSelectDialog",
+            {_x: dialogX, _y: 120, valueFilter: this._columnValueFilter, valueEntries: valueEntries});
+        this._columnSelectDialog.addEventListener("dialogClosed", this, "onColumnSelectDialogClosed");
+    }
+
+    // Distinct values of a_attribute among items in the current category, as
+    // dialog entries {text, key, hidden} sorted by value. The display text
+    // carries the per-value item count, e.g. "Dragon (16)".
+    private function collectColumnValues(a_attribute: String)
+    {
+        var catFlag = this._typeFilter.itemFilter;
+        var counts = {};
+        var keys = [];
+        var entryList = this.itemList.entryList;
+
+        for (var i = 0; i < entryList.length; i++) {
+            var entry = entryList[i];
+
+            if (!this._typeFilter.isMatch(entry, catFlag))
+                continue;
+
+            var value = entry[a_attribute];
+            var key = (value == undefined) ? "" : String(value);
+
+            if (counts[key] == undefined) {
+                counts[key] = 0;
+                keys.push(key);
+            }
+
+            counts[key]++;
+        }
+
+        var valueEntries = [];
+
+        for (var k = 0; k < keys.length; k++) {
+            var ck = keys[k];
+            var label = (ck == "" ? "-" : ck) + " (" + counts[ck] + ")";
+            valueEntries.push({text: label, key: ck, hidden: this._columnValueFilter.isValueHidden(ck)});
+        }
+
+        valueEntries.sortOn("key", Array.CASEINSENSITIVE);
+
+        return valueEntries;
     }
     
     private function onConfigUpdate(event: Object)

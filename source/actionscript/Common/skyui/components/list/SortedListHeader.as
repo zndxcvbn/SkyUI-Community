@@ -63,6 +63,13 @@ class skyui.components.list.SortedListHeader extends MovieClip
         this._layout.clearSorting();
     }
 
+    // Middle click: relayed to the owning list so the menu can open the
+    // column-value filter dialog. The header itself is not list-specific.
+    public function columnMiddlePress(a_columnIndex: Number)
+    {
+        this._parent.dispatchEvent({type: "columnValueRequest", columnIndex: a_columnIndex});
+    }
+
     public function updateItemCount(a_count: Number)
     {
         this._itemCount = a_count;
@@ -120,8 +127,13 @@ class skyui.components.list.SortedListHeader extends MovieClip
 
         columnButton.onPressAux = function(a_mouseIndex, a_keyboardOrMouse, a_buttonIndex)
         {
-            if (!this.columnIndex != undefined && a_buttonIndex == 1)
+            if (this.columnIndex == undefined)
+                return;
+
+            if (a_buttonIndex == 1)
                 this._parent.columnRightPress(this.columnIndex, Key.isDown(Key.SHIFT));
+            else if (a_buttonIndex == 2)
+                this._parent.columnMiddlePress(this.columnIndex);
         };
 
         this._columns[a_index] = columnButton;
