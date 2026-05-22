@@ -229,6 +229,7 @@ Add_SWF(craftingmenu
         TabularList.as
         TabularListEntry.as
         ListLayout.as
+        ListPager.as
         SortedListHeader.as
         ScrollingList.as
     }
