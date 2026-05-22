@@ -109,6 +109,12 @@ Add_SWF(bartermenu
         NameFilter.as
         SortFilter.as
     }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
+    }
     Common/skyui/props {
         CompoundProperty.as
         ItemFilter.as
@@ -176,6 +182,12 @@ Add_SWF(containermenu
         NameFilter.as
         SortFilter.as
     }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
+    }
     Common/skyui/props {
         CompoundProperty.as
         ItemFilter.as
@@ -217,6 +229,12 @@ Add_SWF(craftingmenu
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
+    }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
     }
     Common/skyui/props {
         CompoundProperty.as
@@ -371,6 +389,12 @@ Add_SWF(giftmenu
         NameFilter.as
         SortFilter.as
     }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
+    }
     Common/skyui/props {
         CompoundProperty.as
         ItemFilter.as
@@ -442,7 +466,12 @@ Add_SWF(inventorymenu
         NameFilter.as
         SortFilter.as
     }
-    Common/skyui/util/GlobalFunctions.as
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
+    }
     Common/skyui/props {
         CompoundProperty.as
         ItemFilter.as
@@ -522,6 +551,12 @@ Add_SWF(magicmenu
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
+    }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
+        Translator.as
     }
     Common/skyui/props {
         CompoundProperty.as
@@ -708,6 +743,11 @@ Add_SWF(skyui_inventorylists
         ItemTypeFilter.as
         NameFilter.as
         SortFilter.as
+    }
+    Common/skyui/util {
+        ConfigManager.as
+        DialogManager.as
+        GlobalFunctions.as
     }
     Common/skyui/components/dialog {
         BasicDialog.as
