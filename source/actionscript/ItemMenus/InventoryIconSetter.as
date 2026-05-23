@@ -1,4 +1,8 @@
-class InventoryIconSetter implements skyui.components.list.IListProcessor
+// Not an IListProcessor: dispatching processList on this class is structurally
+// slow in this SWF (the pre-built bytecode appears to hook the "processList"
+// method name). InventoryDataSetter calls applyToEntry directly per dirty
+// entry, bypassing that hook entirely.
+class InventoryIconSetter
 {
   /* PRIVATE VARIABLES */
 
@@ -14,20 +18,8 @@ class InventoryIconSetter implements skyui.components.list.IListProcessor
 
 
   /* PUBLIC FUNCTIONS */
-    
-    // @override IListProcessor
-    public function processList(a_list: BasicList)
-    {
-        var entryList: Array = a_list.entryList;
-        
-        for (var i: Number = 0; i < entryList.length; i++)
-            this.processEntry(entryList[i]);
-    }
 
-
-  /* PRIVATE FUNCTIONS */
-
-    private function processEntry(a_entryObject: Object)
+    public function applyToEntry(a_entryObject: Object)
     {
         switch (a_entryObject.formType) {
             case skyui.defines.Form.TYPE_SCROLLITEM:

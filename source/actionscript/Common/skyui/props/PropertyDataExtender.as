@@ -76,10 +76,22 @@ class skyui.props.PropertyDataExtender implements skyui.components.list.IListPro
     // @override IListProcessor
     public function processList(a_list: BasicList)
     {
-        var entryList = a_list.entryList;
-        
-        for (var i = 0; i < entryList.length; i++)
-            this.processEntry(entryList[i]);
+        // Consumes the dirty-entry list built by the upstream ItemcardDataExtender
+        // subclass. Avoids re-scanning the full entryList every InvalidateData.
+        var dirty = a_list.skyui_dirtyEntries;
+
+        if (dirty == undefined)
+            return;
+
+        for (var i = 0; i < dirty.length; i++) {
+            var e = dirty[i];
+
+            if (e.skyui_propsProcessed == true)
+                continue;
+
+            this.processEntry(e);
+            e.skyui_propsProcessed = true;
+        }
     }
     
     

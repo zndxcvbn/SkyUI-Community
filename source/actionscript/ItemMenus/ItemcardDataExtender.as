@@ -32,21 +32,43 @@ class ItemcardDataExtender implements skyui.components.list.IListProcessor
     public function processList(a_list: BasicList)
     {
         var entryList = a_list.entryList;
-        
+
+        // The game's only signal for "entry changed" is clearing
+        // skyui_itemDataProcessed on the changed entry. We scan once to find
+        // those (irreducible cost). The scan also publishes the dirty entries
+        // on the list, so downstream processors (icon/property extenders) don't
+        // each re-scan the full entryList -- they consume this small set.
+        var dirty = [];
+
         for (var i = 0; i < entryList.length; i++) {
             var e = entryList[i];
-            if (e.skyui_itemDataProcessed || e.filterFlag == 0)
+
+            if (e.skyui_itemDataProcessed == true)
                 continue;
-                
+
+            // Mark as seen so the next InvalidateData doesn't re-add this entry
+            // to dirty just because nothing ever set the flag (filterFlag==0
+            // entries would otherwise leak in every call).
             e.skyui_itemDataProcessed = true;
-            
-            // Fix wrong property names
+            e.skyui_iconProcessed = false;
+            e.skyui_propsProcessed = false;
+            dirty.push(e);
+
+            // Skip own (expensive, SKSE round-trip) processing for entries that
+            // belong to no visible category -- matches the original behavior.
+            // Downstream processors still see them via the dirty list, just as
+            // they were seen by their full scans before.
+            if (e.filterFlag == 0)
+                continue;
+
             this.fixSKSEExtendedObject(e);
 
             // Hack to retrieve itemcard info
             this._requestItemInfo.apply(a_list, [this, i]);
             this.processEntry(e, this._itemInfo);
         }
+
+        a_list.skyui_dirtyEntries = dirty;
     }
 
 

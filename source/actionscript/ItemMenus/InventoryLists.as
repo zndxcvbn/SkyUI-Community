@@ -369,15 +369,21 @@ class InventoryLists extends MovieClip
 
         this.itemList.InvalidateData();
 
-        // Set filter flag = 1 for non-empty categories with bDontHideOffset=false
-        for (var i = 0; i < this.itemList.entryList.length; i++) {
-            for (var j = 0; j < this.categoryList.entryList.length; ++j) {
-                if (this.categoryList.entryList[j].filterFlag != 0)
-                    continue;
+        // Mark non-empty categories (bDontHide=false ones start at filterFlag 0).
+        // A category is non-empty iff some item's flag bitmask intersects it.
+        // Since (a & f) | (b & f) | ... == (a | b | ...) & f, OR-ing every item
+        // flag once collapses the old O(items * categories) double loop into
+        // O(items + categories).
+        var itemEntryList = this.itemList.entryList;
+        var categoryEntryList = this.categoryList.entryList;
 
-                if (this.itemList.entryList[i].filterFlag & this.categoryList.entryList[j].flag)
-                    this.categoryList.entryList[j].filterFlag = 1;
-            }
+        var allItemFlags = 0;
+        for (var i = 0; i < itemEntryList.length; i++)
+            allItemFlags |= itemEntryList[i].filterFlag;
+
+        for (var j = 0; j < categoryEntryList.length; j++) {
+            if (categoryEntryList[j].filterFlag == 0 && (allItemFlags & categoryEntryList[j].flag))
+                categoryEntryList[j].filterFlag = 1;
         }
 
         this.categoryList.UpdateList();

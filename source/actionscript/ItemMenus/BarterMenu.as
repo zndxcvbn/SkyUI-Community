@@ -53,9 +53,10 @@ class BarterMenu extends ItemMenu
     {
         super.setConfig(a_config);
 
-        var itemList: TabularList = this.inventoryLists.itemList;		
-        itemList.addDataProcessor(new BarterDataSetter(this._buyMult, this._sellMult));
-        itemList.addDataProcessor(new InventoryIconSetter(a_config["Appearance"]));
+        var itemList: TabularList = this.inventoryLists.itemList;
+        var dataSetter: BarterDataSetter = new BarterDataSetter(this._buyMult, this._sellMult);
+        dataSetter.setIconSetter(new InventoryIconSetter(a_config["Appearance"]));
+        itemList.addDataProcessor(dataSetter);
         itemList.addDataProcessor(new skyui.props.PropertyDataExtender(a_config["Appearance"], a_config["Properties"], "itemProperties", "itemIcons", "itemCompoundProperties"));
         
         var layout: ListLayout = skyui.components.list.ListLayoutManager.createLayout(a_config["ListLayout"], "ItemListLayout");

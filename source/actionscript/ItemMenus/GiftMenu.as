@@ -36,9 +36,10 @@ class GiftMenu extends ItemMenu
     {
         super.setConfig(a_config);
 
-        var itemList: TabularList = this.inventoryLists.itemList;		
-        itemList.addDataProcessor(new InventoryDataSetter());
-        itemList.addDataProcessor(new InventoryIconSetter(a_config["Appearance"]));
+        var itemList: TabularList = this.inventoryLists.itemList;
+        var dataSetter: InventoryDataSetter = new InventoryDataSetter();
+        dataSetter.setIconSetter(new InventoryIconSetter(a_config["Appearance"]));
+        itemList.addDataProcessor(dataSetter);
         itemList.addDataProcessor(new skyui.props.PropertyDataExtender(a_config["Appearance"], a_config["Properties"], "itemProperties", "itemIcons", "itemCompoundProperties"));
         
         var layout: ListLayout = skyui.components.list.ListLayoutManager.createLayout(a_config["ListLayout"], "ItemListLayout");

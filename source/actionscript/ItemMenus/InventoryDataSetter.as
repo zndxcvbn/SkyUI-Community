@@ -1,14 +1,28 @@
 class InventoryDataSetter extends ItemcardDataExtender
 {
+  /* PRIVATE VARIABLES */
+
+    // Held as a plain object reference (not a list-processor) because
+    // dispatching processList on InventoryIconSetter is structurally slow in
+    // this SWF (~21ms/call). We invoke applyToEntry inline per dirty entry
+    // instead -- see InventoryIconSetter.as for the why.
+    private var _iconSetter: InventoryIconSetter;
+
+
   /* INITIALIZATION */
 
     public function InventoryDataSetter()
     {
         super();
     }
-    
-    
+
+
   /* PUBLIC FUNCTIONS */
+
+    public function setIconSetter(a_iconSetter: InventoryIconSetter)
+    {
+        this._iconSetter = a_iconSetter;
+    }
 
     // @override ItemcardDataExtender
     public function processEntry(a_entryObject: Object, a_itemInfo: Object)
@@ -112,6 +126,11 @@ class InventoryDataSetter extends ItemcardDataExtender
             default:
                 break;
         }
+
+        // Icon depends on subType/weightClass/material set above, so it runs
+        // after the switch -- not before it.
+        if (this._iconSetter != null)
+            this._iconSetter.applyToEntry(a_entryObject);
     }
 
 
