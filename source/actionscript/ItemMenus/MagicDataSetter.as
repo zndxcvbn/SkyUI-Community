@@ -5,6 +5,12 @@ class MagicDataSetter extends ItemcardDataExtender
     private var _defaultEnabledColor: Number;
     private var _defaultDisabledColor: Number;
 
+    // Held as a plain object reference (not a list-processor) because
+    // dispatching processList on MagicIconSetter is structurally slow in
+    // this SWF (same pre-built bytecode hook as InventoryIconSetter). We
+    // invoke applyToEntry inline per dirty entry instead.
+    private var _iconSetter: MagicIconSetter;
+
 
   /* INITIALIZATION */
 
@@ -14,10 +20,15 @@ class MagicDataSetter extends ItemcardDataExtender
         this._defaultEnabledColor = a_configAppearance.colors.text.enabled;
         this._defaultDisabledColor = a_configAppearance.colors.text.disabled;
     }
-    
-    
+
+
   /* PUBLIC FUNCTIONS */
-    
+
+    public function setIconSetter(a_iconSetter: MagicIconSetter)
+    {
+        this._iconSetter = a_iconSetter;
+    }
+
     // @override ItemcardDataExtender
     public function processEntry(a_entryObject: Object, a_itemInfo: Object)
     {
@@ -117,8 +128,13 @@ class MagicDataSetter extends ItemcardDataExtender
             default:
                 a_entryObject.skillLevel = null;	// Sent by SKSE, we don't want it for powers
                 a_entryObject.infoSpellCost = a_itemInfo.spellCost;	// For lesser powers
-                
+
                 break;
         }
+
+        // Icon depends on type/school/baseId set above, so it runs after the
+        // switch -- not before it.
+        if (this._iconSetter != null)
+            this._iconSetter.applyToEntry(a_entryObject);
     }
 }

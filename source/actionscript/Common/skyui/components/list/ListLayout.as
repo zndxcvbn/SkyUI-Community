@@ -656,6 +656,20 @@ class skyui.components.list.ListLayout
             cData.entryValue = stateData.entry.text;
             cData.colorAttribute = stateData.colorAttribute;
 
+            // Precompute "@"-reference parsing -- saves the per-setEntry string
+            // ops (charAt + slice). cData is reused across layouts, so reset
+            // isFirstTextColumn here too; WIDTH CALCULATION below sets it true
+            // for the textField1 column.
+            var ev = cData.entryValue;
+            if (ev != undefined && ev.charAt(0) == "@") {
+                cData.useReference = true;
+                cData.referenceAttr = ev.slice(1);
+            } else {
+                cData.useReference = false;
+                cData.referenceAttr = null;
+            }
+            cData.isFirstTextColumn = false;
+
             // Sort arrow
             if (sorted && sortEntry.reverse)
                 cData.labelArrowDown = !stateData._cachedArrowDown;
@@ -703,6 +717,7 @@ class skyui.components.list.ListLayout
 
                 default:
                     cData.stageName = "textField" + textFieldIndex++;
+                    cData.isFirstTextColumn = (cData.stageName == "textField1");
                     if (col.width != undefined) {
                         cData.width = col.width < 1 ? (col.width * this._entryWidth) : col.width;
                         weightedWidth -= cData.width;

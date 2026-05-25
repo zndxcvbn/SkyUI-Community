@@ -5,8 +5,8 @@ class ItemcardDataExtender implements skyui.components.list.IListProcessor
 
     private var _itemInfo: Object;
     private var _requestItemInfo: Function;
-    
-    
+
+
   /* INITIALIZATION */
     
     public function ItemcardDataExtender()
@@ -32,6 +32,7 @@ class ItemcardDataExtender implements skyui.components.list.IListProcessor
     public function processList(a_list: BasicList)
     {
         var entryList = a_list.entryList;
+        var entryLen = entryList.length;
 
         // The game's only signal for "entry changed" is clearing
         // skyui_itemDataProcessed on the changed entry. We scan once to find
@@ -40,10 +41,25 @@ class ItemcardDataExtender implements skyui.components.list.IListProcessor
         // each re-scan the full entryList -- they consume this small set.
         var dirty = [];
 
-        for (var i = 0; i < entryList.length; i++) {
+        // Reverse iteration: AVM1's pre-decrement + compare-to-zero is one op
+        // cheaper than forward i++ with bounds-compare. Steady-state hot path
+        // (all entries already processed) just reads the flag and continues,
+        // so per-iter overhead is the dominant cost.
+        //
+        // Order safety: dirty handling is per-entry (each iter writes only on
+        // its own `e`), and the inner `_requestItemInfo` -> `processEntry`
+        // pair is synchronous (game-side `updateItemInfo` lands inline before
+        // the next iter). Downstream consumers of `dirty` (PropertyDataExtender,
+        // FilteredEnumeration via markDataDirty) are order-agnostic.
+        for (var i = entryLen; --i >= 0; ) {
             var e = entryList[i];
 
-            if (e.skyui_itemDataProcessed == true)
+            // Truthy check instead of == true: in steady state this hot path
+            // runs ~775 times per call doing nothing else, so saving one
+            // compare per iter pays back. The flag is only ever written as
+            // boolean true (here); game-side clear sets undefined/false --
+            // both falsy.
+            if (e.skyui_itemDataProcessed)
                 continue;
 
             // Mark as seen so the next InvalidateData doesn't re-add this entry
@@ -52,6 +68,9 @@ class ItemcardDataExtender implements skyui.components.list.IListProcessor
             e.skyui_itemDataProcessed = true;
             e.skyui_iconProcessed = false;
             e.skyui_propsProcessed = false;
+            // Mark for re-render so the next UpdateList won't skip this clip
+            // via the same-entry-no-change fast path.
+            e.skyui_renderDirty = true;
             dirty.push(e);
 
             // Skip own (expensive, SKSE round-trip) processing for entries that

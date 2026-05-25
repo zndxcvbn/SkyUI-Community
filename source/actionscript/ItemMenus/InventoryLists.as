@@ -325,7 +325,7 @@ class InventoryLists extends MovieClip
     }
 
     // Called to initially set the category list.
-    // @API 
+    // @API
     public function SetCategoriesList()
     {
         var textOffset = 0;
@@ -342,10 +342,10 @@ class InventoryLists extends MovieClip
 
             if (entry.flag == 0)
                 this.categoryList.dividerIndex = index;
-            
+
             index++;
         }
-        
+
         // Initialize tabbar labels and replace text of segment heads (name -> ALL)
         if (this._bTabbed) {
             // Restore 0 as default index for tabbed lists

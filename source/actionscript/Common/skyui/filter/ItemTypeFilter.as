@@ -57,12 +57,36 @@ class skyui.filter.ItemTypeFilter implements skyui.filter.IFilter
     // @override skyui.IFilter
     public function applyFilter(a_filteredList: Array)
     {
-        for (var i = 0; i < a_filteredList.length; i++) {
-            if (!this._matcherFunc(a_filteredList[i], this._itemFilter)) {
-                a_filteredList.splice(i,1);
-                i--;
+        // Write-index pattern: O(N) without per-removal splice. Inlines the
+        // standard matcher for the common case to skip the per-iter AVM1
+        // function-pointer dispatch, which is a real cost over 775 entries.
+        // Also clears filteredIndex on excluded entries -- ownership of the
+        // clear-on-exclude moved here from FilteredEnumeration's copy loop.
+        var flag = this._itemFilter;
+        var writeIndex = 0;
+        var len = a_filteredList.length;
+
+        if (this._matcherFunc == skyui.filter.ItemTypeFilter.entryMatchesFilter) {
+            for (var i = 0; i < len; i++) {
+                var e = a_filteredList[i];
+                if (e != undefined && (e.filterFlag == undefined || (e.filterFlag & flag) != 0))
+                    a_filteredList[writeIndex++] = e;
+                else if (e != undefined)
+                    e.filteredIndex = undefined;
+            }
+        } else {
+            // Partitioned mode: indirect through the function reference.
+            var matcher = this._matcherFunc;
+            for (var j = 0; j < len; j++) {
+                var pe = a_filteredList[j];
+                if (matcher(pe, flag))
+                    a_filteredList[writeIndex++] = pe;
+                else if (pe != undefined)
+                    pe.filteredIndex = undefined;
             }
         }
+
+        a_filteredList.length = writeIndex;
     }
     
     public function isMatch(a_entry: Object, a_flag: Boolean)

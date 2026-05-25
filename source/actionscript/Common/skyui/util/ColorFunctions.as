@@ -1,306 +1,250 @@
 class skyui.util.ColorFunctions
-{	
-  /* CONSTANTS */
+{
+    /* CONSTANTS */
 
-    private static var RAD_TO_DEG: Number		= 57.295779513082;
-    private static var DEG_TO_RAD: Number		= 0.017453292519943;									 
-    private static var TWO_PI: Number			= 6.2831853071796;
-    private static var SQRT_3_OVER_2: Number	= 0.86602540378444;
+    private static var RAD_TO_DEG: Number = 180 / Math.PI;
+    private static var DEG_TO_RAD: Number = Math.PI / 180;
 
+    /* HEX */
 
-  /* PUBLIC FUNCTIONS */
-
-    // Hex
-    public static function hexToRgb(a_RRGGBB: Number)
+    public static function hexToRgb(hex: Number)
     {
-        var RRGGBB: Number = skyui.util.ColorFunctions.validHex(a_RRGGBB);
+        hex = skyui.util.ColorFunctions.validHex(hex);
 
-        return [RRGGBB >> 0x10 & 0xFF, RRGGBB >> 0x08 & 0xFF, RRGGBB & 0xFF];
+        return [
+            (hex >> 16) & 0xFF,
+            (hex >> 8) & 0xFF,
+            hex & 0xFF
+        ];
     }
 
-    public static function hexToHsv(a_RRGGBB: Number)
+    public static function hexToHsv(hex: Number)
     {
-        return skyui.util.ColorFunctions.rgbToHsv(skyui.util.ColorFunctions.hexToRgb(a_RRGGBB));
+        return skyui.util.ColorFunctions.rgbToHsv(skyui.util.ColorFunctions.hexToRgb(hex));
     }
 
-    public static function hexToHsl(a_RRGGBB: Number)
+    public static function hexToHsl(hex: Number)
     {
-        return skyui.util.ColorFunctions.rgbToHsl(skyui.util.ColorFunctions.hexToRgb(a_RRGGBB));
+        return skyui.util.ColorFunctions.rgbToHsl(skyui.util.ColorFunctions.hexToRgb(hex));
     }
 
-    public static function hexToStr(a_RRGGBB: Number, a_prefix: Boolean)
+    public static function hexToStr(hex: Number, prefix: Boolean)
     {
-        var str: String = a_RRGGBB.toString(16).toUpperCase();
+        hex = skyui.util.ColorFunctions.validHex(hex);
 
-        var padding: String = '';
-        for (var i: Number = str.length; i < 6; i++) {
-            padding += '0';
+        var str: String = hex.toString(16).toUpperCase();
+
+        while (str.length < 6)
+            str = "0" + str;
+
+        return (prefix ? "0x" : "") + str;
+    }
+
+    public static function validHex(hex: Number)
+    {
+        return skyui.util.ColorFunctions.clampValue(hex, 0x000000, 0xFFFFFF);
+    }
+
+
+    /* RGB */
+
+    public static function rgbToHex(rgb: Array)
+    {
+        return (
+            (skyui.util.ColorFunctions.clampValue(rgb[0], 0, 255) << 16) |
+            (skyui.util.ColorFunctions.clampValue(rgb[1], 0, 255) << 8) |
+            skyui.util.ColorFunctions.clampValue(rgb[2], 0, 255)
+        );
+    }
+
+    public static function rgbToHsv(rgb: Array)
+    {
+        // in:  [R,G,B] => [0..255]
+        // out: [H,S,V] => H[0..360], S/V[0..100]
+
+        var r: Number = skyui.util.ColorFunctions.clampValue(rgb[0], 0, 255) / 255;
+        var g: Number = skyui.util.ColorFunctions.clampValue(rgb[1], 0, 255) / 255;
+        var b: Number = skyui.util.ColorFunctions.clampValue(rgb[2], 0, 255) / 255;
+
+        var max: Number = Math.max(r, Math.max(g, b));
+        var min: Number = Math.min(r, Math.min(g, b));
+        var delta: Number = max - min;
+
+        var h: Number = skyui.util.ColorFunctions.calcHue(r, g, b, max, delta);
+        var s: Number = (max == 0) ? 0 : delta / max;
+        var v: Number = max;
+
+        return [
+            Math.round(h),
+            Math.round(s * 100),
+            Math.round(v * 100)
+        ];
+    }
+
+    public static function rgbToHsb(rgb: Array)
+    {
+        return skyui.util.ColorFunctions.rgbToHsv(rgb);
+    }
+
+    public static function rgbToHsl(rgb: Array)
+    {
+        // in:  [R,G,B] => [0..255]
+        // out: [H,S,L] => H[0..360], S/L[0..100]
+
+        var r: Number = skyui.util.ColorFunctions.clampValue(rgb[0], 0, 255) / 255;
+        var g: Number = skyui.util.ColorFunctions.clampValue(rgb[1], 0, 255) / 255;
+        var b: Number = skyui.util.ColorFunctions.clampValue(rgb[2], 0, 255) / 255;
+
+        var max: Number = Math.max(r, Math.max(g, b));
+        var min: Number = Math.min(r, Math.min(g, b));
+        var delta: Number = max - min;
+
+        var l: Number = (max + min) * 0.5;
+        var h: Number = skyui.util.ColorFunctions.calcHue(r, g, b, max, delta);
+
+        var s: Number = 0;
+
+        if (delta != 0)
+        {
+            s = delta / (1 - Math.abs(2 * l - 1));
         }
 
-        str = ((a_prefix)? "0x": "") + padding + str;
-
-        return str;
-
+        return [
+            Math.round(h),
+            Math.round(s * 100),
+            Math.round(l * 100)
+        ];
     }
 
-    public static function validHex(a_RRGGBB: Number)
+
+    /* HSV */
+
+    public static function hsvToRgb(hsv: Array)
     {
-        return skyui.util.ColorFunctions.clampValue(a_RRGGBB, 0x000000, 0xFFFFFF);
+        // in:  [H,S,V]
+        // out: [R,G,B]
+
+        var h: Number = skyui.util.ColorFunctions.normalizeHue(hsv[0]);
+        var s: Number = skyui.util.ColorFunctions.clampValue(hsv[1], 0, 100) / 100;
+        var v: Number = skyui.util.ColorFunctions.clampValue(hsv[2], 0, 100) / 100;
+
+        var c: Number = v * s;
+        var x: Number = c * (1 - Math.abs((h / 60) % 2 - 1));
+        var m: Number = v - c;
+
+        var rgb: Array = skyui.util.ColorFunctions.hueToRgb(c, x, h);
+
+        return [
+            Math.round((rgb[0] + m) * 255),
+            Math.round((rgb[1] + m) * 255),
+            Math.round((rgb[2] + m) * 255)
+        ];
     }
 
-    // RGB
-    public static function rgbToHex(a_RGB: Array)
+    public static function hsvToHex(hsv: Array)
     {
-        var RGB: Array = a_RGB;
-        return (RGB[0] << 0x10 ^ RGB[1] << 0x08 ^ RGB[2]);
+        return skyui.util.ColorFunctions.rgbToHex(skyui.util.ColorFunctions.hsvToRgb(hsv));
     }
 
-    public static function rgbToHsv(a_RGB: Array)
+
+    /* HSB */
+
+    public static function hsbToRgb(hsb: Array)
     {
-        // in: [R [0-255], G [0-255], B [0-255]]
-        // out: [H [0-360), S [0, 100], V [0, 100]]
-        var R: Number = skyui.util.ColorFunctions.clampValue(a_RGB[0], 0, 255)/255;
-        var G: Number = skyui.util.ColorFunctions.clampValue(a_RGB[1], 0, 255)/255;
-        var B: Number = skyui.util.ColorFunctions.clampValue(a_RGB[2], 0, 255)/255;
-
-        var H, S, V: Number;
-
-        var M: Number = Math.max(R, Math.max(G, B));
-        var m: Number = Math.min(R, Math.min(G, B));
-        var C: Number = M - m;
-        //H = piecewise..
-
-        var alpha: Number = (2*R - G - B)/2;
-        var beta: Number = (G - B) * skyui.util.ColorFunctions.SQRT_3_OVER_2;
-        H = Math.atan2(beta, alpha);
-        V = M;
-        S = ((C == 0)? 0: C/V);
-
-        if (H < 0)
-            H += skyui.util.ColorFunctions.TWO_PI;
-        
-        H *= skyui.util.ColorFunctions.RAD_TO_DEG;
-        S *= 100;
-        V *= 100;
-
-        H = Math.round(H);
-        S = Math.round(S);
-        V = Math.round(V);
-
-        return [H, S, V];
+        return skyui.util.ColorFunctions.hsvToRgb(hsb);
     }
 
-    public static function rgbToHsb(a_RGB: Array) { return skyui.util.ColorFunctions.rgbToHsv(a_RGB); }
-
-    public static function rgbToHsl(a_RGB: Array)
+    public static function hsbToHex(hsb: Array)
     {
-        // in: [R [0-255], G [0-255], B [0-255]]
-        // out: [H [0-360), S [0, 100], L [0, 100]]
-        var R: Number = skyui.util.ColorFunctions.clampValue(a_RGB[0], 0, 255)/255;
-        var G: Number = skyui.util.ColorFunctions.clampValue(a_RGB[1], 0, 255)/255;
-        var B: Number = skyui.util.ColorFunctions.clampValue(a_RGB[2], 0, 255)/255;
-
-        var H, S, L: Number;
-
-        var M: Number = Math.max(R, Math.max(G, B));
-        var m: Number = Math.min(R, Math.min(G, B));
-        var C: Number = M - m;
-        //H = piecewise..
-
-        var alpha: Number = (2*R - G - B)/2;
-        var beta: Number = (G - B) * skyui.util.ColorFunctions.SQRT_3_OVER_2;
-        H = Math.atan2(beta, alpha);
-        L = (M + m)/2;
-        S = ((C == 0)? 0: C/(1 - Math.abs(2*L - 1)));
-
-        if (H < 0)
-            H += skyui.util.ColorFunctions.TWO_PI;
-        
-        H *= skyui.util.ColorFunctions.RAD_TO_DEG;
-        S *= 100;
-        L *= 100;
-
-        H = Math.round(H);
-        S = Math.round(S);
-        L = Math.round(L);
-
-        return [H, S, L];
+        return skyui.util.ColorFunctions.hsvToHex(hsb);
     }
 
-    
-    // HSV
-    public static function hsvToRgb(a_HSV: Array)
+
+    /* HSL */
+
+    public static function hslToRgb(hsl: Array)
     {
-        // in: [H [0-360), S [0, 100], V [0, 100]]
-        // out: [R [0-255], G [0-255], B [0-255]]
-        var H: Number = skyui.util.ColorFunctions.loopValue(a_HSV[0], 360);
-        var S: Number = skyui.util.ColorFunctions.clampValue(a_HSV[1], 0, 100)/100;
-        var V: Number = skyui.util.ColorFunctions.clampValue(a_HSV[2], 0, 100)/100;
+        // in:  [H,S,L]
+        // out: [R,G,B]
 
-        var R, G, B: Number;
+        var h: Number = skyui.util.ColorFunctions.normalizeHue(hsl[0]);
+        var s: Number = skyui.util.ColorFunctions.clampValue(hsl[1], 0, 100) / 100;
+        var l: Number = skyui.util.ColorFunctions.clampValue(hsl[2], 0, 100) / 100;
 
-        var C = V * S;
+        var c: Number = (1 - Math.abs(2 * l - 1)) * s;
+        var x: Number = c * (1 - Math.abs((h / 60) % 2 - 1));
+        var m: Number = l - c * 0.5;
 
-        var Hdash: Number = H / 60;
-        var sextant: Number = Math.floor(Hdash);
+        var rgb: Array = skyui.util.ColorFunctions.hueToRgb(c, x, h);
 
-        var X: Number = C*(1 - Math.abs(Hdash % 2 - 1));
+        return [
+            Math.round((rgb[0] + m) * 255),
+            Math.round((rgb[1] + m) * 255),
+            Math.round((rgb[2] + m) * 255)
+        ];
+    }
 
-        switch(sextant) {
-            case 0:
-                R = C;
-                G = X;
-                B = 0;
-                break;
-            case 1:
-                R = X;
-                G = C;
-                B = 0;
-                break;
-            case 2:
-                R = 0;
-                G = C;
-                B = X;
-                break;
-            case 3:
-                R = 0;
-                G = X;
-                B = C;
-                break;
-            case 4:
-                R = X;
-                G = 0;
-                B = C;
-                break;
-            case 5:
-                R = C;
-                G = 0;
-                B = X;
-                break;
-            default:
-                R = 0;
-                G = 0;
-                B = 0;
-                break;
+    public static function hslToHex(hsl: Array)
+    {
+        return skyui.util.ColorFunctions.rgbToHex(skyui.util.ColorFunctions.hslToRgb(hsl));
+    }
+
+
+    /* PRIVATE */
+
+    private static function calcHue(r: Number, g: Number, b: Number, max: Number, delta: Number)
+    {
+        var h: Number = 0;
+
+        if (delta == 0)
+        {
+            return 0;
         }
 
-        var m: Number = V - C;
-
-        R += m;
-        G += m;
-        B += m;
-
-        R *= 255;
-        G *= 255;
-        B *= 255;
-
-        R = Math.round(R);
-        G = Math.round(G);
-        B = Math.round(B);
-
-        return [R, G, B];
-    }
-    public static function hsvToHex(a_HSV) { return skyui.util.ColorFunctions.rgbToHex(skyui.util.ColorFunctions.hsvToRgb(a_HSV)); }
-
-    // HSB (alias for HSV)
-    public static function hsbToRgb(a_HSB: Array) { return skyui.util.ColorFunctions.hsvToRgb(a_HSB); }
-    public static function hsbToHex(a_HSB) { return skyui.util.ColorFunctions.hsvToHex(a_HSB); }
-
-    // HSL
-    public static function hslToRgb(a_HSL: Array)
-    {
-        // in: [H [0-360), S [0, 100], L [0, 100]]
-        // out: [R [0-255], G [0-255], B [0-255]]
-        var H: Number = skyui.util.ColorFunctions.loopValue(a_HSL[0], 360);
-        var S: Number = skyui.util.ColorFunctions.clampValue(a_HSL[1], 0, 100)/100;
-        var L: Number = skyui.util.ColorFunctions.clampValue(a_HSL[2], 0, 100)/100;
-
-        var R, G, B: Number;
-
-        var C = (1 - Math.abs(2*L - 1)) * S;
-
-        var Hdash: Number = H / 60;
-        var sextant: Number = Math.floor(Hdash);
-
-        var X: Number = C*(1 - Math.abs(Hdash % 2 - 1));
-
-        switch(sextant) {
-            case 0:
-                R = C;
-                G = X;
-                B = 0;
-                break;
-            case 1:
-                R = X;
-                G = C;
-                B = 0;
-                break;
-            case 2:
-                R = 0;
-                G = C;
-                B = X;
-                break;
-            case 3:
-                R = 0;
-                G = X;
-                B = C;
-                break;
-            case 4:
-                R = X;
-                G = 0;
-                B = C;
-                break;
-            case 5:
-                R = C;
-                G = 0;
-                B = X;
-                break;
-            default:
-                R = 0;
-                G = 0;
-                B = 0;
-                break;
+        if (max == r)
+        {
+            h = ((g - b) / delta) % 6;
+        }
+        else if (max == g)
+        {
+            h = ((b - r) / delta) + 2;
+        }
+        else
+        {
+            h = ((r - g) / delta) + 4;
         }
 
-        var m: Number = L - C/2;
+        h *= 60;
 
-        R += m;
-        G += m;
-        B += m;
+        if (h < 0)
+            h += 360;
 
-        R *= 255;
-        G *= 255;
-        B *= 255;
-
-        R = Math.round(R);
-        G = Math.round(G);
-        B = Math.round(B);
-
-        return [R, G, B];
+        return h;
     }
 
-    public static function hslToHex(a_HSL) { return skyui.util.ColorFunctions.rgbToHex(skyui.util.ColorFunctions.hslToRgb(a_HSL)); }
-
-
-  /* PRIVATE FUNCTIONS */
-
-    private static function clampValue(a_val: Number, a_min: Number, a_max: Number)
+    private static function hueToRgb(c: Number, x: Number, h: Number)
     {
-        // $ trace(clampValue(1000, 0, 100))
-        // > 100
-        // $ trace(clampValue(-1000, -50, 100))
-        // > -50
-        return Math.min(a_max, Math.max(a_min, a_val));
+        if (h < 60)       return [c, x, 0];
+        else if (h < 120) return [x, c, 0];
+        else if (h < 180) return [0, c, x];
+        else if (h < 240) return [0, x, c];
+        else if (h < 300) return [x, 0, c];
+
+        return [c, 0, x];
     }
 
-    private static function loopValue(a_val: Number, a_max: Number)
+    private static function normalizeHue(value: Number)
     {
-        // $ trace(loopValue(360.1012, 360))
-        // > 0.10120000000001
-        // $ trace(loopValue(360, 360))
-        // > 0
-        // $ trace(loopValue(-1, 360))
-        // > 359
-        return (a_val % a_max);
+        value = value % 360;
+
+        if (value < 0)
+            value += 360;
+
+        return value;
+    }
+
+    private static function clampValue(value: Number, min: Number, max: Number)
+    {
+        return Math.min(max, Math.max(min, value));
     }
 }
