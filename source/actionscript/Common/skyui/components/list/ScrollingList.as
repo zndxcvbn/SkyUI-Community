@@ -328,9 +328,6 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
                 entryClip.setEntry(entryItem, this.listState);
                 entryClip._wasSelected = isSelected;
                 entryClip._layoutVersion = layoutVer;
-                skyui.components.list.ScrollingList.__rf_render++;
-            } else {
-                skyui.components.list.ScrollingList.__rf_skip++;
             }
 
             entryItem.clipIndex = this._listIndex;
@@ -481,88 +478,9 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             this.bDisableAnim = false;
         }
 
-        // === RF BENCH (temporary) ===
-        if (!skyui.components.list.ScrollingList.__rf_benched && this._entryList.length > 400) {
-            skyui.components.list.ScrollingList.__rf_benched = true;
-            this.__rf_benchmark();
-        }
-        // === END RF BENCH ===
-
         if (this.onInvalidate)
             this.onInvalidate();
     }
-
-    // === RF BENCH (temporary) ===
-    // getTimer() resolution here is ~15.6ms. Amortizing over reps reveals true
-    // sub-ms costs. Fires once on the first warm InvalidateData of a large
-    // list (>400 entries -- skip the small category-list InvalidateData calls).
-    private static var __rf_benched: Boolean = false;
-    public static var __rf_skip: Number = 0;
-    public static var __rf_render: Number = 0;
-
-    private function __rf_benchmark()
-    {
-        if (_global.skse == undefined)
-            return;
-
-        // 1000 reps so each component's total cost crosses several getTimer
-        // ticks (~15.6ms each on Windows). At 100 reps everything was right
-        // on the tick boundary, so numbers flickered between 0 and 16ms.
-        var reps = 1000;
-        var b;
-        var i;
-        var t;
-        var n = this._entryList.length;
-
-        // Body of idxReset -- mirror prod: cache list+length, read-then-write,
-        // reverse iteration. Steady state: skips the setMember when an
-        // entry's itemIndex already matches its position.
-        var elist = this._entryList;
-        var elen = elist.length;
-        t = getTimer();
-        for (b = 0; b < reps; b++)
-            for (i = elen; --i >= 0; ) {
-                var ent = elist[i];
-                if (ent.itemIndex != i)
-                    ent.itemIndex = i;
-            }
-        skse.Log("[RF bench] n=" + n + " idxReset x" + reps + " = " + (getTimer() - t) + "ms");
-
-        t = getTimer();
-        for (b = 0; b < reps; b++)
-            for (i = 0; i < this._dataProcessors.length; i++)
-                this._dataProcessors[i].processList(this);
-        skse.Log("[RF bench] n=" + n + " processors x" + reps + " = " + (getTimer() - t) + "ms");
-
-        var p;
-        for (p = 0; p < this._dataProcessors.length; p++) {
-            t = getTimer();
-            for (b = 0; b < reps; b++)
-                this._dataProcessors[p].processList(this);
-            skse.Log("[RF bench]   processor[" + p + "] x" + reps + " = " + (getTimer() - t) + "ms");
-        }
-
-        t = getTimer();
-        for (b = 0; b < reps; b++)
-            this.listEnumeration.invalidate();
-        skse.Log("[RF bench] n=" + n + " invalidate x" + reps + " = " + (getTimer() - t) + "ms");
-
-        skyui.components.list.ScrollingList.__rf_skip = 0;
-        skyui.components.list.ScrollingList.__rf_render = 0;
-        t = getTimer();
-        for (b = 0; b < reps; b++)
-            this.UpdateList();
-        skse.Log("[RF bench] n=" + n + " UpdateList x" + reps + " = " + (getTimer() - t) + "ms skip=" + skyui.components.list.ScrollingList.__rf_skip + " render=" + skyui.components.list.ScrollingList.__rf_render);
-
-        // Full InvalidateData ×100. The skip-when-nothing-changed path inside
-        // InvalidateData should make 99 of 100 calls cheap (only the first
-        // does work; subsequent see no dirty entries + filters clean).
-        t = getTimer();
-        for (b = 0; b < reps; b++)
-            this.InvalidateData();
-        skse.Log("[RF bench] n=" + n + " InvalidateData x" + reps + " = " + (getTimer() - t) + "ms");
-    }
-    // === END RF BENCH ===
 
     public function moveSelectionUp(a_bScrollPage: Boolean)
     {

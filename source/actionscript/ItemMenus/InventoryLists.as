@@ -328,32 +328,6 @@ class InventoryLists extends MovieClip
     // @API
     public function SetCategoriesList()
     {
-        // Snapshot the variadic arguments so we can replay the body for the
-        // amortized bench below.
-        var args = [];
-        for (var k = 0; k < arguments.length; k++)
-            args.push(arguments[k]);
-
-        this.__rf_setCategoriesImpl(args);
-
-        // === RF BENCH (temporary) ===
-        if (_global.skse != undefined && !InventoryLists.__rf_setCatBenched) {
-            InventoryLists.__rf_setCatBenched = true;
-            var reps = 100;
-            var t = getTimer();
-            for (var b = 0; b < reps; b++)
-                this.__rf_setCategoriesImpl(args);
-            skse.Log("[RF bench] SetCategoriesList x" + reps + " = " + (getTimer() - t) + "ms (count=" + (args.length / 3) + ")");
-        }
-        // === END RF BENCH ===
-    }
-
-    // === RF BENCH (temporary) ===
-    private static var __rf_setCatBenched: Boolean = false;
-    // === END RF BENCH ===
-
-    private function __rf_setCategoriesImpl(args: Array)
-    {
         var textOffset = 0;
         var flagOffset = 1;
         var bDontHideOffset = 2;
@@ -362,8 +336,8 @@ class InventoryLists extends MovieClip
 
         this.categoryList.clearList();
 
-        for (var i = 0; i < args.length; i = i + len) {
-            var entry = {text: args[i + textOffset], flag: args[i + flagOffset], bDontHide: args[i + bDontHideOffset], savedItemIndex: 0, filterFlag: args[i + bDontHideOffset] == true ? (1) : (0)};
+        for (var i = 0; i < arguments.length; i = i + len) {
+            var entry = {text: arguments[i + textOffset], flag: arguments[i + flagOffset], bDontHide: arguments[i + bDontHideOffset], savedItemIndex: 0, filterFlag: arguments[i + bDontHideOffset] == true ? (1) : (0)};
             this.categoryList.entryList.push(entry);
 
             if (entry.flag == 0)
