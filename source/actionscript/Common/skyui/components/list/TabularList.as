@@ -7,6 +7,12 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
     private var _sortOrderKey: Number = -1;
     private var _itemCountMode: Number = 0;
 
+    // Cached header item count. UpdateList runs on every scroll, but the count
+    // only changes when the filtered set, the sort attribute, or the count mode
+    // changes -- so we recompute lazily, gated by _itemCountDirty.
+    private var _cachedItemCount: Number = -1;
+    private var _itemCountDirty: Boolean = true;
+
   /* STAGE ELEMENTS */
 
     public var header: SortedListHeader;
@@ -69,10 +75,18 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
     }
 
     // @override ScrollingList
+    public function InvalidateData()
+    {
+        // Filtered set / processed entries may change -- count is now stale.
+        this._itemCountDirty = true;
+        super.InvalidateData();
+    }
+
+    // @override ScrollingList
     public function UpdateList()
     {
         super.UpdateList();
-        
+
         if (this.header == undefined || this.listEnumeration == undefined)
             return;
 
@@ -81,12 +95,24 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
             return;
         }
 
+        if (this._itemCountDirty) {
+            this._cachedItemCount = this.computeItemCount();
+            this._itemCountDirty = false;
+        }
+
+        this.header.updateItemCount(this._cachedItemCount);
+    }
+
+    // Walks the filtered enumeration once; the result is cached. See
+    // _itemCountDirty for what invalidates the cache.
+    private function computeItemCount()
+    {
         var totalRows = this.listEnumeration.size();
         var totalItemsCount = 0;
 
         var activeColIdx = this._layout.activeColumnIndex;
         var isActiveColName = (this._layout.columnLayoutData[activeColIdx].type == skyui.components.list.ListLayout.COL_TYPE_NAME);
-        
+
         var primaryAttr: String;
         if (this._layout && this._layout.sortAttributes && this._layout.sortAttributes.length > 0) {
             primaryAttr = this._layout.sortAttributes[0];
@@ -96,7 +122,7 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
             var entry = this.listEnumeration.at(i);
             if (entry != undefined) {
                 var amountToAdd = (this._itemCountMode == 2 && entry.count != undefined && entry.count > 0) ? entry.count : 1;
-                
+
                 if (isActiveColName) {
                     if (primaryAttr == undefined || primaryAttr == "text" || entry[primaryAttr]) {
                         totalItemsCount += amountToAdd;
@@ -106,8 +132,8 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
                 }
             }
         }
-        
-        this.header.updateItemCount(totalItemsCount);
+
+        return totalItemsCount;
     }
 
   /* PRIVATE FUNCTIONS */
@@ -139,6 +165,8 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
             this._itemCountMode = 0;
         }
 
+        this._itemCountDirty = true;
+
         this.applyScrollConfig(config.ScrollingList);
 
         if (this._platform != 0) {
@@ -153,12 +181,24 @@ class skyui.components.list.TabularList extends skyui.components.list.ScrollingL
         this.entryHeight = this._layout.entryHeight;
 
         this.header._x = this.leftBorder;
-        
+
         this.recalcMaxListIndex();
-        
+
+        // sortAttributes / active column may have changed -- itemCount depends
+        // on both, so the cached value is stale.
+        this._itemCountDirty = true;
+
+        // Column layout may have changed (e.g. column count differs between
+        // categories). Bump the version so UpdateList's skip path forces a
+        // re-render on currently-visible clips -- otherwise stale text fields
+        // from the old layout linger until the user scrolls or hovers.
+        this._layoutVersion++;
+        // Token bump for UpdateList's fast-path skip.
+        this._updateToken++;
+
         if (this._layout.sortAttributes && this._layout.sortOptions)
             this.dispatchEvent({type:"sortChange", attributes: this._layout.sortAttributes, options:  this._layout.sortOptions});
-        
+
         this.requestUpdate();
     }
 }

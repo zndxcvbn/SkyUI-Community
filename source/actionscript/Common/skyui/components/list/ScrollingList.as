@@ -19,6 +19,40 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // The maximum allowed size. Actual size might be smaller if the list is not filled completely.
     private var _maxListIndex: Number;
 
+    // Bookkeeping for the trailing-cleanup pass in UpdateList: clips with
+    // index in [_listIndex, _prevListIndex) were visible last call but aren't
+    // this call, so they need to be hidden. EntryClipManager no longer does a
+    // universal reset every UpdateList, so this is the per-frame trim.
+    private var _prevListIndex: Number = 0;
+
+    // Bumped by subclasses (TabularList.onLayoutChange) when the visual
+    // structure changes -- e.g. column count differs between categories. The
+    // display loop's skip check compares per-clip vs current; mismatch forces
+    // re-render so a clip can update its layout (column widths, hidden cols).
+    public var _layoutVersion: Number = 0;
+
+    // Snapshot of state at the end of the last UpdateList. If nothing tracked
+    // here has moved, UpdateList can skip its whole body (everything visible
+    // would render identically).
+    private var _lastUpdateEnumVersion: Number = -1;
+    private var _lastUpdateScrollPos: Number = -1;
+    private var _lastUpdateSelIdx: Number = -2;  // -1 is a valid "no selection"
+    private var _lastUpdateLayoutVer: Number = -1;
+
+    // Single-token fast path for UpdateList early-return. Bumped at each
+    // state-change site (scroll, selection, layout, filter/data invalidation).
+    // Fast-path compare = 1 read + 1 compare (vs 10+4 of the 4-field snapshot).
+    // The 4-field snapshot above is kept as a slow-path fallback -- if any
+    // bump site is missed, the snapshot still catches state changes correctly,
+    // we just lose the fast skip for that one call.
+    public var _updateToken: Number = 0;
+    private var _lastUpdateToken: Number = -1;
+
+    // Last seen _entryList.length -- one of two signals that the game may have
+    // reshuffled entry positions and we need to re-anchor itemIndex. -1 forces
+    // the first call to run idxReset (cold path).
+    private var _lastEntryCount: Number = -1;
+
     // Timers for fast key repetition
     private var _keyRepeatTimeout: Number;
     private var _keyRepeatInterval: Number;
@@ -203,30 +237,103 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             this._bRequestUpdate = true;
             return;
         }
-        
+
+        // Fast path: single-token compare. State-change sites bump
+        // _updateToken; if it hasn't moved, nothing tracked changed and the
+        // rendered output would be identical to last call.
+        if (this._updateToken == this._lastUpdateToken)
+            return;
+
+        // Slow-path fallback: the 4-field snapshot. If a bump site was missed
+        // OR a write churned the token without actually changing state, this
+        // check still skips correctly. enumVer is undefined on BasicEnumeration;
+        // the != check still works (sameState false on first call, runs
+        // UpdateList, then snapshots).
+        var enumVer = this.listEnumeration._version;
+        if (enumVer == this._lastUpdateEnumVersion
+            && this._scrollPosition == this._lastUpdateScrollPos
+            && this._selectedIndex == this._lastUpdateSelIdx
+            && this._layoutVersion == this._lastUpdateLayoutVer) {
+            // State really is unchanged; sync token so the fast path catches
+            // the next call.
+            this._lastUpdateToken = this._updateToken;
+            return;
+        }
+
         // Prepare clips
         this.setClipCount(this._maxListIndex);
-        
+
         var xStart = this.background._x + this.leftBorder;
         var yStart = this.background._y + this.topBorder;
         var h = 0;
 
-        // Clear clipIndex for everything before the selected list portion
-        for (var i = 0; i < this.getListEnumSize() && i < this._scrollPosition ; i++)
-            this.getListEnumEntry(i).clipIndex = undefined;
+        // Pre-clear the clipIndex of entries that the existing clips currently
+        // point at, so when the visible window shifts the off-screen entries
+        // drop their stale clipIndex. Walking the ~maxListIndex clips is O(M)
+        // instead of walking the whole enumeration twice (O(N)) -- a big win
+        // on large lists. The display loop below re-sets clipIndex for entries
+        // that remain visible, so this is safe even when windows overlap.
+        for (var j = 0; j < this._maxListIndex; j++) {
+            var prevClip = this._entryClipManager.getClip(j);
+            if (prevClip != undefined && prevClip._entry != undefined) {
+                var prevEntry = prevClip._entry;
+                if (prevEntry.clipIndex == j)
+                    prevEntry.clipIndex = undefined;
+            }
+        }
 
         this._listIndex = 0;
-        
-        // Display the selected list portion of the list
-        for (var i = this._scrollPosition; i < this.getListEnumSize() && this._listIndex < this._maxListIndex; i++) {
-            var entryClip = this.getClipByIndex(this._listIndex);
-            var entryItem = this.getListEnumEntry(i);
 
+        // Locals for the hot loop -- AVM1 method dispatch is expensive, so
+        // pulling these out of per-iteration getter/wrapper calls is a real
+        // savings over 26 iterations.
+        var selEntry = this.selectedEntry;
+        var enumeration = this.listEnumeration;
+        var enumSize = enumeration.size();
+        var clipPool = this._entryClipManager;
+        var maxIdx = this._maxListIndex;
+        var layoutVer = this._layoutVersion;
+
+        // Display the selected list portion of the list. Skip setEntry on
+        // clips where (a) the bound entry hasn't changed, (b) the entry isn't
+        // marked render-dirty by the data setter, and (c) its selection state
+        // is unchanged. setEntry is the bulk of UpdateList's cost; on
+        // equip/drop only 1-2 entries change so 24+ clips skip the heavy
+        // re-render.
+        for (var i = this._scrollPosition; i < enumSize && this._listIndex < maxIdx; i++) {
+            var entryClip = clipPool.getClip(this._listIndex);
+            var entryItem = enumeration.at(i);
+            var isSelected = (entryItem == selEntry);
+
+            // Compare by reference, not by itemIndex. itemIndex is just the
+            // entry's position in _entryList -- after a drop, remaining entries
+            // shift down and their itemIndex values move with them, so an old
+            // itemIndex can collide with a *different* entry's new itemIndex
+            // (false-positive skip). Object identity is stable.
+            var sameEntry = (entryClip._entry == entryItem);
+            var canSkip = sameEntry
+                          && entryItem.skyui_renderDirty != true
+                          && entryClip._wasSelected == isSelected
+                          && entryClip._layoutVersion == layoutVer;
+
+            // itemIndex is updated unconditionally: a drop shifts every
+            // remaining entry's itemIndex (idxReset rebases to 0..N-1) even
+            // when the clip stays bound to the same entry, so mouse hit-test
+            // and selection-restore (both consume clip.itemIndex) must see
+            // the current value.
             entryClip.itemIndex = entryItem.itemIndex;
-            entryItem.clipIndex = this._listIndex;
-            
-            entryClip.setEntry(entryItem, this.listState);
 
+            if (!canSkip) {
+                entryClip._entry = entryItem;
+                entryClip.setEntry(entryItem, this.listState);
+                entryClip._wasSelected = isSelected;
+                entryClip._layoutVersion = layoutVer;
+                skyui.components.list.ScrollingList.__rf_render++;
+            } else {
+                skyui.components.list.ScrollingList.__rf_skip++;
+            }
+
+            entryItem.clipIndex = this._listIndex;
             entryClip._x = xStart;
             entryClip._y = yStart + h;
             entryClip._visible = true;
@@ -235,11 +342,20 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
 
             ++this._listIndex;
         }
-        
-        // Clear clipIndex for everything after the selected list portion
-        for (var i = this._scrollPosition + this._listIndex; i < this.getListEnumSize(); i++)
-            this.getListEnumEntry(i).clipIndex = undefined;
-            
+
+        // Hide clips that were visible last call but aren't this call. Replaces
+        // the per-frame universal reset that used to live in EntryClipManager
+        // -- it would also wipe clip.itemIndex on every UpdateList, defeating
+        // the skip check above. Leaving itemIndex intact on hidden clips is
+        // fine: if the same entry comes back to the same slot the skip check
+        // matches, otherwise it sees a different itemIndex and re-renders.
+        for (var k = this._listIndex; k < this._prevListIndex; k++) {
+            var trailClip = this._entryClipManager.getClip(k);
+            if (trailClip != undefined)
+                trailClip._visible = false;
+        }
+        this._prevListIndex = this._listIndex;
+
         // Select entry under the cursor for mouse-driven navigation
         if (this.isMouseDrivenNav) {
             for (var j = 0; j < this._listIndex; j++) {
@@ -260,6 +376,14 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             this.ensurePager();
             this._pager.update(this.pageCount, this.currentPage);
         }
+
+        // Snapshot the state we just rendered against; next call's self-skip
+        // compares against these.
+        this._lastUpdateEnumVersion = enumVer;
+        this._lastUpdateScrollPos = this._scrollPosition;
+        this._lastUpdateSelIdx = this._selectedIndex;
+        this._lastUpdateLayoutVer = this._layoutVersion;
+        this._lastUpdateToken = this._updateToken;
     }
 
     // @override BasicList
@@ -269,42 +393,176 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
             this._bRequestInvalidate = true;
             return;
         }
-        
-        for (var i = 0; i < this._entryList.length; i++) {
-            this._entryList[i].itemIndex = i;
-            this._entryList[i].clipIndex = undefined;
-        }
-            
-        for (var i = 0; i < this._dataProcessors.length; i++)
-            this._dataProcessors[i].processList(this);
-        
-        this.listEnumeration.invalidate();
 
-        if (this._selectedIndex >= this.listEnumeration.size())
-            this._selectedIndex = this.listEnumeration.size() - 1;
-            
-        if (this.listEnumeration.lookupEnumIndex(this._selectedIndex) == null)
-            this._selectedIndex = -1;
-        
-        this.calculateMaxScrollPosition();		
-        
-        this.bDisableAnim = true;
-        this.UpdateList();
-        
-        // Restore selection
-        if (this._curClipIndex != undefined && this._curClipIndex != -1 && this._listIndex > 0) {
-            if (this._curClipIndex >= this._listIndex)
-                this._curClipIndex = this._listIndex - 1;
-            
-            var entryClip = this.getClipByIndex(this._curClipIndex);
-            this.doSetSelectedIndex(entryClip.itemIndex, skyui.components.list.BasicList.SELECT_MOUSE);
+        // Run processors first. They walk _entryList by loop position and
+        // check their own dirty flags -- none of them read itemIndex -- so
+        // it's safe to defer idxReset until after we know whether the array
+        // actually changed.
+        var procs = this._dataProcessors;
+        var procLen = procs.length;
+        for (var p = 0; p < procLen; p++)
+            procs[p].processList(this);
+
+        var list = this._entryList;
+        var entryCount = list.length;
+
+        // Decide whether the game may have shuffled entry positions. Two
+        // signals -- either one means itemIndex on existing entries can be
+        // stale and must be re-anchored:
+        //   1. A processor published a non-empty dirty-entries list
+        //      (ItemcardDataExtender clears skyui_itemDataProcessed on every
+        //      entry the game touched).
+        //   2. _entryList.length changed (add/remove).
+        // When both are quiet the array is byte-identical to last call;
+        // skipping the 775-entry scan saves ~half the steady-state cost.
+        var dirty = this.skyui_dirtyEntries;
+        var hasDirty = (dirty != undefined && dirty.length > 0);
+        var lengthChanged = (entryCount != this._lastEntryCount);
+        this._lastEntryCount = entryCount;
+
+        if (hasDirty || lengthChanged) {
+            // Read-then-write: most entries' itemIndex already matches their
+            // position even when *some* entries moved. Skipping the write
+            // when unchanged still trims a few hundred setMember ops.
+            //
+            // Reverse iteration: AVM1 pre-decrement + compare-to-zero is one
+            // op cheaper than the forward i++ + bounds-compare per iter.
+            // idxReset is order-agnostic (each iter only writes the entry's
+            // own itemIndex), so the reverse is safe.
+            for (var i = entryCount; --i >= 0; ) {
+                var ent = list[i];
+                if (ent.itemIndex != i)
+                    ent.itemIndex = i;
+            }
         }
-        
-        this.bDisableAnim = false;
-        
+
+        // Cache the enumeration reference -- it's hit four times below.
+        var enumeration = this.listEnumeration;
+
+        // Signal data dirtiness to the enumeration when we know entries
+        // changed. invalidate() itself short-circuits if nothing's actually
+        // dirty, so calling it unconditionally is safe and cheap.
+        if (hasDirty && enumeration.markDataDirty != undefined)
+            enumeration.markDataDirty();
+
+        // applyFilters returns true/false (or undefined for enumerations that
+        // don't implement the skip protocol -- BasicEnumeration). Skipping
+        // downstream work is only safe when the enumeration explicitly told
+        // us the filtered output is unchanged; otherwise (undefined) we run
+        // everything as before.
+        var applied = enumeration.invalidate();
+
+        if (applied != false) {
+            // Enum (filter+sort) output changed -- bump token so UpdateList's
+            // fast path knows to re-render.
+            this._updateToken++;
+
+            var enumSize = enumeration.size();
+            if (this._selectedIndex >= enumSize)
+                this._selectedIndex = enumSize - 1;
+
+            if (enumeration.lookupEnumIndex(this._selectedIndex) == null)
+                this._selectedIndex = -1;
+
+            this.calculateMaxScrollPosition();
+
+            this.bDisableAnim = true;
+            this.UpdateList();
+
+            // Restore selection
+            if (this._curClipIndex != undefined && this._curClipIndex != -1 && this._listIndex > 0) {
+                if (this._curClipIndex >= this._listIndex)
+                    this._curClipIndex = this._listIndex - 1;
+
+                var entryClip = this.getClipByIndex(this._curClipIndex);
+                this.doSetSelectedIndex(entryClip.itemIndex, skyui.components.list.BasicList.SELECT_MOUSE);
+            }
+
+            this.bDisableAnim = false;
+        }
+
+        // === RF BENCH (temporary) ===
+        if (!skyui.components.list.ScrollingList.__rf_benched && this._entryList.length > 400) {
+            skyui.components.list.ScrollingList.__rf_benched = true;
+            this.__rf_benchmark();
+        }
+        // === END RF BENCH ===
+
         if (this.onInvalidate)
             this.onInvalidate();
     }
+
+    // === RF BENCH (temporary) ===
+    // getTimer() resolution here is ~15.6ms. Amortizing over reps reveals true
+    // sub-ms costs. Fires once on the first warm InvalidateData of a large
+    // list (>400 entries -- skip the small category-list InvalidateData calls).
+    private static var __rf_benched: Boolean = false;
+    public static var __rf_skip: Number = 0;
+    public static var __rf_render: Number = 0;
+
+    private function __rf_benchmark()
+    {
+        if (_global.skse == undefined)
+            return;
+
+        // 1000 reps so each component's total cost crosses several getTimer
+        // ticks (~15.6ms each on Windows). At 100 reps everything was right
+        // on the tick boundary, so numbers flickered between 0 and 16ms.
+        var reps = 1000;
+        var b;
+        var i;
+        var t;
+        var n = this._entryList.length;
+
+        // Body of idxReset -- mirror prod: cache list+length, read-then-write,
+        // reverse iteration. Steady state: skips the setMember when an
+        // entry's itemIndex already matches its position.
+        var elist = this._entryList;
+        var elen = elist.length;
+        t = getTimer();
+        for (b = 0; b < reps; b++)
+            for (i = elen; --i >= 0; ) {
+                var ent = elist[i];
+                if (ent.itemIndex != i)
+                    ent.itemIndex = i;
+            }
+        skse.Log("[RF bench] n=" + n + " idxReset x" + reps + " = " + (getTimer() - t) + "ms");
+
+        t = getTimer();
+        for (b = 0; b < reps; b++)
+            for (i = 0; i < this._dataProcessors.length; i++)
+                this._dataProcessors[i].processList(this);
+        skse.Log("[RF bench] n=" + n + " processors x" + reps + " = " + (getTimer() - t) + "ms");
+
+        var p;
+        for (p = 0; p < this._dataProcessors.length; p++) {
+            t = getTimer();
+            for (b = 0; b < reps; b++)
+                this._dataProcessors[p].processList(this);
+            skse.Log("[RF bench]   processor[" + p + "] x" + reps + " = " + (getTimer() - t) + "ms");
+        }
+
+        t = getTimer();
+        for (b = 0; b < reps; b++)
+            this.listEnumeration.invalidate();
+        skse.Log("[RF bench] n=" + n + " invalidate x" + reps + " = " + (getTimer() - t) + "ms");
+
+        skyui.components.list.ScrollingList.__rf_skip = 0;
+        skyui.components.list.ScrollingList.__rf_render = 0;
+        t = getTimer();
+        for (b = 0; b < reps; b++)
+            this.UpdateList();
+        skse.Log("[RF bench] n=" + n + " UpdateList x" + reps + " = " + (getTimer() - t) + "ms skip=" + skyui.components.list.ScrollingList.__rf_skip + " render=" + skyui.components.list.ScrollingList.__rf_render);
+
+        // Full InvalidateData ×100. The skip-when-nothing-changed path inside
+        // InvalidateData should make 99 of 100 calls cheap (only the first
+        // does work; subsequent see no dirty entries + filters clean).
+        t = getTimer();
+        for (b = 0; b < reps; b++)
+            this.InvalidateData();
+        skse.Log("[RF bench] n=" + n + " InvalidateData x" + reps + " = " + (getTimer() - t) + "ms");
+    }
+    // === END RF BENCH ===
 
     public function moveSelectionUp(a_bScrollPage: Boolean)
     {
@@ -545,14 +803,15 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
         
         if (this.disableSelection || a_newIndex == this._selectedIndex)
             return;
-            
+
         // Selection is not contained in current entry enumeration, ignore
         if (a_newIndex != -1 && this.getListEnumIndex(a_newIndex) == undefined)
             return;
-            
+
         var oldEntry = this.selectedEntry;
-        
+
         this._selectedIndex = a_newIndex;
+        this._updateToken++;
 
         // Old entry was mapped to a clip? Then clear with setEntry now that selectedIndex has been updated
         if (oldEntry.clipIndex != undefined) {
@@ -618,6 +877,7 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     private function updateScrollPosition(a_position: Number)
     {
         this._scrollPosition = a_position;
+        this._updateToken++;
         this.UpdateList();
     }
 

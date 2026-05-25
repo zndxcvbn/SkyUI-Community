@@ -18,6 +18,13 @@ class skyui.components.list.ColumnLayoutData
     public var entryValue: String;
     public var textFormat: TextFormat;
 
+    // Precomputed in ListLayout.updateLayout from entryValue / stageName. Saves
+    // doing the string ops (charAt / slice / compare) for every column on
+    // every setEntry call, which adds up over 26 visible rows.
+    public var useReference: Boolean = false;
+    public var referenceAttr: String;
+    public var isFirstTextColumn: Boolean = false;
+
     public var colorAttribute: String; // support for dynamic entry coloring that overrides static textFormat
 
     // Label ---------------------------------
@@ -43,5 +50,8 @@ class skyui.components.list.ColumnLayoutData
         this.textFormat = this.labelTextFormat = null;
         this.labelArrowDown = false;
         this.sorted = false;
+        this.useReference = false;
+        this.referenceAttr = null;
+        this.isFirstTextColumn = false;
     }
 }

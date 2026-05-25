@@ -39,16 +39,25 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
         this.updateSelectionAnimation(isSelected, a_state.list);
         
         var curLayoutUpdateCount = layout.layoutUpdateCount;
-        
+
         // Has the view update sequence number changed? Then Update the columns positions etc.
         if (this._layoutUpdateCount != curLayoutUpdateCount) {
             this._layoutUpdateCount = curLayoutUpdateCount;
-            
+
             this.setEntryLayout(a_entryObject, a_state);
             this.setSpecificEntryLayout(a_entryObject, a_state);
         }
+
+        // Entry-dependent state (e.g. status icons) must refresh on every
+        // setEntry, not just on layout change -- the bound entry can change
+        // (scroll, rebind) without the layout count moving. Subclasses
+        // override updateSpecificEntryState to do the per-entry work that
+        // used to live (incorrectly) inside the layout-gated branch above.
+        this.updateSpecificEntryState(a_entryObject, a_state);
         
-        // Format the actual entry contents. Do this with every upate.
+        // Format the actual entry contents. Do this with every update.
+        // Per-column string ops (charAt/slice/stageName compare) are now
+        // precomputed on columnLayoutData -- see ListLayout.updateLayout.
         for (var i = 0; i < layout.columnCount; i++) {
             var columnLayoutData: ColumnLayoutData = layout.columnLayoutData[i];
             var e = this.getColumnField(columnLayoutData.stageName);
@@ -56,21 +65,21 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
             // Substitute @variables by entryObject properties
             var entryValue: String = columnLayoutData.entryValue;
             if (entryValue != undefined) {
-                if (entryValue.charAt(0) == "@") {
-                    var subVal = a_entryObject[entryValue.slice(1)] != undefined
-                        ? a_entryObject[entryValue.slice(1)]
+                if (columnLayoutData.useReference) {
+                    var subVal = a_entryObject[columnLayoutData.referenceAttr] != undefined
+                        ? a_entryObject[columnLayoutData.referenceAttr]
                         : "-";
-                    if (columnLayoutData.stageName == "textField1")
+                    if (columnLayoutData.isFirstTextColumn)
                         subVal = this.__rf_cleanDisplayText(subVal);
-                    e.SetText(subVal);					
+                    e.SetText(subVal);
                 } else {
-                    if (columnLayoutData.stageName == "textField1")
+                    if (columnLayoutData.isFirstTextColumn)
                         entryValue = this.__rf_cleanDisplayText(entryValue);
                     e.SetText(entryValue);
                 }
             }
-            
-            // Process based on column type 
+
+            // Process based on column type
             switch (columnLayoutData.type) {
                 case skyui.components.list.ListLayout.COL_TYPE_EQUIP_ICON :
                     this.formatEquipIcon(e, a_entryObject, a_state);
@@ -88,7 +97,7 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
                 default :
                     this.formatText(e, a_entryObject, a_state);
             }
-            
+
             // Process color overrides after regular formatting
             if (columnLayoutData.colorAttribute != undefined) {
                 var color = a_entryObject[columnLayoutData.colorAttribute];
@@ -96,6 +105,11 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
                     e.textColor = color;
             }
         }
+
+        // We just rendered this entry. Clear the dirty flag so the next
+        // UpdateList can skip a redundant setEntry on this clip if nothing
+        // changed -- see ScrollingList display loop for the skip path.
+        a_entryObject.skyui_renderDirty = false;
     }
 
     public function updateSelectionAnimation(isSelected: Boolean, a_list: ScrollingList)
@@ -154,6 +168,12 @@ class skyui.components.list.TabularListEntry extends skyui.components.list.Basic
     // Do any clip-specific tasks when the view was changed for this entry.
     // @abstract
     public function setSpecificEntryLayout(a_entryObject: Object, a_state: ListState) {}
+
+    // Refresh entry-dependent state (status icons etc.) on every setEntry.
+    // Called even when the layout count hasn't moved -- this is what handles
+    // entry rebinds during scroll, equipped/read state changes, etc.
+    // @abstract
+    public function updateSpecificEntryState(a_entryObject: Object, a_state: ListState) {}
 
     // @abstract
     public function formatName(a_entryField: Object, a_entryObject: Object, a_state: ListState) {}

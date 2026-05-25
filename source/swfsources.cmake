@@ -243,7 +243,10 @@ Add_SWF(craftingmenu
         PropertyLookup.as
     }
     Common/skyui/components/list {
+        BasicEnumeration.as
         BasicListEntry.as
+        EntryClipManager.as
+        FilteredEnumeration.as
         TabularList.as
         TabularListEntry.as
         ListLayout.as
@@ -754,8 +757,11 @@ Add_SWF(skyui_inventorylists
         ColumnSelectDialog.as
     }
     Common/skyui/components/list {
+        BasicEnumeration.as
         BasicListEntry.as
         ColumnLayoutData.as
+        EntryClipManager.as
+        FilteredEnumeration.as
         TabularList.as
         TabularListEntry.as
         ListLayout.as
