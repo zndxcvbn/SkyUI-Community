@@ -1,4 +1,8 @@
-class MagicIconSetter implements skyui.components.list.IListProcessor
+// Not an IListProcessor: dispatching processList on this class is structurally
+// slow in this SWF (pre-built bytecode appears to hook the "processList"
+// method name). MagicDataSetter calls applyToEntry directly per dirty entry,
+// bypassing that hook entirely.
+class MagicIconSetter
 {
   /* PRIVATE VARIABLES */
 
@@ -14,19 +18,7 @@ class MagicIconSetter implements skyui.components.list.IListProcessor
 
   /* PUBLIC FUNCTIONS */
 
-    // @override IListProcessor
-    public function processList(a_list: BasicList)
-    {
-        var entryList: Array = a_list.entryList;
-        
-        for (var i: Number = 0; i < entryList.length; i++)
-            this.processEntry(entryList[i]);
-    }
-
-
-  /* PRIVATE FUNCTIONS */
-
-    private function processEntry(a_entryObject: Object)
+    public function applyToEntry(a_entryObject: Object)
     {
         switch (a_entryObject.type) {
             case skyui.defines.Inventory.ICT_SPELL:
@@ -44,7 +36,7 @@ class MagicIconSetter implements skyui.components.list.IListProcessor
             case skyui.defines.Inventory.ICT_SPELL_DEFAULT:
                 a_entryObject.iconLabel = "default_power";
                 break;
-                
+
             default:
                 break;
         }
@@ -53,6 +45,9 @@ class MagicIconSetter implements skyui.components.list.IListProcessor
         if (this._noIconColors && a_entryObject.iconColor != undefined)
             delete(a_entryObject.iconColor);
     }
+
+
+  /* PRIVATE FUNCTIONS */
 
     private function processSpellIcon(a_entryObject: Object)
     {

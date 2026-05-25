@@ -50,8 +50,9 @@ class MagicMenu extends ItemMenu
         super.setConfig(a_config);
         
         var itemList: TabularList = this.inventoryLists.itemList;
-        itemList.addDataProcessor(new MagicDataSetter(a_config["Appearance"]));
-        itemList.addDataProcessor(new MagicIconSetter(a_config["Appearance"]));
+        var dataSetter = new MagicDataSetter(a_config["Appearance"]);
+        dataSetter.setIconSetter(new MagicIconSetter(a_config["Appearance"]));
+        itemList.addDataProcessor(dataSetter);
         itemList.addDataProcessor(new skyui.props.PropertyDataExtender(a_config["Appearance"], a_config["Properties"], "magicProperties", "magicIcons", "magicCompoundProperties"));
         
         var layout: ListLayout = skyui.components.list.ListLayoutManager.createLayout(a_config["ListLayout"], "MagicListLayout");
