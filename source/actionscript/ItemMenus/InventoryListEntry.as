@@ -10,6 +10,11 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     private var _iconLabel: String;
     private var _iconColor: Number;
 
+    // Cached state-icon size. Depends only on layout (entryHeight), so
+    // setSpecificEntryLayout (which runs on layout change) computes it once;
+    // updateSpecificEntryState reuses it on every per-entry refresh.
+    private var _stateIconSize: Number;
+
 
   /* STAGE ELEMENTS */
 
@@ -52,11 +57,20 @@ class InventoryListEntry extends skyui.components.list.TabularListEntry
     public function setSpecificEntryLayout(a_entryObject: Object, a_state: ListState)
     {
         var entryH = skyui.components.list.TabularList(a_state.list).layout.entryHeight;
-        var iconSize = entryH * 0.5;
+        this._stateIconSize = entryH * 0.5;
 
-        skyui.components.list.StateIcons.updateStatuses(this.stateIcons, a_entryObject, a_state.showStolenIcon, iconSize);
         this.stateIcons.background._height = entryH;
-        this.stateIcons._y = (entryH - iconSize) / 2;
+        this.stateIcons._y = (entryH - this._stateIconSize) / 2;
+    }
+
+    // @override TabularListEntry
+    // Status icons (equipped, stolen, read, etc.) depend on the bound entry,
+    // not on layout. Refresh them on every setEntry so scroll/rebind picks
+    // up the new entry's state instead of leaving the previous entry's icons
+    // stuck on the clip.
+    public function updateSpecificEntryState(a_entryObject: Object, a_state: ListState)
+    {
+        skyui.components.list.StateIcons.updateStatuses(this.stateIcons, a_entryObject, a_state.showStolenIcon, this._stateIconSize);
     }
 
     // @override TabularListEntry
