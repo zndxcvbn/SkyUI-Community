@@ -69,31 +69,36 @@ class skyui.filter.NameFilter implements skyui.filter.IFilter
 
         var nf: String = this._normalizedFilter;
         var fl: Number = this._filterLength;
-        
+
         var attr: String = this.nameAttribute;
         if (attr == undefined) attr = "text";
 
         var writeIndex: Number = 0;
         var len: Number = a_filteredList.length;
 
+        // Single-branch loop: matched entries go to writeIndex, excluded ones
+        // get filteredIndex cleared inline. Clear ownership moved here from
+        // FilteredEnumeration's copy loop.
         for (var i: Number = 0; i < len; i++) {
             var e: Object = a_filteredList[i];
             var raw: String = e[attr];
+            var matches: Boolean = false;
 
-            if (raw == undefined) continue;
+            if (raw != undefined) {
+                if (e._normalizedSource !== raw) {
+                    e._normalizedSource = raw;
+                    e._normalizedName = skyui.filter.NameFilter.normalizeString(raw);
+                }
 
-            if (e._normalizedSource !== raw) {
-                e._normalizedSource = raw;
-                e._normalizedName = skyui.filter.NameFilter.normalizeString(raw);
+                var name: String = e._normalizedName;
+                if (name != undefined && name.length >= fl && name.indexOf(nf) != -1)
+                    matches = true;
             }
 
-            var name: String = e._normalizedName;
-
-            if (name == undefined) continue;
-            if (name.length < fl) continue;
-            if (name.indexOf(nf) == -1) continue;
-
-            a_filteredList[writeIndex++] = e;
+            if (matches)
+                a_filteredList[writeIndex++] = e;
+            else
+                e.filteredIndex = undefined;
         }
 
         a_filteredList.length = writeIndex;

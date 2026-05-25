@@ -94,14 +94,25 @@ class skyui.filter.ColumnValueFilter implements skyui.filter.IFilter
         if (this._hiddenCount == 0 || this._attribute == undefined)
             return;
 
-        for (var i = 0; i < a_filteredList.length; i++) {
-            var value = a_filteredList[i][this._attribute];
+        // Write-index pattern instead of splice -- O(N) instead of O(N^2)
+        // when many values are hidden. Clears filteredIndex on excluded
+        // entries; ownership moved here from FilteredEnumeration's copy loop.
+        var attr = this._attribute;
+        var hidden = this._hidden;
+        var writeIndex = 0;
+        var len = a_filteredList.length;
+
+        for (var i = 0; i < len; i++) {
+            var e = a_filteredList[i];
+            var value = e[attr];
             var key: String = (value == undefined) ? "" : String(value);
 
-            if (this._hidden[key] == true) {
-                a_filteredList.splice(i, 1);
-                i--;
-            }
+            if (hidden[key] != true)
+                a_filteredList[writeIndex++] = e;
+            else
+                e.filteredIndex = undefined;
         }
+
+        a_filteredList.length = writeIndex;
     }
 }
