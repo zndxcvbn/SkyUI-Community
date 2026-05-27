@@ -1,4 +1,6 @@
-# SkyUI SE Community Update (6.0+)
+# SkyUI SE Lab (6.0+)
+
+A fork with various experimental features and improvements. Open for ideas for the main [SkyUI-Community](https://github.com/doodlum/SkyUI-Community) project.
 
 ## Building
 
