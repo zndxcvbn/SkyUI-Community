@@ -5,6 +5,8 @@ class skyui.components.list.ListLayout
 {
   /* CONSTANTS */
 
+    private static var MAX_TEXTFIELD_INDEX = 10;
+
     private static var LEFT = 0;
     private static var RIGHT = 1;
     private static var TOP = 2;
@@ -635,6 +637,8 @@ class skyui.components.list.ListLayout
         var sortByIndex = {};
         for (var s = 0; s < this._sortChain.length; s++)
             sortByIndex[this._sortChain[s].columnIndex] = this._sortChain[s];
+            
+        this._columnLayoutData.splice(0);
 
         // FIRST PASS: Collecting basic data
         for (var i = 0; i < colCount; i++) {
@@ -764,6 +768,8 @@ class skyui.components.list.ListLayout
         // CALCULATION OF X POSITIONS
         var xPos = 0;
         var visibleColumnCount = colCount;
+        var colMargin = (this.columnMargin != undefined && !isNaN(this.columnMargin)) ? this.columnMargin : 0; // БЕЗОПАСНАЯ ИНИЦИАЛИЗАЦИЯ
+
         for (var i = 0; i < colCount; i++) {
             var col = this._columnList[i];
             var cData = this._columnLayoutData[i];
@@ -774,7 +780,7 @@ class skyui.components.list.ListLayout
             var offset = 0;
             if (cData.type == skyui.components.list.ListLayout.COL_TYPE_TEXT) {
                 var multiplier = (visibleColumnCount - 1) - i;
-                offset = this.columnMargin * multiplier;
+                offset = colMargin * multiplier;
             }
 
             cData.labelX = xPos - offset;
