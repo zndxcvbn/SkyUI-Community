@@ -50,20 +50,31 @@ class skyui.components.list.ButtonListEntry extends skyui.components.list.BasicL
         if (this.textField != undefined) {
             this.textField.autoSize = a_entryObject.align ? a_entryObject.align : "left";
             
-            if (!a_entryObject.enabled)
+            if (a_entryObject.textColor != undefined) {
+                this.textField.textColor = a_entryObject.textColor;
+            } else if (!a_entryObject.enabled) {
                 this.textField.textColor = skyui.components.list.ButtonListEntry.disabledTextColor;
-            else if (isActive)
+            } else if (isActive) {
                 this.textField.textColor = skyui.components.list.ButtonListEntry.activeTextColor;
-            else if (isSelected)
+            } else if (isSelected) {
                 this.textField.textColor = skyui.components.list.ButtonListEntry.selectedTextColor;
-            else
+            } else {
                 this.textField.textColor = skyui.components.list.ButtonListEntry.defaultTextColor;
+            }
                 
             this.textField.SetText(a_entryObject.text ? a_entryObject.text : " ");
         }
         
-        if (this.selectIndicator != undefined)
+        if (this.selectIndicator != undefined) {
             this.selectIndicator._visible = isSelected;
+            
+            var indicatorColorObj = new Color(this.selectIndicator);
+            if (a_entryObject.indicatorColor != undefined) {
+                indicatorColorObj.setRGB(a_entryObject.indicatorColor);
+            } else {
+                indicatorColorObj.setTransform({ra: 100, ga: 100, ba: 100, aa: 100, rb: 0, gb: 0, bb: 0, ab: 0});
+            }
+        }
             
         if (this.activeIndicator != undefined) {
             this.activeIndicator._visible = isActive;
