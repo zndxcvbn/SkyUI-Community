@@ -88,6 +88,44 @@ class skyui.components.list.SortedListHeader extends MovieClip
 
   /* PRIVATE FUNCTIONS */
 
+    private function getValueFilter()
+    {
+        var list = this._parent;
+        if (list == undefined) return undefined;
+
+        var enumeration = list.listEnumeration;
+        if (enumeration == undefined) return undefined;
+
+        var chain = enumeration._filterChain;
+        if (chain == undefined) return undefined;
+
+        for (var i = 0; i < chain.length; i++) {
+            if (chain[i] instanceof skyui.filter.ColumnValueFilter) {
+                return chain[i];
+            }
+        }
+        return undefined;
+    }
+
+    private function drawFilterIndicator(mc: MovieClip, r: Number, color: Number)
+    {
+        mc.clear();
+        mc.beginFill(color, 100);
+        
+        var a = r * 0.414213562;
+        var b = r * 0.707106781;
+        mc.moveTo(r, 0);
+        mc.curveTo(r, -a, b, -b);
+        mc.curveTo(a, -r, 0, -r);
+        mc.curveTo(-a, -r, -b, -b);
+        mc.curveTo(-r, -a, -r, 0);
+        mc.curveTo(-r, a, -b, b);
+        mc.curveTo(-a, r, 0, r);
+        mc.curveTo(a, r, b, b);
+        mc.curveTo(r, a, r, 0);
+        mc.endFill();
+    }
+
     // Hides all columns (but doesn't delete them since they can be re-used later).
     private function clearColumns()
     {
@@ -111,13 +149,11 @@ class skyui.components.list.SortedListHeader extends MovieClip
         // Create on-demand
         columnButton = this.attachMovie("HeaderColumn", "Column" + a_index, this.getNextHighestDepth());
 
-
-
         columnButton.columnIndex = a_index;
 
         columnButton.onPress = function(a_mouseIndex, a_keyboardOrMouse, a_buttonIndex)
         {
-            if (!this.columnIndex != undefined) {
+            if (this.columnIndex != undefined) {
                 if (Key.isDown(Key.CONTROL))
                     this._parent.columnCtrlPress(this.columnIndex);
                 else
@@ -180,6 +216,7 @@ class skyui.components.list.SortedListHeader extends MovieClip
     private function positionButtons()
     {
         var sortIconIndex = 0;
+        var valueFilter = this.getValueFilter();
 
         for (var i = 0; i < this._columns.length; i++) {
             var e = this._columns[i];
@@ -210,6 +247,30 @@ class skyui.components.list.SortedListHeader extends MovieClip
                 icon._y = -e._height + ((e._height - icon._height) / 2) - 1;
             }
 
+            // --- Filter Indicator ---
+            var attr = this._layout.getColumnAttribute(i);
+            var isFiltered = (valueFilter != undefined && attr != null && valueFilter.isColumnFiltered(attr));
+
+            var indicator = e.filterIndicator;
+            if (isFiltered) {
+                if (indicator == undefined) {
+                    indicator = e.createEmptyMovieClip("filterIndicator", e.getNextHighestDepth());
+                    this.drawFilterIndicator(indicator, 2, 0xFF9900);
+                }
+                indicator._visible = true;
+                
+                var indicatorX = e.buttonArea._x + e.buttonArea._width + 4;
+                if (cData.sorted) {
+                    indicatorX += 10;
+                }
+                indicator._x = indicatorX;
+                indicator._y = e.label._y + (e.label._height / 2) - 1;
+            } else {
+                if (indicator != undefined) {
+                    indicator._visible = false;
+                }
+            }
+
             if (cData.type == skyui.components.list.ListLayout.COL_TYPE_NAME && this._itemCount >= 0) {
 
                 if (this._countColumn == undefined) {
@@ -222,10 +283,15 @@ class skyui.components.list.SortedListHeader extends MovieClip
                 this._countColumn.label.setTextFormat(fmt);
                 this._countColumn.label.SetText("(" + this._itemCount + ")");
 
+                var countAnchorX = iconAnchorX;
+                if (isFiltered) {
+                    countAnchorX += 12;
+                }
+
                 if (icon != null)
                     this._countColumn._x = icon._x + icon._width + 4;
                 else
-                    this._countColumn._x = iconAnchorX + 4;
+                    this._countColumn._x = countAnchorX + 4;
 
                 this._countColumn._y = e._y;
                 this._countColumn.label._y = e.label._y;
