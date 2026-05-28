@@ -16,10 +16,7 @@ class skyui.components.list.BasicList extends skyui.components.list.BSList
 	
   /* PRIVATE VARIABLES */
 
-  	private var _bRequestInvalidate: Boolean = false;
-  	private var _bRequestUpdate: Boolean = false;
-	private var _invalidateRequestID: Number;
-	private var _updateRequestID: Number;
+	private var _suspendManager: skyui.util.SuspendManager;
 	
 	private var _entryClipManager: EntryClipManager;
 	
@@ -60,26 +57,12 @@ class skyui.components.list.BasicList extends skyui.components.list.BSList
 		return this._platform;
 	}
 	
-	/*
-	// Removed 2012/12/18, use setPlatform()
-	public function set platform(a_platform: Number)
-	{
-		this._platform = a_platform;
-		this.isMouseDrivenNav = this._platform == skyui.components.list.BasicList.PLATFORM_PC;
-	}
-	*/
-	
-	public var isMouseDrivenNav: Boolean = false;
-	
-	public var isListAnimating: Boolean = false;
-	
-	public var disableInput: Boolean = false;
-	
-	public var disableSelection: Boolean = false;
-	
-	public var isAutoUnselect: Boolean = false;
-	
 	public var canSelectDisabled: Boolean = false;
+	public var disableInput: Boolean = false;
+	public var disableSelection: Boolean = false;
+	public var isAutoUnselect: Boolean = false;
+	public var isListAnimating: Boolean = false;
+	public var isMouseDrivenNav: Boolean = false;
 
 	// @override BSList
 	public function get selectedIndex()
@@ -110,37 +93,18 @@ class skyui.components.list.BasicList extends skyui.components.list.BSList
 		return this._entryClipManager.getClip(this.selectedEntry.clipIndex);
 	}
 	
-	
-	private var _bSuspended: Boolean = false;
-	
 	public function get suspended()
 	{
-		return this._bSuspended;
+		return this._suspendManager.suspended;
 	}
 	
 	public function set suspended(a_flag: Boolean)
 	{
-		if (this._bSuspended == a_flag)
-			return;
+		this._suspendManager.suspended = a_flag;
 		
-		// Lock
-		if (a_flag) {
-			this._bSuspended = true;
-		} else {
-			this._bSuspended = false;
-			
-			if (this._bRequestInvalidate)
-				this.InvalidateData();
-			else if(this._bRequestUpdate)
-				this.UpdateList();
-
-			this._bRequestInvalidate = false;
-			this._bRequestUpdate = false;
-			
-			// Allow custom handlers
-			if (this.onUnsuspend != undefined)
-				this.onUnsuspend();
-		}
+		// Allow custom handlers
+		if (!a_flag && this.onUnsuspend != undefined)
+			this.onUnsuspend();
 	}
 	
 	
@@ -153,6 +117,11 @@ class skyui.components.list.BasicList extends skyui.components.list.BSList
 		this._entryClipManager = new skyui.components.list.EntryClipManager(this);
 		this._dataProcessors = [];
 		this.listState = new skyui.components.list.ListState(this);
+
+		this._suspendManager = new skyui.util.SuspendManager(this);
+		
+		this._suspendManager.registerAction("invalidate", "InvalidateData", 2, ["update"], true);
+		this._suspendManager.registerAction("update", "UpdateList", 1, [], true);
 
 		gfx.events.EventDispatcher.initialize(this);
 		Mouse.addListener(this);
@@ -192,63 +161,19 @@ class skyui.components.list.BasicList extends skyui.components.list.BSList
 	
 	public function requestInvalidate()
 	{
-		this._bRequestInvalidate = true;
-		
-		// Invalidate request replaces update request
-		if (this._updateRequestID) {
-			this._bRequestUpdate = false;
-			clearInterval(this._updateRequestID);
-			delete this._updateRequestID;
-		}
-		
-		// If suspsend, the unsuspend will trigger the requested invaliate.
-		if (!this._bSuspended && !this._invalidateRequestID)
-			this._invalidateRequestID = setInterval(this, "commitInvalidate", 1);
+		this._suspendManager.request("invalidate");
 	}
 	
 	public function requestUpdate()
 	{
-		this._bRequestUpdate = true;
-		
-		// Invalidate already requested? Includes update
-		if (this._invalidateRequestID)
-			return;
-			
-		// If suspsend, the unsuspend will trigger the requested invaliate.
-		if (!this._bSuspended && !this._invalidateRequestID)
-			this._updateRequestID = setInterval(this, "commitUpdate", 1);
-	}
-	
-	public function commitInvalidate()
-	{
-		clearInterval(this._invalidateRequestID);
-		delete this._invalidateRequestID;
-		
-		// Invalidate request replaces update request
-		if (this._updateRequestID) {
-			this._bRequestUpdate = false;
-			clearInterval(this._updateRequestID);
-			delete this._updateRequestID;
-		}
-		
-		this._bRequestInvalidate = false;
-		this.InvalidateData();
-	}
-	
-	public function commitUpdate()
-	{
-		clearInterval(this._updateRequestID);
-		delete this._updateRequestID;
-		
-		this._bRequestUpdate = false;
-		this.UpdateList();
+		this._suspendManager.request("update");
 	}
 	
 	// @override BSList
 	public function InvalidateData()
 	{
-		if (this._bSuspended) {
-			this._bRequestInvalidate = true;
+		if (this._suspendManager.suspended) {
+			this._suspendManager.request("invalidate");
 			return;
 		}
 		
