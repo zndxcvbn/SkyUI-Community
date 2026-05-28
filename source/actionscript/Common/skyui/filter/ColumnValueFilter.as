@@ -1,18 +1,19 @@
 /*
  *  Hides item entries whose value for a single column attribute has been
  *  unchecked in the column-value dialog (opened with a middle click on a
- *  column header). Only one column is filtered at a time.
+ *  column header). Supports multi-column filtering simultaneously.
  */
 class skyui.filter.ColumnValueFilter implements skyui.filter.IFilter
 {
   /* PRIVATE VARIABLES */
 
-    // Item attribute currently being filtered (e.g. the column's @-property).
-    private var _attribute: String;
+    private var _activeAttribute: String;
 
-    // Set of value keys that are hidden: key -> true.
-    private var _hidden: Object;
-    private var _hiddenCount: Number;
+    // Map filter: attribute -> { isNumeric: Boolean, hidden: Object, count: Number, _cachedRanges: Array }
+    private var _filters: Object;
+
+    // Temporarily ignore a specific column's filter during manual filtering
+    private var _ignoreAttribute: String;
 
 
   /* INITIALIZATION */
@@ -21,8 +22,7 @@ class skyui.filter.ColumnValueFilter implements skyui.filter.IFilter
     {
         gfx.events.EventDispatcher.initialize(this);
 
-        this._hidden = {};
-        this._hiddenCount = 0;
+        this._filters = {};
     }
 
 
@@ -39,78 +39,178 @@ class skyui.filter.ColumnValueFilter implements skyui.filter.IFilter
 
     public function get attribute()
     {
-        return this._attribute;
+        return this._activeAttribute;
     }
 
-    // Switches the column being filtered. Changing the attribute drops the
-    // hidden set so values from the previous column stop filtering.
-    public function setColumn(a_attribute: String)
+    public function get ignoreAttribute()
     {
-        if (this._attribute == a_attribute)
-            return;
+        return this._ignoreAttribute;
+    }
 
-        this._attribute = a_attribute;
+    public function set ignoreAttribute(a_attr: String)
+    {
+        this._ignoreAttribute = a_attr;
+    }
+    
+    public function setColumn(a_attribute: String, a_isNumeric: Boolean)
+    {
+        this._activeAttribute = a_attribute;
 
-        var bHadHidden: Boolean = this._hiddenCount > 0;
+        if (this._filters[a_attribute] == undefined) {
+            this._filters[a_attribute] = {
+                isNumeric: (a_isNumeric == true),
+                hidden: {},
+                count: 0
+            };
+        } else {
+            this._filters[a_attribute].isNumeric = (a_isNumeric == true);
+        }
+    }
 
-        this._hidden = {};
-        this._hiddenCount = 0;
-
-        if (bHadHidden)
-            this.dispatchEvent({type: "filterChange"});
+    public function isColumnFiltered(a_attribute: String)
+    {
+        var filter = this._filters[a_attribute];
+        return filter != undefined && filter.count > 0;
     }
 
     public function isValueHidden(a_key: String)
     {
-        return this._hidden[a_key] == true;
+        var filter = this._filters[this._activeAttribute];
+        if (filter == undefined) return false;
+        return filter.hidden[a_key] == true;
     }
-
+    
     public function setValueHidden(a_key: String, a_bHidden: Boolean)
     {
-        if (a_bHidden == this.isValueHidden(a_key))
+        var attr = this._activeAttribute;
+        if (attr == undefined) return;
+
+        var filter = this._filters[attr];
+        if (filter == undefined) return;
+
+        var isCurrentlyHidden = (filter.hidden[a_key] == true);
+        if (a_bHidden == isCurrentlyHidden)
             return;
 
         if (a_bHidden) {
-            this._hidden[a_key] = true;
-            this._hiddenCount++;
+            filter.hidden[a_key] = true;
+            filter.count++;
         } else {
-            delete this._hidden[a_key];
-            this._hiddenCount--;
+            delete filter.hidden[a_key];
+            filter.count--;
         }
+        
+        delete filter._cachedRanges;
 
         this.dispatchEvent({type: "filterChange"});
     }
-
-    // Silent reset (no filterChange event); the caller must refresh the list.
+    
     public function reset()
     {
-        this._hidden = {};
-        this._hiddenCount = 0;
+        this._filters = {};
+        this._activeAttribute = undefined;
+    }
+    
+    public function resetActiveColumn()
+    {
+        var attr = this._activeAttribute;
+        if (attr == undefined) return;
+
+        var filter = this._filters[attr];
+        if (filter != undefined) {
+            filter.hidden = {};
+            filter.count = 0;
+            delete filter._cachedRanges;
+        }
     }
 
     // @override skyui.filter.IFilter
     public function applyFilter(a_filteredList: Array)
     {
-        if (this._hiddenCount == 0 || this._attribute == undefined)
+        var activeFilters = [];
+        for (var attr in this._filters) {
+            if (attr == this._ignoreAttribute) {
+                continue;
+            }
+
+            var filter = this._filters[attr];
+            if (filter != undefined && filter.count > 0) {
+                activeFilters.push({ attribute: attr, config: filter });
+            }
+        }
+
+        var activeFiltersLen = activeFilters.length;
+        if (activeFiltersLen == 0)
             return;
 
-        // Write-index pattern instead of splice -- O(N) instead of O(N^2)
-        // when many values are hidden. Clears filteredIndex on excluded
-        // entries; ownership moved here from FilteredEnumeration's copy loop.
-        var attr = this._attribute;
-        var hidden = this._hidden;
         var writeIndex = 0;
         var len = a_filteredList.length;
 
         for (var i = 0; i < len; i++) {
             var e = a_filteredList[i];
-            var value = e[attr];
-            var key: String = (value == undefined) ? "" : String(value);
+            var keepItem = true;
 
-            if (hidden[key] != true)
+            for (var f = 0; f < activeFiltersLen; f++) {
+                var filterObj = activeFilters[f];
+                var attr = filterObj.attribute;
+                var config = filterObj.config;
+                var value = e[attr];
+
+                if (config.isNumeric) {
+                    if (config._cachedRanges == undefined) {
+                        config._cachedRanges = [];
+                        for (var key in config.hidden) {
+                            if (config.hidden[key] == true && key != "") {
+                                var parts = key.split("_");
+                                var isClosed = (parts[2] == "c");
+                                config._cachedRanges.push({ min: Number(parts[0]), max: Number(parts[1]), closed: isClosed });
+                            }
+                        }
+                    }
+
+                    if (value == undefined || isNaN(value)) {
+                        if (config.hidden[""] == true) {
+                            keepItem = false;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    var isHidden = false;
+                    var ranges = config._cachedRanges;
+                    var rangesLen = ranges.length;
+                    for (var r = 0; r < rangesLen; r++) {
+                        var range = ranges[r];
+                        
+                        var match = range.closed 
+                            ? (value >= range.min && value <= range.max)
+                            : (value >= range.min && value < range.max);
+                            
+                        if (match) {
+                            isHidden = true;
+                            break;
+                        }
+                    }
+
+                    if (isHidden) {
+                        keepItem = false;
+                        break;
+                    }
+
+                } else {
+                    var key: String = (value == undefined) ? "" : String(value);
+                    if (config.hidden[key] == true) {
+                        keepItem = false;
+                        break;
+                    }
+                }
+            }
+
+            if (keepItem) {
                 a_filteredList[writeIndex++] = e;
-            else
+            } else {
                 e.filteredIndex = undefined;
+            }
         }
 
         a_filteredList.length = writeIndex;

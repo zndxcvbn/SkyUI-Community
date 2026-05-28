@@ -740,35 +740,45 @@ Add_SWF(skyui_icons_item_psychosteve
 Add_SWF(skyui_inventorylists
     skyui/inventorylists.swf
     skyui/inventorylists.xml
-    Common/skyui/defines/Input.as
-    Common/skyui/filter {
-        ColumnValueFilter.as
-        ItemTypeFilter.as
-        NameFilter.as
-        SortFilter.as
-    }
-    Common/skyui/util {
-        ConfigManager.as
-        DialogManager.as
-        GlobalFunctions.as
-    }
-    Common/skyui/components/dialog {
-        BasicDialog.as
-        ColumnSelectDialog.as
-    }
-    Common/skyui/components/list {
-        BasicEnumeration.as
-        BasicListEntry.as
-        ColumnLayoutData.as
-        EntryClipManager.as
-        FilteredEnumeration.as
-        TabularList.as
-        TabularListEntry.as
-        ListLayout.as
-        ListPager.as
-        SortedListHeader.as
-        StateIcons.as
-        ScrollingList.as
+    Common/skyui {
+        defines {
+            Input.as
+        }
+        filter {
+            ColumnValueFilter.as
+            ItemTypeFilter.as
+            NameFilter.as
+            SortFilter.as
+        }
+        util {
+            SuspendManager.as
+            ConfigManager.as
+            DialogManager.as
+            GlobalFunctions.as
+        }
+        components {
+            dialog {
+                BasicDialog.as
+                ColumnSelectDialog.as
+            }
+            list {
+                BasicList.as
+                BasicEnumeration.as
+                BasicListEntry.as
+                ButtonList.as
+                ButtonListEntry.as
+                ColumnLayoutData.as
+                EntryClipManager.as
+                FilteredEnumeration.as
+                TabularList.as
+                TabularListEntry.as
+                ListLayout.as
+                ListPager.as
+                SortedListHeader.as
+                StateIcons.as
+                ScrollingList.as
+            }
+        }
     }
     ItemMenus {
         CategoryList.as

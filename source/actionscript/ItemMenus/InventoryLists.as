@@ -134,6 +134,7 @@ class InventoryLists extends MovieClip
     public function InitExtensions()
     {
         Shared.GlobalFunc.SetLockFunction();
+        Shared.GlobalFunc.AddAnchorFunction();
 
         this.categoryList.listEnumeration = new skyui.components.list.BasicEnumeration(this.categoryList.entryList);
 
@@ -482,8 +483,6 @@ class InventoryLists extends MovieClip
         if (attribute == undefined || attribute == null)
             return;
 
-        this._columnValueFilter.setColumn(attribute);
-
         var valueEntries = this.collectColumnValues(attribute);
         if (valueEntries.length == 0)
             return;
@@ -494,11 +493,16 @@ class InventoryLists extends MovieClip
         this.categoryList.disableSelection = this.categoryList.disableInput = true;
         this.itemList.disableSelection = this.itemList.disableInput = true;
         this.searchWidget.isDisabled = true;
-
-        var dialogX = this.itemList._x + this.itemList.header._x + this.itemList.layout.columnLayoutData[columnIndex].labelX + 9;
-
+        
+        var columnButton = this.itemList.header["Column" + columnIndex];
+        
         this._columnSelectDialog = skyui.util.DialogManager.open(this.panelContainer, "ColumnSelectDialog",
-            {_x: dialogX, _y: 120, valueFilter: this._columnValueFilter, valueEntries: valueEntries});
+            {_x: 0, _y: 0, valueFilter: this._columnValueFilter, valueEntries: valueEntries});
+            
+        if (this._columnSelectDialog != undefined && columnButton != undefined) {
+            this._columnSelectDialog.Anchor(columnButton, "TR", "BR", 0, 0, true);
+        }
+
         this._columnSelectDialog.addEventListener("dialogClosed", this, "onColumnSelectDialogClosed");
     }
 
@@ -507,39 +511,189 @@ class InventoryLists extends MovieClip
     // carries the per-value item count, e.g. "Dragon (16)".
     private function collectColumnValues(a_attribute: String)
     {
-        var catFlag = this._typeFilter.itemFilter;
-        var counts = {};
-        var keys = [];
         var entryList = this.itemList.entryList;
+        
+        var items = entryList.slice();
+        
+        this._typeFilter.applyFilter(items);
+        this._nameFilter.applyFilter(items);
+        
+        this._columnValueFilter.ignoreAttribute = a_attribute;
+        this._columnValueFilter.applyFilter(items);
+        this._columnValueFilter.ignoreAttribute = undefined;
 
-        for (var i = 0; i < entryList.length; i++) {
-            var entry = entryList[i];
-
-            if (!this._typeFilter.isMatch(entry, catFlag))
-                continue;
-
-            var value = entry[a_attribute];
-            var key = (value == undefined) ? "" : String(value);
-
-            if (counts[key] == undefined) {
-                counts[key] = 0;
-                keys.push(key);
+        var catFlag = this._typeFilter.itemFilter;
+        var itemsLen = items.length;
+        
+        var isNumeric = false;
+        for (var i = 0; i < itemsLen; i++) {
+            var entry = items[i];
+            var val = entry[a_attribute];
+            if (val != undefined) {
+                if (typeof(val) == "number") {
+                    isNumeric = true;
+                    break;
+                } else if (typeof(val) == "string" && !isNaN(Number(val))) {
+                    isNumeric = true;
+                    break;
+                }
             }
-
-            counts[key]++;
         }
+        
+        this._columnValueFilter.setColumn(a_attribute, isNumeric);
 
         var valueEntries = [];
 
-        for (var k = 0; k < keys.length; k++) {
-            var ck = keys[k];
-            var label = (ck == "" ? "-" : ck) + " (" + counts[ck] + ")";
-            valueEntries.push({text: label, key: ck, hidden: this._columnValueFilter.isValueHidden(ck)});
+        if (isNumeric) {
+            var ranges = this.getNumericRanges(a_attribute, items, catFlag);
+            var rangesLen = ranges.length;
+
+            var rangeCounts = [];
+            for (var r = 0; r < rangesLen; r++) {
+                rangeCounts[r] = 0;
+            }
+            var undefinedCount = 0;
+            
+            for (var i = 0; i < itemsLen; i++) {
+                var entry = items[i];
+                var val = entry[a_attribute];
+                if (val == undefined || isNaN(Number(val))) {
+                    undefinedCount++;
+                    continue;
+                }
+
+                var numVal = Number(val);
+                for (var r = 0; r < rangesLen; r++) {
+                    var range = ranges[r];
+                    var isLast = (r == rangesLen - 1);
+                    
+                    var match = isLast 
+                        ? (numVal >= range.min && numVal <= range.max)
+                        : (numVal >= range.min && numVal < range.max);
+                    
+                    if (match) {
+                        rangeCounts[r]++;
+                        break;
+                    }
+                }
+            }
+            
+            for (var r = 0; r < rangesLen; r++) {
+                var range = ranges[r];
+                if (rangeCounts[r] > 0) {
+                    var label = range.label + " (" + rangeCounts[r] + ")";
+                    valueEntries.push({text: label, key: range.key, hidden: this._columnValueFilter.isValueHidden(range.key)});
+                }
+            }
+
+            if (undefinedCount > 0) {
+                var label = "- (" + undefinedCount + ")";
+                valueEntries.push({text: label, key: "", hidden: this._columnValueFilter.isValueHidden("")});
+            }
+
+        } else {
+            var counts = {};
+            var keys = [];
+
+            for (var i = 0; i < itemsLen; i++) {
+                var entry = items[i];
+                var value = entry[a_attribute];
+                var key = (value == undefined) ? "" : String(value);
+
+                if (counts[key] == undefined) {
+                    counts[key] = 0;
+                    keys.push(key);
+                }
+
+                counts[key]++;
+            }
+
+            for (var k = 0; k < keys.length; k++) {
+                var ck = keys[k];
+                var label = (ck == "" ? "-" : ck) + " (" + counts[ck] + ")";
+                valueEntries.push({text: label, key: ck, hidden: this._columnValueFilter.isValueHidden(ck)});
+            }
+
+            valueEntries.sortOn("key", Array.CASEINSENSITIVE);
         }
 
-        valueEntries.sortOn("key", Array.CASEINSENSITIVE);
-
         return valueEntries;
+    }
+    
+    private function getNumericRanges(a_attribute: String, a_entryList: Array, a_catFlag: Number)
+    {
+        var minVal = Number.MAX_VALUE;
+        var maxVal = -Number.MAX_VALUE;
+        var hasValues = false;
+
+        var len = a_entryList.length;
+        for (var i = 0; i < len; i++) {
+            var entry = a_entryList[i];
+            var val = entry[a_attribute];
+            if (val != undefined) {
+                var numVal = Number(val);
+                if (!isNaN(numVal)) {
+                    if (numVal < minVal) minVal = numVal;
+                    if (numVal > maxVal) maxVal = numVal;
+                    hasValues = true;
+                }
+            }
+        }
+
+        if (!hasValues)
+            return [];
+            
+        if (minVal == maxVal) {
+            return [{ min: minVal, max: minVal, label: String(minVal), key: minVal + "_" + minVal + "_c" }];
+        }
+
+        var numIntervals = 5;
+        var rawStep = (maxVal - minVal) / numIntervals;
+        
+        var step = this.getNiceStep(rawStep);
+        var start = Math.floor(minVal / step) * step;
+
+        var ranges = [];
+        var current = start;
+
+        for (var j = 0; j < numIntervals; j++) {
+            var next = current + step;
+            var isLast = (j == numIntervals - 1);
+            
+            if (isLast && next < maxVal) {
+                next = Math.ceil(maxVal / step) * step;
+            }
+
+            var label = current + " - " + next;
+            
+            var suffix = isLast ? "_c" : "_o";
+            ranges.push({ min: current, max: next, label: label, key: current + "_" + next + suffix });
+            
+            current = next;
+            if (current >= maxVal) {
+                break;
+            }
+        }
+
+        return ranges;
+    }
+    
+    private function getNiceStep(a_rawStep: Number)
+    {
+        if (a_rawStep <= 0) return 1;
+        
+        var log = Math.log(a_rawStep) / Math.LN10;
+        var power = Math.floor(log);
+        var base = Math.pow(10, power);
+        var ratio = a_rawStep / base;
+
+        var niceRatio;
+        if (ratio < 1.5) niceRatio = 1;
+        else if (ratio < 3.0) niceRatio = 2;
+        else if (ratio < 7.0) niceRatio = 5;
+        else niceRatio = 10;
+
+        return niceRatio * base;
     }
     
     private function onConfigUpdate(event: Object)

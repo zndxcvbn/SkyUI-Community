@@ -69,6 +69,13 @@ class skyui.components.dialog.ColumnSelectDialog extends skyui.components.dialog
 
         // Value mode: entry.value holds the "hidden" state for this value.
         if (this.valueFilter != undefined) {
+            if (entry.id == "__clear__") {
+                this.valueFilter.resetActiveColumn();
+                this.valueFilter.dispatchEvent({type: "filterChange"});
+                skyui.util.DialogManager.close();
+                return;
+            }
+
             entry.value = !entry.value;
             entry.state = entry.value ? "off" : "on";
             this.valueFilter.setValueHidden(entry.id, entry.value);
@@ -134,6 +141,16 @@ class skyui.components.dialog.ColumnSelectDialog extends skyui.components.dialog
             var v = this.valueEntries[i];
             this.list.entryList.push({enabled: true, text: v.text, value: v.hidden, state: (v.hidden ? "off" : "on"), id: v.key});
         }
+        
+        // Clear button
+        this.list.entryList.push({
+            enabled: true, 
+            text: "Clear", 
+            id: "__clear__", 
+            state: "hide",
+            textColor: 0xFF5050,
+            indicatorColor: 0x990000
+        });
 
         this.list.InvalidateData();
     }
