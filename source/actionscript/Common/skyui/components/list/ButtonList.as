@@ -66,10 +66,10 @@ class skyui.components.list.ButtonList extends skyui.components.list.BasicList
 	// @override BasicList
 	public function UpdateList()
 	{
-		if (this._bSuspended) {
-			this._bRequestUpdate = true;
-			return;
-		}
+		if (this._suspendManager.suspended) {
+            this._suspendManager.request("update");
+            return;
+        }
 		
 		this.setClipCount(this.getListEnumSize());
 		

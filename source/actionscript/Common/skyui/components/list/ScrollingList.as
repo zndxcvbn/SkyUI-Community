@@ -233,8 +233,8 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // @override BasicList
     public function UpdateList()
     {
-        if (this._bSuspended) {
-            this._bRequestUpdate = true;
+        if (this._suspendManager.suspended) {
+            this._suspendManager.request("update");
             return;
         }
 
@@ -386,8 +386,8 @@ class skyui.components.list.ScrollingList extends skyui.components.list.BasicLis
     // @override BasicList
     public function InvalidateData()
     {
-        if (this._bSuspended) {
-            this._bRequestInvalidate = true;
+        if (this._suspendManager.suspended) {
+            this._suspendManager.request("invalidate");
             return;
         }
 

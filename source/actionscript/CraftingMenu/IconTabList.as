@@ -2,9 +2,6 @@ class IconTabList extends skyui.components.list.BasicList
 {
    var selectedEntry;
    var _bFastSwitch;
-   var _bRequestInvalidate;
-   var _bRequestUpdate;
-   var _bSuspended;
    var _contentWidth;
    var _entryClipManager;
    var _entryList;
@@ -46,10 +43,9 @@ class IconTabList extends skyui.components.list.BasicList
    }
    function InvalidateData()
    {
-      if(this._bSuspended)
-      {
-         this._bRequestInvalidate = true;
-         return undefined;
+      if (this._suspendManager.suspended) {
+         this._suspendManager.request("invalidate");
+         return;
       }
       this.listEnumeration.invalidate();
       if(this._selectedIndex >= this.listEnumeration.size())
@@ -64,10 +60,9 @@ class IconTabList extends skyui.components.list.BasicList
    }
    function UpdateList()
    {
-      if(this._bSuspended)
-      {
-         this._bRequestUpdate = true;
-         return undefined;
+      if (this._suspendManager.suspended) {
+         this._suspendManager.request("update");
+         return;
       }
       var _loc5_ = this.listEnumeration.size();
       this.setClipCount(_loc5_);
