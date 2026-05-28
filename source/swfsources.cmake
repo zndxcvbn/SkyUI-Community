@@ -757,6 +757,7 @@ Add_SWF(skyui_inventorylists
             GlobalFunctions.as
         }
         components {
+            SearchWidget.as
             dialog {
                 BasicDialog.as
                 ColumnSelectDialog.as
